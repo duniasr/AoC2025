@@ -37,6 +37,5 @@ bin/
 /target/
 
 # Carpeta de configuración general de IntelliJ
-.idea/
 *.iml
 *.xml
