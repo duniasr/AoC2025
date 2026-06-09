@@ -37,5 +37,7 @@ bin/
 /target/
 
 # Carpeta de configuración general de IntelliJ
+.idea/*
+!.idea/.gitignore
 *.iml
 *.xml
