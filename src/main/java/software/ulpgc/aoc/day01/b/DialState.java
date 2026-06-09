@@ -1,6 +1,6 @@
 package software.ulpgc.aoc.day01.b;
 
-import main.java.software.ulpgc.aoc.day01.common.Rotation;
+import software.ulpgc.aoc.day01.common.Rotation;
 import java.util.stream.IntStream;
 
 public record DialState(int position, int zeroCount) {

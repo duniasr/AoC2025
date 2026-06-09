@@ -1,6 +1,6 @@
 package software.ulpgc.aoc.day01.a;
 
-import main.java.software.ulpgc.aoc.day01.common.Rotation;
+import software.ulpgc.aoc.day01.common.Rotation;
 import java.util.stream.Stream;
 
 public class SafeDecoder {

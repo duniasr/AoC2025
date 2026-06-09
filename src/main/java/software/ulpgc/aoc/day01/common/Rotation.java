@@ -1,4 +1,4 @@
-package main.java.software.ulpgc.aoc.day01.common;
+package software.ulpgc.aoc.day01.common;
 
 public record Rotation(char direction, int distance) {
     public static Rotation fromText(String line) {
