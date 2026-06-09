@@ -1,4 +1,4 @@
-package main.java.software.ulpgc.aoc.day02.a;
+package software.ulpgc.aoc.day02.a;
 
 public class InvalidIdDetector {
 

@@ -1,6 +1,6 @@
-package main.java.software.ulpgc.aoc.day02.a;
+package software.ulpgc.aoc.day02.a;
 
-import main.java.software.ulpgc.aoc.day02.common.RangeProcessor;
+import software.ulpgc.aoc.day02.common.RangeProcessor;
 
 import java.io.IOException;
 import java.nio.file.Files;

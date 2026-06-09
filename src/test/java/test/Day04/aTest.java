@@ -1,6 +1,6 @@
-package test.java.test.Day04;
+package test.Day04;
 
-import main.java.software.ulpgc.aoc.day04.a.PaperGrid;
+import software.ulpgc.aoc.day04.a.PaperGrid;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

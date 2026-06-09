@@ -1,4 +1,4 @@
-package main.java.software.ulpgc.aoc.day03.common;
+package software.ulpgc.aoc.day03.common;
 
 import java.util.Arrays;
 import java.util.function.ToLongFunction;

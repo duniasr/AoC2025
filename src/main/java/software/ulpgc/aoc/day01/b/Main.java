@@ -1,4 +1,4 @@
-package main.java.software.ulpgc.aoc.day01.b;
+package software.ulpgc.aoc.day01.b;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,7 +1,7 @@
-package test.java.test.Day02;
+package test.Day02;
 
-import main.java.software.ulpgc.aoc.day02.common.RangeProcessor;
-import main.java.software.ulpgc.aoc.day02.b.InvalidIdDetector;
+import software.ulpgc.aoc.day02.common.RangeProcessor;
+import software.ulpgc.aoc.day02.b.InvalidIdDetector;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
-package main.java.software.ulpgc.aoc.day03.b;
+package software.ulpgc.aoc.day03.b;
 
 import java.util.stream.IntStream;
 

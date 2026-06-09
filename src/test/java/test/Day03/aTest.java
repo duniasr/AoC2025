@@ -1,6 +1,6 @@
-package test.java.test.Day03;
-import main.java.software.ulpgc.aoc.day03.common.PowerGrid;
-import main.java.software.ulpgc.aoc.day03.a.BatteryBank;
+package test.Day03;
+import software.ulpgc.aoc.day03.common.PowerGrid;
+import software.ulpgc.aoc.day03.a.BatteryBank;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

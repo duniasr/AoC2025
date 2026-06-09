@@ -1,6 +1,6 @@
-package test.java.test.Day01;
+package test.Day01;
 
-import main.java.software.ulpgc.aoc.day01.b.SafeDecoder;
+import software.ulpgc.aoc.day01.b.SafeDecoder;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

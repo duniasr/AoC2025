@@ -1,4 +1,4 @@
-package main.java.software.ulpgc.aoc.day01.a;
+package software.ulpgc.aoc.day01.a;
 
 import main.java.software.ulpgc.aoc.day01.common.Rotation;
 

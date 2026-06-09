@@ -1,6 +1,6 @@
-package main.java.software.ulpgc.aoc.day03.b;
+package software.ulpgc.aoc.day03.b;
 
-import main.java.software.ulpgc.aoc.day03.common.PowerGrid;
+import software.ulpgc.aoc.day03.common.PowerGrid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
