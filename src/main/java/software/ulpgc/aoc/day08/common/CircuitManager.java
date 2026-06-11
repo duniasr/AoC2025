@@ -29,6 +29,10 @@ public class CircuitManager {
         }
     }
 
+    public int getSize(int i) {
+        return size[find(i)];
+    }
+
     public Collection<Integer> getCircuitSizes() {
         Map<Integer, Integer> circuitSizes = new HashMap<>();
         for (int i = 0; i < parent.length; i++) {
