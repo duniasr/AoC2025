@@ -1,0 +1,32 @@
+@startumlclassDiagram
+             namespace common {
+                 class JunctionBox {
+                     +int id
+                     +int x, y, z
+                     +distanceTo(JunctionBox) double
+                 }
+                 class CircuitManager {
+                     -int[] parent
+                     -int[] size
+                     +find(int) int
+                     +union(int, int) void
+                     +getCircuitSizes() Collection
+                 }
+             }
+
+             namespace a {
+                 class PlaygroundAnalyzer {
+                     +solve(List~String~) long
+                     -parse(List~String~) List
+                     -calculateAllConnections(List) List
+                 }
+                 class Main {
+                     +main(String[]) void
+                 }
+             }
+
+             PlaygroundAnalyzer ..> JunctionBox : uses
+             PlaygroundAnalyzer ..> CircuitManager : uses
+             Main ..> PlaygroundAnalyzer : uses
+
+@enduml
