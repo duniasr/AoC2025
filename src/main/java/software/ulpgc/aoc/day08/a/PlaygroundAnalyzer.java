@@ -7,15 +7,13 @@ import java.util.stream.*;
 public class PlaygroundAnalyzer {
     public record Connection(JunctionBox a, JunctionBox b, double dist) {}
 
-    public static long solve(List<String> input) {
+    public static long solve(List<String> input, int limit) {
         List<JunctionBox> boxes = parse(input);
-        List<Connection> connections = calculateAllConnections(boxes);
-
         CircuitManager manager = new CircuitManager(boxes.size());
 
-        connections.stream()
+        calculateAllConnections(boxes).stream()
                 .sorted(Comparator.comparingDouble(Connection::dist))
-                .limit(1000)
+                .limit(limit)
                 .forEach(c -> manager.union(c.a().id(), c.b().id()));
 
         return manager.getCircuitSizes().stream()
