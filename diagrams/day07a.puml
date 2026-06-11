@@ -1,0 +1,20 @@
+@startumlclassDiagram
+             class ManifoldPhysics {
+                 +isSplitter(row, pos) boolean
+                 +isWithinBounds(row, pos) boolean
+                 +findStart(grid) int
+             }
+             class SimulatorEngine {
+                 +run(grid, initialState, processor) S
+             }
+             class TachyonManifold {
+                 <<record>> State
+                 +calculate(grid) long
+                 -process(s, row) State
+                 -evolveAll(beams, row) Set
+                 -countSplits(beams, row) long
+             }
+
+             TachyonManifold ..> SimulatorEngine : uses
+             TachyonManifold ..> ManifoldPhysics : delegates rules
+@enduml
