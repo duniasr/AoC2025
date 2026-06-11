@@ -1,0 +1,26 @@
+@startumlclassDiagram
+             namespace common {
+                 class RedTile {
+                     <<record>>
+                     +int x
+                     +int y
+                     +areaWith(other: RedTile) long
+                 }
+             }
+
+             namespace a {
+                 class MovieTheater {
+                     -List~RedTile~ tiles
+                     -MovieTheater(tiles: List~RedTile~)
+                     +with(rawInput: String)$ MovieTheater
+                     +largestArea() long
+                 }
+
+                 class Main {
+                     +main(args: String[])$ void
+                 }
+             }
+
+             MovieTheater o-- RedTile : contiene
+             Main ..> MovieTheater : usa
+@enduml
