@@ -1,4 +1,4 @@
-package test.Day08;
+package test.day08;
 
 import org.junit.jupiter.api.Test;
 import software.ulpgc.aoc.day08.b.PlaygroundAnalyzer;

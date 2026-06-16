@@ -1,4 +1,4 @@
-package test.Day03;
+package test.day03;
 import software.ulpgc.aoc.day03.common.PowerGrid;
 import software.ulpgc.aoc.day03.a.BatteryBank;
 

@@ -1,14 +1,14 @@
-package test.Day09;
+package test.day09;
+
+import software.ulpgc.aoc.day09.a.MovieTheater;
 
 import org.junit.jupiter.api.Test;
-import software.ulpgc.aoc.day09.b.MovieTheater;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-class bTest {
+class aTest {
 
     @Test
-    void given_tiles_should_account_largest_valid_area() {
+    void given_tiles_should_account_largest_area() {
         String inputTiles = """    
                 7,1
                 11,1
@@ -20,6 +20,6 @@ class bTest {
                 7,3
                 """;
 
-        assertThat(MovieTheater.with(inputTiles).largestValidArea()).isEqualTo(24L);
+        assertThat(MovieTheater.with(inputTiles).largestArea()).isEqualTo(50L);
     }
 }

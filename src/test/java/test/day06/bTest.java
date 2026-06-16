@@ -1,4 +1,4 @@
-package test.Day06;
+package test.day06;
 
 import org.junit.jupiter.api.Test;
 import software.ulpgc.aoc.day06.b.CephalopodDecoder;

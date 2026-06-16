@@ -1,4 +1,4 @@
-package test.Day07;
+package test.day07;
 
 import software.ulpgc.aoc.day07.a.TachyonManifold;
 

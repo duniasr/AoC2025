@@ -1,4 +1,4 @@
-package test.Day01;
+package test.day01;
 
 import software.ulpgc.aoc.day01.a.SafeDecoder;
 import org.junit.jupiter.api.Test;

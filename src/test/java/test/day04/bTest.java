@@ -1,10 +1,10 @@
-package test.Day04;
+package test.day04;
 
-import software.ulpgc.aoc.day04.a.PaperGrid;
+import software.ulpgc.aoc.day04.b.PaperGrid;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class aTest {
+public class bTest {
 
     private final static String input = """
                                         ..@@.@@@@.
@@ -19,7 +19,7 @@ public class aTest {
                                         @.@.@@@.@.""";
 
     @Test
-    public void given_paper_grid_should_count_13_accessible_rolls() {
-        assertEquals(13, PaperGrid.countAccessibleRolls(input));
+    public void given_paper_grid_should_simulate_and_count_43_total_removals() {
+        assertEquals(43, PaperGrid.countTotalRemovals(input));
     }
 }
