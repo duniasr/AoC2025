@@ -20,6 +20,6 @@ class bTest {
                 7,3
                 """;
 
-        assertThat(MovieTheater.with(inputTiles).largestValidArea()).isEqualTo(24L);
+        assertThat(MovieTheater.from(inputTiles).findLargestValidRectangleArea()).isEqualTo(24L);
     }
 }

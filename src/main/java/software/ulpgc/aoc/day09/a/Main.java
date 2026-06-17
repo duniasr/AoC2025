@@ -6,6 +6,6 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) throws Exception {
         String input = Files.readString(Path.of("src/main/java/software/ulpgc/resources/day09/input.txt"));
-        System.out.println("Result: " + MovieTheater.with(input).largestArea());
+        System.out.println("Largest area between tiles: " + MovieTheater.from(input).findLargestRectangleArea());
     }
 }

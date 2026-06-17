@@ -6,33 +6,28 @@ import java.util.stream.IntStream;
 
 public class MovieTheater {
 
-    // 1. Estado interno (inmutable)
-    private final List<RedTile> tiles;
-
-    // 2. Constructor privado: Obliga a usar el método "with" para crear la clase
-    private MovieTheater(List<RedTile> tiles) {
-        this.tiles = tiles;
+    private final List<RedTile> redTiles;
+    private MovieTheater(List<RedTile> redTiles) {
+        this.redTiles = redTiles;
     }
-
-    // 3. Static Factory Method (El punto de entrada de la Fluent API)
-    public static MovieTheater with(String rawInput) {
-        List<RedTile> parsedTiles = rawInput.lines()            // Transforma el String gigante en un Stream de líneas
-                .map(String::trim)                              // Limpia espacios
-                .filter(line -> !line.isEmpty())                // Ignora líneas vacías
-                .map(line -> line.split(","))                   // Separa por comas
-                .map(parts -> new RedTile(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])))
+    public static MovieTheater from(String input) {
+        List<RedTile> parsedTiles = input.lines()
+                .filter(line -> !line.isBlank())
+                .map(MovieTheater::parseTile)
                 .toList();
 
-        return new MovieTheater(parsedTiles); // Crea y devuelve la instancia
+        return new MovieTheater(parsedTiles);
     }
 
-    // 4. Método de acción (Calcula y devuelve el resultado)
-    public long largestArea() {
-        return IntStream.range(0, tiles.size())
-                .boxed()
-                .flatMap(i -> IntStream.range(i + 1, tiles.size())
-                        .mapToObj(j -> tiles.get(i).areaWith(tiles.get(j))))
-                .max(Long::compareTo)
+    private static RedTile parseTile(String line) {
+        String[] parts = line.split(",");
+        return new RedTile(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+    }
+    public long findLargestRectangleArea() {
+        return IntStream.range(0, redTiles.size()).boxed()
+                .flatMapToLong(i -> IntStream.range(i + 1, redTiles.size())
+                        .mapToLong(j -> redTiles.get(i).calculateAreaWith(redTiles.get(j))))
+                .max()
                 .orElse(0L);
     }
 }
