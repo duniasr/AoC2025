@@ -3,12 +3,13 @@ package test.day10;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import software.ulpgc.aoc.day10.b.Machine;
-import software.ulpgc.aoc.day10.b.Parser;
+import software.ulpgc.aoc.day10.b.FactoryMachine;
+import software.ulpgc.aoc.day10.b.MachineManual;
+
 class bTest {
 
     @Test
-    void should_configure_all_machines_together_in_33_presses() {
+    void should_configure_joltage_levels_in_33_presses_total() {
         String input = """
             [.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
             [...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}
@@ -17,8 +18,8 @@ class bTest {
 
         long totalPresses = input.lines()
                 .filter(line -> !line.isBlank())
-                .map(Parser::parse)
-                .mapToLong(Machine::solve)
+                .map(MachineManual::readMachineFrom)
+                .mapToLong(FactoryMachine::minimumJoltagePresses)
                 .sum();
 
         assertThat(totalPresses).isEqualTo(33L);

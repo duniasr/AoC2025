@@ -1,8 +1,8 @@
 package test.day10;
 
 import org.junit.jupiter.api.Test;
-import software.ulpgc.aoc.day10.a.Machine;
-import software.ulpgc.aoc.day10.a.Parser;
+import software.ulpgc.aoc.day10.a.FactoryMachine;
+import software.ulpgc.aoc.day10.a.MachineManual;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,8 +18,8 @@ class aTest {
 
         int totalPresses = input.lines()
                 .filter(line -> !line.isBlank())
-                .map(Parser::parse)
-                .mapToInt(Machine::solve)
+                .map(MachineManual::readMachineFrom)
+                .mapToInt(FactoryMachine::minimumPresses)
                 .sum();
 
         assertThat(totalPresses).isEqualTo(7);
