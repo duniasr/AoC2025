@@ -18,8 +18,10 @@ public enum Operator {
     }
 
     public static Operator from(char symbol) {
-        return Stream.of(values()).filter(o -> o.symbol == symbol).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Operador inválido: " + symbol));
+        return Stream.of(values())
+                .filter(o -> o.symbol == symbol)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid operator symbol: " + symbol));
     }
 
     public long apply(Stream<Long> numbers) {

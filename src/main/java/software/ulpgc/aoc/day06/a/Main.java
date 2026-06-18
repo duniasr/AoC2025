@@ -2,11 +2,18 @@ package software.ulpgc.aoc.day06.a;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println("The grand total is: " + CephalopodDecoder.decode(
-                Files.readAllLines(Paths.get("src/main/java/software/ulpgc/resources/day06/input.txt"))
-        ));
+        List<String> rawWorksheet = Files.readAllLines(
+                Paths.get("src/main/java/software/ulpgc/resources/day06/input.txt")
+        );
+
+        long grandTotal = HorizontalCephalopodWorksheet.from(rawWorksheet)
+                .unroll()
+                .calculateGrandTotal();
+
+        System.out.println("The grand total is: " + grandTotal);
     }
 }

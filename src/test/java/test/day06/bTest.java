@@ -1,35 +1,31 @@
 package test.day06;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import software.ulpgc.aoc.day06.b.CephalopodDecoder;
+import software.ulpgc.aoc.day06.b.VerticalCephalopodWorksheet;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class bTest {
-        private static final List<String> COMPLEX_WORKSHEET = List.of(
+class bTest {
+
+    private final List<String> exampleWorksheet = List.of(
             "123 328  51 64 ",
             " 45 64  387 23 ",
             "  6 98  215 314",
-            "* +   * +  "
+            "*   +   *   +  "
     );
 
     @Test
-    void shouldSolveComplexWorksheet() {
-        assertThat(CephalopodDecoder.decode(COMPLEX_WORKSHEET)).isEqualTo(4277556L);
-    }
+    void should_calculate_grand_total_vertically() {
+        // Given & When
+        long grandTotal = VerticalCephalopodWorksheet.from(exampleWorksheet)
+                .unroll()
+                .calculateGrandTotal();
 
-    @Test
-    void shouldSolveFullPuzzleInput() throws Exception {
-        // Leemos el archivo y pasamos las líneas directamente a tu decoder (cero variables)
-        assertThat(CephalopodDecoder.decode(readPuzzleInput())).isEqualTo(4405895212738L);
-    }
-
-    // Encapsulamos la lectura del archivo usando la ruta que tenías en tu Main
-    private List<String> readPuzzleInput() throws Exception {
-        return Files.readAllLines(Path.of("src/main/java/software/ulpgc/resources/day06/input.txt"));
+        // Then
+        // 1058 + 3253600 + 625 + 8544 = 3263827
+        assertThat(grandTotal).isEqualTo(3263827L);
     }
 }
