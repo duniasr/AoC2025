@@ -1,0 +1,49 @@
+@startumlclassDiagram
+             class ElectricalGrid {
+                 <<interface>>
+                 +tryConnecting(JunctionBox a, JunctionBox b) boolean
+                 +getCircuitSizes() List~Integer~
+             }
+
+             class UnionFindElectricalGrid {
+                 -int[] parent
+                 -int[] size
+                 -findRoot(int id) int
+                 +tryConnecting(JunctionBox a, JunctionBox b) boolean
+                 +getCircuitSizes() List~Integer~
+             }
+
+             class JunctionBox {
+                 <<record>>
+                 -int id
+                 -int x
+                 -int y
+                 -int z
+                 +distanceTo(JunctionBox targetBox) double
+                 +parse(int id, String line)$ JunctionBox
+             }
+
+             class StringOfLights {
+                 <<record>>
+                 -JunctionBox boxA
+                 -JunctionBox boxB
+                 -double length
+                 +between(JunctionBox a, JunctionBox b)$ StringOfLights
+             }
+
+             class Playground {
+                 -List~JunctionBox~ boxes
+                 -ElectricalGrid grid
+                 +fromLines(List~String~ input)$ Playground
+                 +connectShortestStrings(int maxCables) Playground
+                 +productOfLargestCircuits(int count) long
+                 +connectUntilSingleCircuit() long
+                 -allStrings() Stream~StringOfLights~
+             }
+
+             ElectricalGrid <|.. UnionFindElectricalGrid : Implements
+             Playground --> "1" ElectricalGrid : Has-A (Composition)
+             Playground --> "*" JunctionBox : Has-A (Aggregation)
+             StringOfLights --> "2" JunctionBox : Relates
+             Playground ..> StringOfLights : Creates (Dependency)
+@enduml

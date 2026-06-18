@@ -1,11 +1,16 @@
 package software.ulpgc.aoc.day08.a;
 
+import software.ulpgc.aoc.day08.common.Playground;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        var input = Files.readAllLines(Path.of("src/main/java/software/ulpgc/resources/day08/input.txt"));
-        System.out.println("Result (Product of top 3 circuits): " + PlaygroundAnalyzer.solve(input, 1000));
+        List<String> input = Files.readAllLines(Path.of("src/main/java/software/ulpgc/resources/day08/input.txt"));
+        long result = Playground.fromLines(input)
+                .connectShortestStrings(1000)
+                .productOfLargestCircuits(3);
+        System.out.println("Result (Product of top 3 circuits): " + result);
     }
 }
