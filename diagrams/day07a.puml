@@ -1,20 +1,33 @@
 @startumlclassDiagram
-             class ManifoldPhysics {
-                 +isSplitter(row, pos) boolean
-                 +isWithinBounds(row, pos) boolean
-                 +findStart(grid) int
-             }
-             class SimulatorEngine {
-                 +run(grid, initialState, processor) S
-             }
-             class TachyonManifold {
-                 <<record>> State
-                 +calculate(grid) long
-                 -process(s, row) State
-                 -evolveAll(beams, row) Set
-                 -countSplits(beams, row) long
+             class TachyonPhysics~SimulationState~ {
+                 <<interface>>
+                 +enterAtSource(String firstRow) SimulationState
+                 +propagateThrough(SimulationState state, String row) SimulationState
              }
 
-             TachyonManifold ..> SimulatorEngine : uses
-             TachyonManifold ..> ManifoldPhysics : delegates rules
+             class TachyonManifold {
+                 -List~String~ diagram
+                 -TachyonManifold(List~String~ diagram)
+                 +fromDiagram(List~String~ diagram)$ TachyonManifold
+                 +simulate(TachyonPhysics~SimulationState~ physics) SimulationState
+             }
+
+             class ClassicalTachyonPhysics {
+                 +enterAtSource(String firstRow) ClassicalState
+                 +propagateThrough(ClassicalState state, String row) ClassicalState
+                 -calculateNextPositions(Set~Integer~ beams, String row) Set~Integer~
+                 -countNewSplits(Set~Integer~ beams, String row) long
+                 -hitSplitter(String row, int pos) boolean
+                 -isWithinManifold(String row, int pos) boolean
+             }
+
+             class ClassicalState {
+                 <<record>>
+                 +Set~Integer~ activeBeams
+                 +long totalSplits
+             }
+
+             ClassicalTachyonPhysics ..|> TachyonPhysics : Implements
+             TachyonManifold ..> TachyonPhysics : Simulates (Strategy Injection)
+             ClassicalTachyonPhysics ..> ClassicalState : Instantiates
 @enduml

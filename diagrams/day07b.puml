@@ -1,19 +1,33 @@
 @startumlclassDiagram
-    class ManifoldPhysics {
-        +isSplitter(row, pos) boolean
-        +isWithinBounds(row, pos) boolean
-        +findStart(grid) int
-    }
-    class SimulatorEngine {
-        +run(grid, initialState, processor) S
-    }
-    class TachyonManifold {
-        <<record>> State
-        +calculate(grid) long
-        -process(s, row) State
-        -evolve(row, pos, count) Stream
-    }
+             class TachyonPhysics~SimulationState~ {
+                 <<interface>>
+                 +enterAtSource(String firstRow) SimulationState
+                 +propagateThrough(SimulationState state, String row) SimulationState
+             }
 
-    TachyonManifold ..> SimulatorEngine : uses
-    TachyonManifold ..> ManifoldPhysics : delegates rules
+             class TachyonManifold {
+                 -List~String~ diagram
+                 -TachyonManifold(List~String~ diagram)
+                 +fromDiagram(List~String~ diagram)$ TachyonManifold
+                 +simulate(TachyonPhysics~SimulationState~ physics) SimulationState
+             }
+
+             class QuantumTachyonPhysics {
+                 +enterAtSource(String firstRow) QuantumState
+                 +propagateThrough(QuantumState state, String row) QuantumState
+                 -applyQuantumSplit(Entry~Integer,Long~ entry, String row) Stream~Entry~
+                 -hitSplitter(String row, int pos) boolean
+                 -isWithinManifold(String row, int pos) boolean
+             }
+
+             class QuantumState {
+                 <<record>>
+                 +Map~Integer, Long~ timelines
+                 +totalActiveTimelines() long
+             }
+
+             QuantumTachyonPhysics ..|> TachyonPhysics : Implements
+             TachyonManifold ..> TachyonPhysics : Simulates (Strategy Injection)
+             QuantumTachyonPhysics ..> QuantumState : Instantiates
+
 @enduml

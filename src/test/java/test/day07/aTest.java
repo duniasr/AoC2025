@@ -1,15 +1,16 @@
 package test.day07;
 
-import software.ulpgc.aoc.day07.a.TachyonManifold;
-
 import org.junit.jupiter.api.Test;
+import software.ulpgc.aoc.day07.a.ClassicalTachyonPhysics;
+import software.ulpgc.aoc.day07.common.TachyonManifold;
+
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
+class aTest {
 
-public class aTest {
-
-    private final List<String> EXAMPLE_GRID = List.of(
+    private static final List<String> EXAMPLE_DIAGRAM = List.of(
             ".......S.......",
             "...............",
             ".......^.......",
@@ -30,6 +31,14 @@ public class aTest {
 
     @Test
     void shouldCountSplitsInClassicalManifold() {
-        assertThat(TachyonManifold.calculate(EXAMPLE_GRID)).isEqualTo(21L);
+        // Given
+        TachyonManifold manifold = TachyonManifold.fromDiagram(EXAMPLE_DIAGRAM);
+        ClassicalTachyonPhysics physics = new ClassicalTachyonPhysics();
+
+        // When
+        long totalSplits = manifold.simulate(physics).totalSplits();
+
+        // Then
+        assertThat(totalSplits).isEqualTo(21L);
     }
 }

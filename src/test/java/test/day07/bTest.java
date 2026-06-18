@@ -1,14 +1,16 @@
 package test.day07;
 
-import software.ulpgc.aoc.day07.b.TachyonManifold;
-
 import org.junit.jupiter.api.Test;
+import software.ulpgc.aoc.day07.b.QuantumTachyonPhysics;
+import software.ulpgc.aoc.day07.common.TachyonManifold;
+
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class bTest {
+class bTest {
 
-    private final List<String> EXAMPLE_GRID = List.of(
+    private static final List<String> EXAMPLE_DIAGRAM = List.of(
             ".......S.......",
             "...............",
             ".......^.......",
@@ -26,9 +28,16 @@ public class bTest {
             ".^.^.^.^.^...^.",
             "..............."
     );
-
     @Test
-    void shouldCountActiveTimelinesInQuantumManifold() {
-        assertThat(TachyonManifold.calculate(EXAMPLE_GRID)).isEqualTo(40L);
+    void shouldCountTimelinesInQuantumManifold() {
+        // Given
+        TachyonManifold manifold = TachyonManifold.fromDiagram(EXAMPLE_DIAGRAM);
+        QuantumTachyonPhysics physics = new QuantumTachyonPhysics();
+
+        // When
+        long totalTimelines = manifold.simulate(physics).totalActiveTimelines();
+
+        // Then
+        assertThat(totalTimelines).isEqualTo(40L);
     }
 }

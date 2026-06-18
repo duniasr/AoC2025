@@ -1,38 +1,42 @@
-# Día 8: Optimización de la Red Eléctrica
+# Día 8: Playground
+
 ## El Reto
-### Parte A ###
+### Parte A
 Conectar las cajas más cercanas usando la menor cantidad de cable posible, agrupándolas y calculando el tamaño de las redes resultantes.
 
-### Parte B ###
+### Parte B
 Continuar conectando los grupos aislados hasta lograr que todas las cajas formen parte de un único y gran circuito eléctrico continuo.
-## Algoritmos
-He modelado este problema basándome en la teoría de grafos, calculando un **Árbol de Expansión Mínima (MST)**, usando el  enfoque codicioso (*Greedy*) basado en el **Algoritmo de Kruskal**.
 
-Con el Algoritmo Kruskal se conectan todos los puntos de un mapa usando la menor cantidad de cable posible. Los pasos que sigue son:
-1. Coge todos los cables posibles que existen en la sala y los ordena del más corto al más largo.
-2. Coge el cable más corto de la lista.
-3. Pregúntale a la red eléctrica: "¿Estas dos cajas ya estaban conectadas por algún otro lado?" * Si la respuesta es NO (circuitos separados), pones el cable.
-Si la respuesta es SÍ (ya formaban parte de la misma red), tiras el cable a la basura porque haría un círculo cerrado (un cortocircuito inútil).
-4. Se repiten los pasos 2 y 3 hasta que todas las cajas formen un único circuito.
+## Algoritmos
+He modelado este problema basándome en la teoría de grafos, calculando un **Árbol de Expansión Mínima (MST)** mediante el enfoque codicioso (*Greedy*) del **Algoritmo de Kruskal**.
+
+Este algoritmo conecta todos los puntos de un mapa usando la menor cantidad de cable posible siguiendo estos pasos:
+1. Recopila todos los cables posibles que existen en la sala y los ordena del más corto al más largo.
+2. Selecciona el cable más corto de la lista.
+3. Consulta a la red eléctrica: "¿Estas dos cajas ya estaban conectadas por algún otro lado?". Si la respuesta es NO (circuitos separados), se coloca el cable. Si la respuesta es SÍ (ya formaban parte de la misma red), se descarta el cable para evitar un ciclo cerrado (un cortocircuito inútil).
+4. Repite los pasos 2 y 3 hasta que todas las cajas formen un único circuito continuo.
 
 ## Lógica Estructural
-* **`Playground`**: Toma las decisiones de conexión basándose en las longitudes y orquesta el sistema.
-* **`ElectricalGrid` (y su implementación `UnionFindElectricalGrid`)**: Responsable de la lógica matemática para fusionar circuitos y contar tamaños.
-* **`StringOfLights`**: Portador de datos que relaciona dos cajas y conoce la distancia que las separa.
-* **`JunctionBox`**: Conoce su ubicación espacial en 3D y calcula distancias matemáticas.
+* **`Playground`**: Controlador principal y orquestador del sistema. Toma las decisiones de conexión basándose en las longitudes de los cables y dirige el flujo de ejecución.
+* **`ElectricalGrid`**: Interfaz matemática abstracta. Define el contrato estricto para fusionar circuitos y obtener sus tamaños.
+* **`UnionFindElectricalGrid`**: Implementación concreta de la red eléctrica. Responsable de la lógica matemática subyacente para agrupar redes eficientemente (mediante la estructura de datos *Disjoint-Set*).
+* **`StringOfLights`**: Entidad inmutable (`record`) portadora de datos que relaciona dos cajas y conoce la distancia que las separa.
+* **`JunctionBox`**: Entidad inmutable (`record`) del dominio físico que conoce su ubicación espacial en 3D y calcula distancias geométricas.
 
-## Principios (SOLID)
-* **S (Responsabilidad Única - SRP):** Cada clase tiene una sola razón de cambio. `JunctionBox` maneja coordenadas, `UnionFind` maneja grafos, y `Playground` maneja el flujo de ejecución.
-* **O (Abierto/Cerrado - OCP):** El sistema orquestador está abierto a usar nuevos algoritmos matemáticos sin modificar su código interno.
-* **L (Sustitución de Liskov - LSP):** Cualquier clase matemática futura que implemente `ElectricalGrid` funcionará sin romper el gestor.
-* **I (Segregación de Interfaces - ISP):** La interfaz `ElectricalGrid` es hiperespecífica, exponiendo solo `tryConnecting` y `getCircuitSizes`.
-* **D (Inversión de Dependencias - DIP):** El orquestador de alto nivel (`Playground`) depende de la abstracción (`ElectricalGrid`), nunca de la implementación concreta (`UnionFindElectricalGrid`).
+## Principios de Diseño
+### SOLID
+* **S (Responsabilidad Única - SRP):** Cada clase tiene una sola razón de cambio. `JunctionBox` maneja coordenadas geométricas, `UnionFindElectricalGrid` maneja teoría de grafos, y `Playground` maneja el flujo de ejecución del negocio.
+* **O (Abierto/Cerrado - OCP):** El sistema orquestador está abierto a usar nuevos algoritmos matemáticos en el futuro sin modificar su código interno.
+* **L (Sustitución de Liskov - LSP):** Cualquier clase matemática futura que implemente la interfaz `ElectricalGrid` funcionará sin romper la simulación del gestor.
+* **I (Segregación de Interfaces - ISP):** La interfaz `ElectricalGrid` es hiperespecífica, exponiendo únicamente las operaciones necesarias (`tryConnecting` y `getCircuitSizes`).
+* **D (Inversión de Dependencias - DIP):** El orquestador de alto nivel (`Playground`) depende de la abstracción (`ElectricalGrid`), nunca de la implementación algorítmica concreta.
 
 ## Fundamentos y Patrones de Diseño
-* **Bajo Acoplamiento y Alta Cohesión:** El cálculo de distancias es independiente de la agrupación de circuitos.
-* **Factory Method (Creacional):** Ocultación de la complejidad de instanciación mediante métodos estáticos semánticos (`JunctionBox.parse`, `StringOfLights.between`).
+* **Bajo Acoplamiento y Alta Cohesión:** El cálculo de las distancias físicas espaciales es completamente independiente de la agrupación abstracta de los circuitos en el motor matemático.
+* **Factory Method (Creacional):** Ocultación de la complejidad de instanciación mediante métodos estáticos semánticos (ej. `JunctionBox.parse`, `StringOfLights.between`), protegiendo la creación de los objetos.
 
-## Técnicas y Buenas Prácticas (Clean Code)
-* **Inmutabilidad:** Entidades del dominio modeladas como **`records`** en Java, garantizando que su estado (coordenadas) no mute tras la creación.
-* **Tell, Don't Ask:** El gestor *ordena* realizar conexiones (`tryConnecting`) en lugar de extraer el estado interno de la red para decidir por fuera.
-* **Fluent API:** Diseño de métodos que devuelven `this` para encadenar llamadas lógicas legibles (ej: `.connectShortest(...).productOf(...)`).
+## Técnicas de Implementación
+* **Inmutabilidad:** Entidades del dominio modeladas como **`records`** nativos de Java, garantizando que su estado interno (como las coordenadas espaciales) no mute tras su creación.
+* **Tell, Don't Ask:** El gestor *ordena* a los objetos realizar operaciones sobre sí mismos (`tryConnecting`) en lugar de extraer su estado interno para tomar la decisión desde fuera, respetando el encapsulamiento.
+* **Fluent API:** Diseño de métodos en el orquestador que devuelven `this` para encadenar llamadas, logrando que el punto de entrada del programa se lea de forma lógica y declarativa (ej: `.connectShortest(...).productOf(...)`).
+* **Good Naming (Lenguaje Ubicuo):** Uso de un vocabulario autodescriptivo y alineado con el dominio del problema (ej. `StringOfLights`, `JunctionBox`, `Playground`), evitando términos informáticos genéricos para que el código documente las reglas de negocio por sí mismo.
