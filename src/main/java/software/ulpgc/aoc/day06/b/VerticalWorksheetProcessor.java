@@ -3,12 +3,11 @@ package software.ulpgc.aoc.day06.b;
 import software.ulpgc.aoc.day06.common.MathProblem;
 import software.ulpgc.aoc.day06.common.Operator;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-// UTILITY: Procesamiento de texto para lectura vertical (Parte B).
 class VerticalWorksheetProcessor {
 
     static List<String> padToMaxWidth(List<String> lines) {
@@ -35,40 +34,33 @@ class VerticalWorksheetProcessor {
     }
 
     private static List<String> sliceBlock(List<String> lines, int start, int end) {
-        // En vertical, respetamos los espacios internos exactos porque leemos columnas
         return lines.stream()
                 .map(line -> line.substring(start, end))
                 .toList();
     }
 
     private static MathProblem parseVerticalProblem(List<String> block) {
-        List<Long> numbers = new ArrayList<>();
         String operatorRow = block.getLast();
-
-        // Busca el operador ignorando los espacios
         char operatorSymbol = operatorRow.replace(" ", "").charAt(0);
         Operator operator = Operator.from(operatorSymbol);
 
         int blockWidth = block.getFirst().length();
 
-        // Lee cada columna individualmente de derecha a izquierda (desde blockWidth - 1 hasta 0)
-        for (int col = blockWidth - 1; col >= 0; col--) {
-            StringBuilder numberBuilder = new StringBuilder();
-
-            // Recorre desde la primera fila hasta la penúltima (ignorando la del operador)
-            for (int row = 0; row < block.size() - 1; row++) {
-                char c = block.get(row).charAt(col);
-                if (c != ' ') {
-                    numberBuilder.append(c);
-                }
-            }
-
-            if (!numberBuilder.isEmpty()) {
-                numbers.add(Long.parseLong(numberBuilder.toString()));
-            }
-        }
+        List<Long> numbers = IntStream.range(0, blockWidth)
+                .map(i -> blockWidth - 1 - i) // Inverts the stream to go right-to-left
+                .mapToObj(col -> extractNumberFromColumn(block, col))
+                .filter(str -> !str.isEmpty())
+                .map(Long::parseLong)
+                .toList();
 
         return new MathProblem(numbers, operator);
+    }
+
+    private static String extractNumberFromColumn(List<String> block, int col) {
+        return IntStream.range(0, block.size() - 1)
+                .mapToObj(row -> String.valueOf(block.get(row).charAt(col)))
+                .filter(str -> !str.isBlank())
+                .collect(Collectors.joining());
     }
 
     private static int getStart(List<Integer> delimiters, int index) {

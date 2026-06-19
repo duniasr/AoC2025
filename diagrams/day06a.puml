@@ -1,0 +1,48 @@
+@startumlclassclassDiagram
+            class CephalopodWorksheet {
+                 <<interface>>
+                 +unroll() CephalopodWorksheet
+                 +calculateGrandTotal() long
+             }
+
+             class MathProblem {
+                 <<record>>
+                 +numbers: List~Long~
+                 +operator: Operator
+                 +solve() long
+             }
+
+             class Operator {
+                 <<enumeration>>
+                 ADD
+                 MULTIPLY
+                 -symbol: char
+                 -operation: LongBinaryOperator
+                 -identity: long
+                 +from(symbol: char)$ Operator
+                 +apply(numbers: Stream~Long~) long
+             }
+
+             class HorizontalCephalopodWorksheet {
+                 -lines: List~String~
+                 -HorizontalCephalopodWorksheet(lines: List~String~)
+                 +from(rawLines: List~String~)$ CephalopodWorksheet
+                 +unroll() CephalopodWorksheet
+                 +calculateGrandTotal() long
+             }
+
+             class HorizontalWorksheetProcessor {
+                 <<package-private>>
+                 ~padToMaxWidth(lines: List~String~)$ List~String~
+                 ~extractProblems(lines: List~String~)$ Stream~MathProblem~
+                 -findDelimiterColumns(lines: List~String~)$ List~Integer~
+                 -sliceBlock(lines: List~String~, start: int, end: int)$ List~String~
+                 -parseProblem(block: List~String~)$ MathProblem
+             }
+
+             HorizontalCephalopodWorksheet ..|> CephalopodWorksheet : implements
+             HorizontalCephalopodWorksheet ..> HorizontalWorksheetProcessor : uses (Facade)
+             HorizontalWorksheetProcessor ..> MathProblem : creates
+             MathProblem --> Operator : has
+             HorizontalWorksheetProcessor ..> Operator : searches
+@enduml

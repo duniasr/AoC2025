@@ -19,7 +19,7 @@ public enum Operator {
 
     public static Operator from(char symbol) {
         return Stream.of(values())
-                .filter(o -> o.symbol == symbol)
+                .filter(operator -> operator.symbol == symbol)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid operator symbol: " + symbol));
     }

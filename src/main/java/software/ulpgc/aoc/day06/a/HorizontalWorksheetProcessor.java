@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-// UTILITY: Procesamiento de texto para lectura horizontal (Parte A).
 class HorizontalWorksheetProcessor {
 
     static List<String> padToMaxWidth(List<String> lines) {
@@ -45,7 +44,6 @@ class HorizontalWorksheetProcessor {
                 .map(Long::parseLong)
                 .toList();
 
-        // En horizontal, el operador es el primer caracter de la última línea
         Operator operator = Operator.from(block.getLast().charAt(0));
         return new MathProblem(numbers, operator);
     }

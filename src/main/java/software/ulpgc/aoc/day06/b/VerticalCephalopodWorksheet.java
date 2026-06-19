@@ -1,6 +1,8 @@
 package software.ulpgc.aoc.day06.b;
 
 import software.ulpgc.aoc.day06.common.CephalopodWorksheet;
+import software.ulpgc.aoc.day06.common.MathProblem;
+
 import java.util.List;
 
 public class VerticalCephalopodWorksheet implements CephalopodWorksheet {
@@ -23,7 +25,7 @@ public class VerticalCephalopodWorksheet implements CephalopodWorksheet {
     @Override
     public long calculateGrandTotal() {
         return VerticalWorksheetProcessor.extractProblems(lines)
-                .mapToLong(problem -> problem.solve())
+                .mapToLong(MathProblem::solve)
                 .sum();
     }
 }

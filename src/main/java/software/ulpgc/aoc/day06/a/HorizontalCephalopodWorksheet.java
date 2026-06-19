@@ -1,9 +1,10 @@
 package software.ulpgc.aoc.day06.a;
 
 import software.ulpgc.aoc.day06.common.CephalopodWorksheet;
+import software.ulpgc.aoc.day06.common.MathProblem;
+
 import java.util.List;
 
-// FACADE: Orquesta el flujo de resolución de la Parte A.
 public class HorizontalCephalopodWorksheet implements CephalopodWorksheet {
 
     private final List<String> lines;
@@ -24,7 +25,7 @@ public class HorizontalCephalopodWorksheet implements CephalopodWorksheet {
     @Override
     public long calculateGrandTotal() {
         return HorizontalWorksheetProcessor.extractProblems(lines)
-                .mapToLong(problem -> problem.solve())
+                .mapToLong(MathProblem::solve)
                 .sum();
     }
 }
