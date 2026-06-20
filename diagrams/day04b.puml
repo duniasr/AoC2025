@@ -1,0 +1,25 @@
+@startumlclassDiagram
+
+             class Coordinate {
+                 <<record / Value Object>>
+                 +row : int
+                 +col : int
+                 +streamAdjacent() Stream~Coordinate~
+             }
+
+             class PaperRollDiagram_PartB {
+                 <<Mutable Domain>>
+                 -grid : char[][]
+                 -PaperRollDiagram_PartB(grid: char[][])
+                 +from(rawDiagram: String)$ PaperRollDiagram_PartB
+                 +calculateTotalRemoved() long
+                 -recursiveRemove(accumulatedTotal: long) long
+                 -removeRoll(target: Coordinate) void
+                 -streamAllCoordinates() Stream~Coordinate~
+                 -isAccessibleByForklift(target: Coordinate) boolean
+                 -isRoll(target: Coordinate) boolean
+                 -isWithinBounds(target: Coordinate) boolean
+             }
+
+             PaperRollDiagram_PartB ..> Coordinate : crea, evalúa y destruye
+@enduml

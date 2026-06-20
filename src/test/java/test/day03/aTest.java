@@ -1,27 +1,26 @@
 package test.day03;
-import software.ulpgc.aoc.day03.common.PowerGrid;
-import software.ulpgc.aoc.day03.a.BatteryBank;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class aTest {
-    private final static String input = """
-                                        987654321111111
-                                        811111111111119
-                                        234234234234278
-                                        818181911112111""";
+import software.ulpgc.aoc.day03.EmergencyPowerSystem;
 
-    @Test
-    public void given_individual_banks_should_find_max_joltage() {
-        assertEquals(98, BatteryBank.maxJoltage("987654321111111"));
-        assertEquals(89, BatteryBank.maxJoltage("811111111111119"));
-        assertEquals(78, BatteryBank.maxJoltage("234234234234278"));
-        assertEquals(92, BatteryBank.maxJoltage("818181911112111"));
-    }
+class aTest {
+
+    private static final String input = """
+            987654321111111
+            811111111111119
+            234234234234278
+            818181911112111
+            """;
 
     @Test
-    public void given_full_input_should_calculate_total_joltage() {
-        assertEquals(357, PowerGrid.calculateTotalJoltage(input, BatteryBank::maxJoltage));
+    void should_calculate_maximum_joltage_using_two_batteries() {
+        // Given
+        EmergencyPowerSystem system = EmergencyPowerSystem.from(input);
+        // When
+        long totalOutput = system.calculateTotalOutputJoltage(2);
+        // Then, 357 (98 + 89 + 78 + 92)
+        assertThat(totalOutput).isEqualTo(357L);
     }
 }
