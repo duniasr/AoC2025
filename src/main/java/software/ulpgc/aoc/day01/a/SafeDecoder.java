@@ -1,12 +1,12 @@
 package software.ulpgc.aoc.day01.a;
 
-import software.ulpgc.aoc.day01.common.Rotation;
+import software.ulpgc.aoc.day01.Rotation;
 import java.util.stream.Stream;
 
 public class SafeDecoder {
-    public static int decodePassword(Stream<String> lines) {
-        return lines.map(Rotation::fromText)
-                .reduce(new DialState(50, 0), DialState::applyRotation, (s1, s2) -> s1)
-                .zeroCount();
+    public static int decodePassword(Stream<String> document) {
+        return document.map(Rotation::from)
+                .reduce(Dial.initial(), Dial::rotate, (d1, d2) -> d1)
+                .passwordScore();
     }
 }

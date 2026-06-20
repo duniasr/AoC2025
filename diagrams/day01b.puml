@@ -1,31 +1,37 @@
-@startuml
-skinparam classAttributeIconSize 0
+@startumlclassDiagram
+             namespace Common {
+                 class Rotation {
+                     <<record>>
+                     -char direction
+                     -int distance
+                     +from(instruction: String)$ Rotation
+                 }
+             }
 
-class Main {
-  + {static} main(String[] args)
-}
+             namespace Part_B {
+                 class Dial {
+                     <<record>>
+                     -int currentPosition
+                     -int passwordScore
+                     +initial()$ Dial
+                     +rotate(rotation: Rotation) Dial
+                     -calculateNextPosition(rotation: Rotation) int
+                     -countZeroPassages(rotation: Rotation) long
+                 }
 
-class SafeDecoder {
-  + {static} decodePassword(Stream<String> lines) : int
-}
+                 class Safe {
+                     <<Funcional Pura>>
+                     +decodePassword(document: Stream~String~)$ int
+                 }
 
-class DialState <<record>> {
-  - position : int
-  - zeroCount : int
-  + applyRotation(Rotation rotation) : DialState
-  - getFinalPosition(char dir, int steps) : int
-  - getZeroPassages(char dir, int steps) : long
-}
+                 class Main {
+                     +main(args: String[])$ void
+                 }
+             }
 
-class Rotation <<record>> {
-  - direction : char
-  - distance : int
-  + {static} fromText(String line) : Rotation
-}
-
-Main ..> SafeDecoder : "usa"
-SafeDecoder ..> Rotation : "mapea mediante"
-SafeDecoder ..> DialState : "reduce"
-DialState ..> Rotation : "recibe"
+             Safe ..> Rotation : Mapea (from)
+             Safe ..> Dial : Reduce (initial, rotate)
+             Dial ..> Rotation : Consume
+             Main ..> Safe : Orquesta
 
 @enduml

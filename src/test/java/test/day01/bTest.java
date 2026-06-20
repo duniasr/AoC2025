@@ -2,7 +2,8 @@ package test.day01;
 
 import software.ulpgc.aoc.day01.b.SafeDecoder;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.stream.Stream;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class bTest {
 
@@ -21,6 +22,11 @@ public class bTest {
 
     @Test
     public void should_decode_part_b_password_correctly() {
-        assertEquals(6, SafeDecoder.decodePassword(ORDERS.lines().filter(line -> !line.isBlank())));
+        // Given
+        Stream<String> document = ORDERS.lines().filter(line -> !line.isBlank());
+        // When
+        int password = SafeDecoder.decodePassword(document);
+        // Then
+        assertThat(password).isEqualTo(6);
     }
 }

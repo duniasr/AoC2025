@@ -2,10 +2,12 @@ package test.day01;
 
 import software.ulpgc.aoc.day01.a.SafeDecoder;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.stream.Stream;
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class aTest {
 
-    // El bloque con las órdenes mágicas que nos dieron los Elfos en el mapa de ejemplo.
     private static final String ORDERS = """
             L68
             L30
@@ -19,9 +21,13 @@ public class aTest {
             L82
             """;
 
-    // Comprueba que las instrucciones del bloque abren la caja fuerte correctamente.
     @Test
     public void should_decode_password_correctly_for_specification_example() {
-        assertEquals(3, SafeDecoder.decodePassword(ORDERS.lines().filter(line -> !line.isBlank())));
+        // Given
+        Stream<String> document = ORDERS.lines().filter(line -> !line.isBlank());
+        // When
+        int password = SafeDecoder.decodePassword(document);
+        // Then
+        assertThat(password).isEqualTo(3);
     }
 }
