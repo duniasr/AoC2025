@@ -1,6 +1,6 @@
 package software.ulpgc.aoc.day09.b;
 
-import software.ulpgc.aoc.day09.common.RedTile;
+import software.ulpgc.aoc.day09.RedTile;
 
 public record GreenTileLine(RedTile start, RedTile end) {
 

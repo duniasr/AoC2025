@@ -1,4 +1,4 @@
-package software.ulpgc.aoc.day07.common;
+package software.ulpgc.aoc.day07;
 
 public interface TachyonPhysics<T> {
 

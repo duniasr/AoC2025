@@ -1,7 +1,7 @@
 package software.ulpgc.aoc.day06.a;
 
-import software.ulpgc.aoc.day06.common.MathProblem;
-import software.ulpgc.aoc.day06.common.Operator;
+import software.ulpgc.aoc.day06.MathProblem;
+import software.ulpgc.aoc.day06.Operator;
 
 import java.util.List;
 import java.util.stream.IntStream;

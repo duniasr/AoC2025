@@ -1,4 +1,4 @@
-package software.ulpgc.aoc.day08.common;
+package software.ulpgc.aoc.day08;
 
 // Represents the cable connecting two junction boxes.
 public record StringOfLights(JunctionBox boxA, JunctionBox boxB, double length) {

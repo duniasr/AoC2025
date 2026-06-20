@@ -1,4 +1,4 @@
-package software.ulpgc.aoc.day06.common;
+package software.ulpgc.aoc.day06;
 
 import java.util.List;
 

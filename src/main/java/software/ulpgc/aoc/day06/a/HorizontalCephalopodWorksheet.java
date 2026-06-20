@@ -1,7 +1,7 @@
 package software.ulpgc.aoc.day06.a;
 
-import software.ulpgc.aoc.day06.common.CephalopodWorksheet;
-import software.ulpgc.aoc.day06.common.MathProblem;
+import software.ulpgc.aoc.day06.CephalopodWorksheet;
+import software.ulpgc.aoc.day06.MathProblem;
 
 import java.util.List;
 

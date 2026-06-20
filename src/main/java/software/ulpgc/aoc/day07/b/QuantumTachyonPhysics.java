@@ -1,6 +1,6 @@
 package software.ulpgc.aoc.day07.b;
 
-import software.ulpgc.aoc.day07.common.TachyonPhysics;
+import software.ulpgc.aoc.day07.TachyonPhysics;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

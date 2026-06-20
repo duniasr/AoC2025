@@ -1,4 +1,4 @@
-package software.ulpgc.aoc.day09.common;
+package software.ulpgc.aoc.day09;
 
 // Represents a red tile at a specific grid coordinate.
 public record RedTile(int x, int y) {

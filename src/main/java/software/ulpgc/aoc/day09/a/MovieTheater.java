@@ -1,6 +1,6 @@
 package software.ulpgc.aoc.day09.a;
 
-import software.ulpgc.aoc.day09.common.RedTile;
+import software.ulpgc.aoc.day09.RedTile;
 import java.util.List;
 import java.util.stream.IntStream;
 

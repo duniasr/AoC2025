@@ -2,7 +2,7 @@ package test.day07;
 
 import org.junit.jupiter.api.Test;
 import software.ulpgc.aoc.day07.a.ClassicalTachyonPhysics;
-import software.ulpgc.aoc.day07.common.TachyonManifold;
+import software.ulpgc.aoc.day07.TachyonManifold;
 
 import java.util.List;
 

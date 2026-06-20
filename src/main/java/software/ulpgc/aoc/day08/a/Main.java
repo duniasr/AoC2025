@@ -1,6 +1,6 @@
 package software.ulpgc.aoc.day08.a;
 
-import software.ulpgc.aoc.day08.common.Playground;
+import software.ulpgc.aoc.day08.Playground;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;

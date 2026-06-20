@@ -1,6 +1,6 @@
 package software.ulpgc.aoc.day07.b;
 
-import software.ulpgc.aoc.day07.common.TachyonManifold;
+import software.ulpgc.aoc.day07.TachyonManifold;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
