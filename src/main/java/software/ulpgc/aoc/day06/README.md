@@ -30,3 +30,4 @@ Interpretar la misma hoja de cálculo aplicando el sistema de lectura nativo de 
 * **Fluent API:** Diseño de métodos que devuelven nuevas instancias inmutables para permitir un encadenamiento elegante (ej. `VerticalCephalopodWorksheet.from(lines).unroll().calculateGrandTotal()`).
 * **Inmutabilidad:** Uso de `records` para garantizar la pureza de los datos.
 * **Package-Private Encapsulation:** Restricción de visibilidad de las clases `Processor` (omitiendo la palabra clave `public`) para convertirlas en mecanismos internos y evitar su acoplamiento accidental desde otros paquetes.
+* * **Good Naming:** Uso de un vocabulario autodescriptivo y alineado con el dominio del problema

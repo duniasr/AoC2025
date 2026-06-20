@@ -31,3 +31,4 @@ Aplicar la interpretación de los "muchos mundos" a una sola partícula cuántic
 ## Técnicas de Implementación
 * **Fluent API:** Diseño de las interfaces del orquestador para permitir el encadenamiento de llamadas (ej. `TachyonManifold.fromDiagram(diagram).simulate(physics)`), logrando que el punto de entrada del programa se lea de forma fluida y declarativa.
 * **Good Naming:** Uso de un vocabulario autodescriptivo y alineado con el dominio del problema
+* **Inmutabilidad:** Uso de `records` para garantizar la pureza de los datos.
