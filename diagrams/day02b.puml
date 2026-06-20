@@ -1,0 +1,24 @@
+@startumlclassclassDiagram
+                  class Range {
+                      <<record>>
+                      -long start
+                      -long end
+                      +from(text: String)$ Range
+                      +stream() LongStream
+                  }
+
+                  class GiftShopDatabase {
+                      <<Funcional Pura>>
+                      -Pattern SILLY_PATTERN$
+                      +from(rawRanges: String)$ List~Range~
+                      +sumInvalidIds(ranges: List~Range~)$ long
+                      -isAnyRepeatedPattern(id: long)$ boolean
+                  }
+
+                  class Main {
+                      +main(args: String[])$ void
+                  }
+
+                  GiftShopDatabase ..> Range : Transforma y Consume
+                  Main ..> GiftShopDatabase : Orquesta
+@enduml

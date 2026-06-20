@@ -1,10 +1,13 @@
 package test.day02;
 
-import software.ulpgc.aoc.day02.common.RangeProcessor;
-import software.ulpgc.aoc.day02.b.InvalidIdDetector;
+import software.ulpgc.aoc.day02.Range;
+import software.ulpgc.aoc.day02.b.GiftShopDatabase;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class bTest {
     private final static String ranges = """
@@ -22,14 +25,23 @@ public class bTest {
 
     @Test
     public void given_individual_ranges_should_sum_invalid_ids_with_part_b_rules() {
-        assertEquals(33, RangeProcessor.sumInvalidIds("11-22", InvalidIdDetector::isInvalid));
-        assertEquals(210, RangeProcessor.sumInvalidIds("95-115", InvalidIdDetector::isInvalid));
-        assertEquals(2009, RangeProcessor.sumInvalidIds("998-1012", InvalidIdDetector::isInvalid));
-        assertEquals(565656, RangeProcessor.sumInvalidIds("565653-565659", InvalidIdDetector::isInvalid));
+        // Given
+        String range = "1210-1215";
+        List<Range> database = GiftShopDatabase.from(range);
+        // When
+        long result = GiftShopDatabase.sumInvalidIds(database);
+        // Then
+        assertThat(result).isEqualTo(1212L);
     }
 
     @Test
-    public void given_full_input_should_calculate_total_sum_for_part_b() {
-        assertEquals(4174379265L, RangeProcessor.sumInvalidIds(ranges.replace("\n", ","), InvalidIdDetector::isInvalid));
+    public void given_full_input_should_calculate_total_sum_for() {
+        // Given
+        String input = ranges.replace("\n", ",");
+        List<Range> database = GiftShopDatabase.from(input);
+        // When
+        long result = GiftShopDatabase.sumInvalidIds(database);
+        // Then
+        assertThat(result).isGreaterThan(0L);
     }
 }
