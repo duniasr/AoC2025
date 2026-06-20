@@ -1,32 +1,36 @@
 # Advent of Code 2025
 
-Resolución de los retos del *Advent of Code 2025*.
+Resolución de los retos del *Advent of Code 2025* (Días 1 al 12).
+
 
 ---
 
 ## Filosofía de Diseño Global
+
 El código de todos los retos está diseñado respetando la siguiente jerarquía estructural y conceptual:
 
 ### Paradigmas
-* **Programación Orientada a Objetos (POO):** Utilizada como base para modelar el dominio, donde las entidades físicas encapsulan su propio estado y comportamiento.
-* **Programación Declarativa y Funcional:** Aplicada sistemáticamente en el procesamiento de datos. El uso de la *Stream API* de Java permite definir *qué* resultado se busca, delegando el *cómo* al lenguaje, lo que reduce la complejidad ciclomática.
+* **Orientación a Objetos:** Utilizada como base estructural para modelar los dominios, donde las entidades encapsulan sus propias reglas de negocio.
+* **Programación Funcional:** Aplicada al flujo de control y cálculo algorítmico, y estrechamente relacionada con el uso de clases inmutables.
 
 ### Fundamentos
-* **Abstracción:** Ocultamiento de la complejidad técnica para destacar lo esencial.
-* **Encapsulamiento:** Protección del estado interno.
-* **Modularidad:** División del sistema en piezas independientes.
-* **Alta Cohesión:** Agrupación de elementos fuertemente relacionados. Las clases tienen un propósito centralizado.
-* **Bajo Acoplamiento:** Los módulos interactúan mediante interfaces estables, minimizando el impacto de los cambios.
+* **Abstracción:** Ocultamiento de la complejidad matemática e infraestructural detrás de interfaces o métodos con semántica de negocio.
+* **Modularidad:** Separación entre la capa de entrada (lectura de archivos y parseo) y el núcleo de cálculo.
+* **Alta Cohesión y Bajo Acoplamiento:** Los objetos tienen una única razón para cambiar. Los orquestadores interactúan con los modelos inyectando los datos sin acoplarse a la implementación interna de los mismos.
+* **Código Expresivo (Good Naming):** Uso del lenguaje del dominio para que el código se lea de forma fluida, minimizando la necesidad de comentarios explicativos.
 
 ### Principios de Diseño
-* **Principios SOLID:** * 
-  * **SRP (Responsabilidad Única):** Separación estricta entre dominio, matemática algorítmica y orquestación.
-  * **OCP (Abierto/Cerrado) e ISP (Segregación de Interfaces):** Uso de interfaces específicas abiertas a nuevas implementaciones.
-  * **DIP (Inversión de Dependencias):** El flujo principal depende de abstracciones, no de detalles de bajo nivel.
-
-### Patrones de Diseño
-* **Factory Method (Creacional):** Creación de objetos complejos delegada a métodos estáticos.
+* **SOLID:** Máximo respeto al Principio de Responsabilidad Única (SRP) y apertura a extensiones mediante polimorfismo sin modificar código existente (OCP).
+* **Don’t Repeat Yourself (DRY):** Centralización de la lógica común y matemática de coordenadas o parseo para evitar la duplicación de conocimiento.
+* **Law of Demeter (LoD):** Aplicación de la regla "Tell, Don't Ask". Los orquestadores ordenan a los objetos ejecutar acciones, en lugar de pedirles sus datos internos para calcularlo fuera.
+* **Keep It Simple, Stupid (KISS) y YAGNI:** Resoluciones directas enfocadas exclusivamente en los requerimientos del día, evitando abstracciones preventivas (sobre-ingeniería) para problemas que aún no existen.
 
 ### Técnicas
-* **Inmutabilidad de Dominio:** Modelado de entidades a través de **`records`** de Java, garantizando que el estado no muta una vez creado, asegurando la trazabilidad y previniendo efectos secundarios.
-* **Fluent API:** Diseño de métodos que devuelven `this` para permitir el encadenamiento de llamadas, logrando que el código se lea de izquierda a derecha como lenguaje natural.
+* **Inmutabilidad del Modelo:** Uso extensivo de `records` en Java. El estado de las entidades se fija en su creación, garantizando un entorno seguro y libre de mutaciones accidentales.
+* **Fluent API:** Diseño de métodos puros que devuelven el propio objeto o flujos de datos (`Streams`), permitiendo el encadenamiento léxico.
+* **Métodos Delegados:** Ruptura de algoritmos complejos en métodos más pequeños y descriptivos que delegan la responsabilidad paso a paso, eliminando la necesidad de bloques lógicos masivos.
+* **Inyección de Dependencias:** Envío de estructuras de estado a través de los parámetros de las funciones en lugar de mantener variables globales mutables en las clases.
+* **Refactorización Continua:** El código es el resultado de un ciclo constante de purificación, eliminando variables temporales de bloque en favor del inlining y la inyección.
+
+### Patrones de Diseño
+* **Factory Method (Creacional):** Ausencia de constructores públicos directos. Toda la instanciación e inicialización compleja de objetos a partir de texto (`Strings`) está encapsulada en métodos estáticos de factoría semánticos (ej. `from()`, `parse()`, `readFrom()`, `initial()`).
