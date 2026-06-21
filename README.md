@@ -20,9 +20,9 @@ El código de todos los retos está diseñado respetando la siguiente jerarquía
 * **Código Expresivo (Good Naming):** Uso del lenguaje del dominio para que el código se lea de forma fluida, minimizando la necesidad de comentarios explicativos.
 
 ### Principios de Diseño
-* **SOLID:** Máximo respeto al Principio de Responsabilidad Única (SRP) y apertura a extensiones mediante polimorfismo sin modificar código existente (OCP).
+* **SOLID:** Precencia del Principio de Responsabilidad Única (SRP) y apertura a extensiones mediante polimorfismo sin modificar código existente (OCP).
 * **Don’t Repeat Yourself (DRY):** Centralización de la lógica común y matemática de coordenadas o parseo para evitar la duplicación de conocimiento.
-* **Law of Demeter (LoD):** Aplicación de la regla "Tell, Don't Ask". Los orquestadores ordenan a los objetos ejecutar acciones, en lugar de pedirles sus datos internos para calcularlo fuera.
+* **Law of Demeter (LoD):** Aplicación de la regla "Tell, Don't Ask". Los componentes de gestión ordenan a los objetos ejecutar acciones, en lugar de extraer sus datos internos para procesar la lógica de negocio por fuera del objeto. Esto garantiza que las unidades de software solo conozcan a sus colaboradores directos, minimizando el acoplamiento y facilitando tanto el mantenimiento como la capacidad de realizar pruebas unitarias aisladas.
 * **Keep It Simple, Stupid (KISS) y YAGNI:** Resoluciones directas enfocadas exclusivamente en los requerimientos del día, evitando abstracciones preventivas (sobre-ingeniería) para problemas que aún no existen.
 
 ### Técnicas
@@ -33,4 +33,4 @@ El código de todos los retos está diseñado respetando la siguiente jerarquía
 * **Refactorización Continua:** El código es el resultado de un ciclo constante de purificación, eliminando variables temporales de bloque en favor del inlining y la inyección.
 
 ### Patrones de Diseño
-* **Factory Method (Creacional):** La inicialización de objetos complejos se delega en métodos estáticos semánticos. Por un lado, PresentShape.from() encapsula la lógica matemática para generar y normalizar las 8 posturas espaciales de un regalo. Por otro, PuzzleReader.readFrom() centraliza el parseo, transformando el texto en crudo directamente en entidades inmutables del dominio listas para usarse.
+* **Factory Method (Creacional):** La inicialización de objetos complejos se delega a métodos estáticos semánticos en lugar de constructores públicos. Esta técnica encapsula la lógica de validación y normalización, garantizando que el sistema trabaje exclusivamente con entidades inmutables ya validadas, evitando estados inconsistentes desde su creación.
