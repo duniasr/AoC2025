@@ -11,10 +11,10 @@ public class Main {
             String databaseContent = Files.readString(Paths.get("src/main/java/software/ulpgc/resources/day05/input.txt"));
             long partBResult = InventoryDatabase.from(databaseContent)
                     .calculateTotalFreshCapacity();
-            System.out.println("Part B - Total fresh ingredients capacity: " + partBResult);
+            System.out.println("Total fresh ingredients capacity: " + partBResult);
 
         } catch (IOException e) {
-            System.err.println("Error reading the Elves' database: " + e.getMessage());
+            System.err.println("Error reading the input file: " + e.getMessage());
         }
     }
 }

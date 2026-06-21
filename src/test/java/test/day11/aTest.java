@@ -9,7 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class aTest {
 
     @Test
-    void should_find_5_paths_from_you_to_out_in_part_1() {
+    void should_find_5_paths_from_you_to_out() {
+        // Given
         String input = """
             aaa: you hhh
             you: bbb ccc
@@ -22,11 +23,10 @@ class aTest {
             hhh: ccc fff iii
             iii: out
             """;
-
         DeviceNetwork network = DeviceReader.readFrom(List.of(input.split("\n")));
-
+        // When
         long totalPaths = network.countPathsBetween("you", "out");
-
+        // Then
         assertThat(totalPaths).isEqualTo(5L);
     }
 }

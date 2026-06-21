@@ -15,7 +15,7 @@ public class Main {
             System.out.println("Fresh ingredients: " + freshCount);
 
         } catch (IOException e) {
-            System.err.println("Error reading the Elves' database: " + e.getMessage());
+            System.err.println("Error reading the input file: " + e.getMessage());
         }
     }
 }

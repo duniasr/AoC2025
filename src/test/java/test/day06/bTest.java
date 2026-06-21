@@ -1,6 +1,5 @@
 package test.day06;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import software.ulpgc.aoc.day06.b.VerticalCephalopodWorksheet;
 
@@ -19,13 +18,13 @@ class bTest {
 
     @Test
     void should_calculate_grand_total_vertically() {
-        // Given & When
-        long grandTotal = VerticalCephalopodWorksheet.from(exampleWorksheet)
+        // Given
+        VerticalCephalopodWorksheet worksheet = (VerticalCephalopodWorksheet) VerticalCephalopodWorksheet.from(exampleWorksheet);
+        // When
+        long grandTotal = worksheet
                 .unroll()
                 .calculateGrandTotal();
-
         // Then
-        // 1058 + 3253600 + 625 + 8544 = 3263827
         assertThat(grandTotal).isEqualTo(3263827L);
     }
 }

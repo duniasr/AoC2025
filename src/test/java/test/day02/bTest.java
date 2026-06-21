@@ -24,7 +24,7 @@ public class bTest {
                                          2121212118-2121212124""";
 
     @Test
-    public void given_individual_ranges_should_sum_invalid_ids_with_part_b_rules() {
+    public void given_individual_ranges_should_sum_invalid_ids() {
         // Given
         String range = "1210-1215";
         List<Range> database = GiftShopDatabase.from(range);

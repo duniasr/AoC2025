@@ -3,8 +3,7 @@ package test.day05;
 import software.ulpgc.aoc.day05.a.InventoryDatabase;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.assertj.core.api.Assertions.assertThat;
 public class aTest {
     private final static String input = """
                                         3-5
@@ -26,6 +25,6 @@ public class aTest {
         // When
         long freshCount = database.countFreshAvailableIngredients();
         // Then
-        assertEquals(3, freshCount);
+        assertThat(freshCount).isEqualTo(3L);
     }
 }

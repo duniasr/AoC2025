@@ -47,12 +47,13 @@ public class aTest {
 
     @Test
     public void given_presents_and_trees_should_count_fitting_trees() {
+        // Given
         List<TreeRegion> regions = PuzzleReader.readFrom(christmasTree);
-
+        // When
         long fittingTrees = regions.stream()
                 .filter(TreeRegion::canFitAll)
                 .count();
-
+        // Then
         assertThat(fittingTrees).isEqualTo(2);
     }
 }

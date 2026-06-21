@@ -8,8 +8,6 @@ import java.util.stream.Stream;
 
 public class PuzzleReader {
 
-    // --- 1. Flujo Principal (Cero variables) ---
-
     public static List<TreeRegion> readFrom(String text) {
         return parse(text.split("\n\n"));
     }
@@ -17,8 +15,6 @@ public class PuzzleReader {
     private static List<TreeRegion> parse(String[] blocks) {
         return parseRegionsFrom(blocks[blocks.length - 1], parseShapesFrom(blocks));
     }
-
-    // --- 2. Parseo de Formas (Shapes) ---
 
     private static List<PresentShape> parseShapesFrom(String[] blocks) {
         return Arrays.stream(blocks)
@@ -39,8 +35,6 @@ public class PuzzleReader {
                 .filter(x -> rowText.charAt(x) == '#')
                 .mapToObj(x -> new Point(x, y));
     }
-
-    // --- 3. Parseo de Regiones (Árboles) ---
 
     private static List<TreeRegion> parseRegionsFrom(String regionsBlock, List<PresentShape> shapes) {
         return Arrays.stream(regionsBlock.split("\n"))

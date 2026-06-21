@@ -33,10 +33,8 @@ class bTest {
         // Given
         TachyonManifold manifold = TachyonManifold.fromDiagram(EXAMPLE_DIAGRAM);
         QuantumTachyonPhysics physics = new QuantumTachyonPhysics();
-
         // When
         long totalTimelines = manifold.simulate(physics).totalActiveTimelines();
-
         // Then
         assertThat(totalTimelines).isEqualTo(40L);
     }

@@ -8,7 +8,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class bTest {
-
+    // Given
     private final List<String> Input = List.of(
             "162,817,812", "57,618,57", "906,360,560", "592,479,940",
             "352,342,300", "466,668,158", "542,29,236", "431,825,988",
@@ -19,10 +19,10 @@ public class bTest {
 
     @Test
     public void should_return_25272_as_product_of_X_coordinates_for_the_final_circuit_connection() {
+        // When
         long result = Playground.fromLines(Input)
                 .connectUntilSingleCircuit();
-        assertThat(result)
-                .as("Producto de las coordenadas X de las dos últimas cajas unidas para cerrar la red")
-                .isEqualTo(25272L);
+        // Then
+        assertThat(result).isEqualTo(25272L);
     }
 }

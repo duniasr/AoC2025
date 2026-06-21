@@ -9,7 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class bTest {
 
     @Test
-    void should_find_2_paths_visiting_dac_and_fft_in_part_2() {
+    void should_find_2_paths_visiting_dac_and_fft() {
+        // Given
         String input = """
             svr: aaa bbb
             aaa: fft
@@ -25,11 +26,10 @@ class bTest {
             ggg: out
             hhh: out
             """;
-
         DeviceNetwork network = DeviceReader.readFrom(List.of(input.split("\n")));
-
+        // When
         long totalPaths = network.countPathsThrough("svr", "out", "dac", "fft");
-
+        // Then
         assertThat(totalPaths).isEqualTo(2L);
     }
 }

@@ -3,8 +3,7 @@ package test.day05;
 import software.ulpgc.aoc.day05.b.InventoryDatabase;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.assertj.core.api.Assertions.assertThat;
 public class bTest {
     private final static String input = """
                                         3-5
@@ -23,11 +22,9 @@ public class bTest {
     public void given_inventory_database_should_calculate_14_total_capacity() {
         // Given
         InventoryDatabase database = InventoryDatabase.from(input);
-
         // When
         long totalCapacity = database.calculateTotalFreshCapacity();
-
         // Then
-        assertEquals(14, totalCapacity, "La Parte B debería devolver una capacidad total de 14 tras fusionar rangos.");
+        assertThat(totalCapacity).isEqualTo(14L);
     }
 }

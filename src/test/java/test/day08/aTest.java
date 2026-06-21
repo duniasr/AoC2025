@@ -8,7 +8,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class aTest {
-
+    // Given
     private final List<String> Input = List.of(
             "162,817,812", "57,618,57", "906,360,560", "592,479,940",
             "352,342,300", "466,668,158", "542,29,236", "431,825,988",
@@ -19,12 +19,11 @@ public class aTest {
 
     @Test
     public void should_return_40_as_product_of_top_three_circuits_after_10_shortest_connections() {
+        // When
         long result = Playground.fromLines(Input)
                 .connectShortestStrings(10)
                 .productOfLargestCircuits(3);
-
-        assertThat(result)
-                .as("Producto de los tamaños de los 3 circuitos más grandes tras 10 conexiones")
-                .isEqualTo(40L);
+        // Then
+        assertThat(result).isEqualTo(40L);
     }
 }

@@ -34,10 +34,8 @@ class aTest {
         // Given
         TachyonManifold manifold = TachyonManifold.fromDiagram(EXAMPLE_DIAGRAM);
         ClassicalTachyonPhysics physics = new ClassicalTachyonPhysics();
-
         // When
         long totalSplits = manifold.simulate(physics).totalSplits();
-
         // Then
         assertThat(totalSplits).isEqualTo(21L);
     }

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import software.ulpgc.aoc.day03.EmergencyPowerSystem;
 
-class EmergencyPowerSystemTest {
+class bTest {
 
     private static final String input = """
             987654321111111

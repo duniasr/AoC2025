@@ -1,14 +1,23 @@
 package software.ulpgc.aoc.day12;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Regions that fit all presents: " +
-                PuzzleReader.readFrom(Files.readString(Paths.get("src/main/java/software/ulpgc/resources/day12/input.txt")).replace("\r", ""))
-                        .stream()
-                        .filter(TreeRegion::canFitAll)
-                        .count());
+    public static void main(String[] args) {
+        try {
+            String input = Files.readString(Paths.get("src/main/java/software/ulpgc/resources/day12/input.txt")).replace("\r", "");
+
+            List<TreeRegion> regions = PuzzleReader.readFrom(input);
+            long fittingRegions = regions.stream()
+                    .filter(TreeRegion::canFitAll)
+                    .count();
+            System.out.println("Regions that fit all presents: " + fittingRegions);
+
+        } catch (IOException e) {
+            System.err.println("Error reading the input file: " + e.getMessage());
+        }
     }
 }

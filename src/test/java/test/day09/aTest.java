@@ -9,6 +9,7 @@ class aTest {
 
     @Test
     void given_tiles_should_account_largest_area() {
+        // Given
         String inputTiles = """    
                 7,1
                 11,1
@@ -19,7 +20,9 @@ class aTest {
                 2,3
                 7,3
                 """;
-
-        assertThat(MovieTheater.from(inputTiles).findLargestRectangleArea()).isEqualTo(50L);
+        // When
+        long largestArea = MovieTheater.from(inputTiles).findLargestRectangleArea();
+        // Then
+        assertThat(largestArea).isEqualTo(50L);
     }
 }
