@@ -33,4 +33,4 @@ El código de todos los retos está diseñado respetando la siguiente jerarquía
 * **Refactorización Continua:** El código es el resultado de un ciclo constante de purificación, eliminando variables temporales de bloque en favor del inlining y la inyección.
 
 ### Patrones de Diseño
-* **Factory Method (Creacional):** Ausencia de constructores públicos directos. Toda la instanciación e inicialización compleja de objetos a partir de texto (`Strings`) está encapsulada en métodos estáticos de factoría semánticos (ej. `from()`, `parse()`, `readFrom()`, `initial()`).
+* **Factory Method (Creacional):** La inicialización de objetos complejos se delega en métodos estáticos semánticos. Por un lado, PresentShape.from() encapsula la lógica matemática para generar y normalizar las 8 posturas espaciales de un regalo. Por otro, PuzzleReader.readFrom() centraliza el parseo, transformando el texto en crudo directamente en entidades inmutables del dominio listas para usarse.
