@@ -11,15 +11,18 @@ Las escaleras requieren aún más voltaje para superar la fricción estática, p
 * **`BatteryBank`**: Encapsula la secuencia inmutable de texto de un banco individual. Su única responsabilidad es resolver su propio máximo matemático.
 * **`EmergencyPowerSystem`**: Lee el archivo de texto en bruto, lo limpia, instancia los bancos de baterías y actua como agregador para calcular la suma final.
 
-## Principios de Diseño y Arquitectura
-### SOLID
-* **S (Responsabilidad Única - SRP):** Separación estricta entre el parseo de datos espaciales (`EmergencyPowerSystem`) y el cálculo algorítmico profundo de un banco individual (`BatteryBank`).
-* **Tell, Don't Ask:** El orquestador no extrae la secuencia del banco para calcularla desde fuera; simplemente le "ordena" al banco calcular su máximo pasándole el objetivo, respetando la encapsulación.
-
-## Fundamentos y Patrones de Diseño
-* **Greedy Algorithm (Algoritmo Voraz):** En lugar de calcular todas las permutaciones posibles (lo cual colapsaría en la Parte B), el algoritmo emplea una "Ventana Deslizante" restrictiva. Busca el número más grande disponible garantizando siempre que queda suficiente espacio físico a la derecha para completar el resto de baterías requeridas.
-* **Static Factory Method:** Se ocultan los constructores (`private`) del sistema de emergencia para evitar instanciaciones erróneas. El parseo y limpieza de datos (espacios en blanco, líneas vacías) se aísla detrás del semántico `from(String rawNotes)`.
+## Algoritmos
+* **Algoritmo Voraz (Greedy):** Para alcanzar el máximo voltaje, se emplea una "Ventana Deslizante" restrictiva. El algoritmo selecciona iterativamente el dígito más alto disponible, garantizando que el espacio restante en la secuencia sea suficiente para extraer el número exacto de baterías requeridas en los turnos posteriores.
+* **Recursividad:** La extracción secuencial de baterías se modela como una función que se invoca a sí misma. Cada llamada transfiere el estado actualizado (baterías restantes, posición de búsqueda y acumulador) hasta alcanzar el caso base, evitando el uso de estados mutables.
 
 ## Técnicas de Implementación
-* **Recursion:** La extracción secuencial de baterías se logra mediante un método que se llama a sí mismo pasando el estado actualizado (baterías restantes, nuevo índice de búsqueda, acumulador).
-* **Don't Repeat Yourself (DRY)**: Al inyectar la regla de negocio (targetBatteries) directamente en el método de cálculo logramos que un solo núcleo algorítmico resuelva cualquier variación del puzzle.
+* **Inmutabilidad del Modelo:** Las secuencias de voltajes se encapsulan en entidades inmutables. Una vez definido el banco, su estructura interna no puede ser alterada, asegurando la integridad durante las iteraciones recursivas.
+
+## Patrones de Diseño
+* **Patrón Factory Method (Creacional):** La lógica de instanciación y limpieza de datos (gestión de espacios en blanco, líneas vacías) se oculta tras métodos estáticos semánticos (`from()`). Esto protege al sistema frente a la creación de bancos de baterías con datos malformados.
+* **Tell, Don't Ask:** El sistema central no extrae datos internos del banco para realizar cálculos; simplemente le ordena al banco realizar su propia operación (`bank.calculateMaxJoltage(target)`), respetando el encapsulamiento.
+
+## Principios de Diseño
+### SOLID
+* **Principio de Responsabilidad Única (SRP):** Separación estricta entre el parseo de datos de entrada (`EmergencyPowerSystem`) y el cálculo algorítmico de un banco individual (`BatteryBank`).
+* **Principio de Abierto/Cerrado (OCP):** El diseño permite ajustar la cantidad de baterías necesarias para encender el sistema sin modificar la estructura interna de los objetos de dominio; la lógica de extracción es genérica y parametrizada.

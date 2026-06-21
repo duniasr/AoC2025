@@ -1,4 +1,4 @@
-# Día 6: Cephalopod Worksheets
+# Día 6: Trash Compactor
 
 ## El Reto
 ### Parte A

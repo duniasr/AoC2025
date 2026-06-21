@@ -12,16 +12,16 @@ Simular un proceso de limpieza en cadena. Al retirar los rollos accesibles, los 
 * **`PaperRollDiagram(a)`**: Representación inmutable del mapa. Su única responsabilidad es procesar un array de `Strings` para filtrar y contar estados matemáticos sin alterar los datos originales.
 * **`PaperRollDiagram(b)`**: Representación mutable del mapa. Utiliza una matriz interna de caracteres (`char[][]`) para permitir la alteración del estado (cambiar `@` por `.`) y gestionar el algoritmo de simulación destructiva.
 
-## Principios de Diseño
-### SOLID
-* **S (Responsabilidad Única - SRP):** Se separó por completo la Parte A de la Parte B para garantizar que ninguna clase contenga métodos (ej. `removeRoll`) que no utiliza. Cada diagrama tiene una única razón para existir y cambiar.
-
-## Fundamentos y Patrones de Diseño
-* **Static Factory Method:** Se ocultan los constructores (`private`) para evitar que la lógica de inicialización y parseo de matrices se filtre al cliente. La instanciación se controla exclusivamente mediante el método semántico `from(String rawDiagram)`.
-* **Domain-Driven Design (DDD):** El código habla el Lenguaje Ubicuo del problema real mediante un *Fluent API*. Las condicionales se leen como reglas de negocio naturales: `.filter(this::isRoll).filter(this::isAccessibleByForklift)`.
+## Algoritmos
+* **Recursividad:** El proceso de limpieza se ejecuta mediante una función recursiva (`recursiveRemove`). En cada ciclo, el algoritmo identifica los rollos disponibles, los elimina, y se invoca a sí mismo con el nuevo estado acumulado hasta alcanzar el caso base (sin rollos accesibles).
+* **Escaneo de Vecindad (Moore Neighborhood):** Algoritmo de detección espacial que calcula la densidad de rollos en las 8 direcciones adyacentes, aplicando restricciones de límites para evitar excepciones de acceso a memoria fuera de rango.
 
 ## Técnicas de Implementación
-* **Recursividad:** Se utiliza recursividad (`recursiveRemove`), pasando el estado acumulado como parámetro hasta alcanzar la condición de parada (lista de extracción vacía).
-* **Fluent API:** Diseño de métodos que devuelven nuevas instancias inmutables para permitir un encadenamiento elegante.
-* **Inmutabilidad:** Uso de `records` para garantizar la pureza de los datos.
-* **Good Naming:** Uso de un vocabulario autodescriptivo y alineado con el dominio del problema
+* **Inmutabilidad del Modelo:** El uso de estructuras de datos inmutables asegura que el mapa original permanezca intacto durante todo el análisis.
+
+## Patrones de Diseño
+* **Patrón Factory Method (Creacional):** La instanciación de los diagramas queda oculta tras el método estático `from(String rawDiagram)`. Esto garantiza que la lógica de parseo y transformación de los datos en bruto sea privada, protegiendo al sistema frente a la instanciación de estados inválidos.
+
+## Principios de Diseño
+### SOLID
+* **Principio de Responsabilidad Única (SRP):** Se ha aplicado una separación entre la Parte A (solo lectura/conteo) y la Parte B (lectura/escritura/mutación). Cada clase tiene una única razón de ser, evitando métodos de "utilidad" cruzada que no pertenezcan a su ciclo de vida.

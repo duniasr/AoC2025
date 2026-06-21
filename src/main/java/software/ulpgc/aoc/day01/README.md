@@ -12,16 +12,15 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
 * **`Dial`**: Representa el estado inmutable de la rueda de la caja fuerte (posición actual y puntuación acumulada). Contiene la lógica matemática para transicionar a un nuevo estado tras aplicar una rotación.
 * **`SafeDecoder`**: Se encarga de procesar el flujo completo del documento, aplicando las rotaciones al dial de forma secuencial.
 
-## Principios de Diseño y Arquitectura
-### SOLID
-* **S (Responsabilidad Única - SRP):** El orquestador (`Safe`) no sabe cómo se calcula un giro, y el `Dial` no sabe de dónde vienen los datos.
-
-## Fundamentos y Patrones de Diseño
-* **Domain-Driven Design (DDD) y Lenguaje Ubicuo:** Las clases y métodos utilizan la misma terminología que el enunciado del problema (`Safe`, `Dial`, `Rotation`, `document`). El código explica el negocio por sí solo.
-* **Static Factory Methods:** Se sustituyen los constructores tradicionales por métodos de factoría semánticos.
-    * `Rotation.from(line)`: Para el parseo natural (Fluent API).
-    * `Dial.initial()`: Para ocultar la regla de negocio del estado inicial (50, 0) y evitar que el orquestador dependa de "números mágicos".
+## Algoritmos
+* **Aritmética Modular Circular:** Para calcular las posiciones en un espacio cerrado (0-99), se utiliza el operador módulo (`%`). Se aplica la fórmula de compensación `((pos - steps) % 100 + 100) % 100` para rotaciones a la izquierda, garantizando que el dial se comporte correctamente en un plano circular y evitando errores de desbordamiento en índices negativos.
 
 ## Técnicas de Implementación
-* **Aritmética Modular Circular:** Para calcular las posiciones en la rueda (0-99), se utiliza el operador módulo (`%`). Se implementa la fórmula de compensación `((pos - steps) % 100 + 100) % 100` para los giros a la izquierda, evitando errores de desbordamiento de índices negativos propios de Java.
-* **Inmutabilidad:** Todo el sistema carece de variables temporales de bloque.
+* **Inmutabilidad del Modelo:** Todo el sistema se fundamenta en la generación de nuevos estados (`Dial`) en lugar de la mutación de variables. Esto garantiza la integridad del sistema al no existir variables temporales de bloque ni estados globales.
+
+## Patrones de Diseño
+* **Patrón Factory Method (Creacional):** Se sustituyen los constructores tradicionales por métodos de factoría semánticos (`Rotation.from(line)`, `Dial.initial()`). Esto oculta la lógica de inicialización (como el estado base 50,0) y evita el uso de números mágicos en el código cliente.
+
+## Principios de Diseño
+### SOLID
+* **Principio de Responsabilidad Única (SRP):** Existe separación entre las clases: el procesador (`SafeDecoder`) no conoce las reglas matemáticas del giro, y el dial (`Dial`) no conoce el origen ni el formato de los datos de entrada.
