@@ -1,7 +1,7 @@
 package test.day08;
 
 import org.junit.jupiter.api.Test;
-import software.ulpgc.aoc.day08.Playground;
+import software.ulpgc.aoc.day08.a.Playground;
 
 import java.util.List;
 

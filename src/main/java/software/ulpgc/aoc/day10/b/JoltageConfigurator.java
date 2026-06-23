@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-/**
- * Optimizes button presses to reach target joltage levels using
- * recursive state-space search with memoization.
- */
 public class JoltageConfigurator {
 
     public static long minimumPressesToAchieve(List<Integer> targets, List<List<Integer>> schematics) {

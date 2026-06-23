@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-/**
- * Uses Gaussian elimination over GF(2) to solve the linear system
- * representing the light-toggling machine.
- */
 public class LightConfigurator {
 
     public static int minimumPressesFor(List<Integer> indicatorLights, List<List<Integer>> wiringSchematics) {

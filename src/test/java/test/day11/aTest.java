@@ -3,6 +3,8 @@ package test.day11;
 import software.ulpgc.aoc.day11.DeviceNetwork;
 import software.ulpgc.aoc.day11.DeviceReader;
 import org.junit.jupiter.api.Test;
+import software.ulpgc.aoc.day11.a.PathCounting;
+
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,8 +26,9 @@ class aTest {
             iii: out
             """;
         DeviceNetwork network = DeviceReader.readFrom(List.of(input.split("\n")));
+        PathCounting service = new PathCounting(network);
         // When
-        long totalPaths = network.countPathsBetween("you", "out");
+        long totalPaths = service.countPathsBetween("you", "out");
         // Then
         assertThat(totalPaths).isEqualTo(5L);
     }
