@@ -7,6 +7,14 @@ Disponemos de un documento con instrucciones para girar el dial de una caja fuer
 ### Parte B
 Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las reglas cambian: ahora debemos contar cada vez que el dial pasa por el 0 durante el giro, y no solo al finalizar la rotación. Por ejemplo, un giro inmenso de `R1000` hará que el dial cruce el cero 10 veces en un solo movimiento. La contraseña final es la suma de todas estas intersecciones.
 
+---
+
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 1](../../../../../../../diagrams/day01a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 1](../../../../../../../diagrams/day01b.png)
+
 ## Lógica Estructural
 * **`Rotation`**: Modelo de datos común (inmutable). Recibe la cadena de texto cruda y la traduce a una instrucción estructurada con dirección (`char`) y distancia (`int`).
 * **`Dial`**: Representa el estado inmutable de la rueda de la caja fuerte (posición actual y puntuación acumulada). Contiene la lógica matemática para transicionar a un nuevo estado tras aplicar una rotación.

@@ -7,6 +7,15 @@ Simular el recorrido de un rayo de taquiones cayendo a través de un colector. E
 ### Parte B
 Aplicar la interpretación de los "muchos mundos" a una sola partícula cuántica. Cada choque no divide el rayo físico, sino que bifurca la realidad creando líneas temporales paralelas. El objetivo es calcular cuántos universos paralelos (líneas temporales únicas) existen al finalizar el recorrido.
 
+---
+
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 7](../../../../../../../diagrams/day07a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 7](../../../../../../../diagrams/day07b.png)
+
+
 ## Lógica Estructural
 * **`TachyonManifold`**: Almacena el diagrama de texto original de forma inmutable, lo recorre fila por fila de arriba a abajo y delega los cálculos a la física inyectada.
 * **`TachyonPhysics<SimulationState>`**: Interfaz genérica. Define el contrato estricto que cualquier ley física del universo debe cumplir (`initialize` y `propagateThrough`).

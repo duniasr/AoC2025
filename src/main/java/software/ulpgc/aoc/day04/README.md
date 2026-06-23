@@ -7,6 +7,15 @@ Analizar el plano bidimensional del departamento de impresión para ayudar a los
 ### Parte B
 Simular un proceso de limpieza en cadena. Al retirar los rollos accesibles, los rollos que estaban bloqueados en el interior pueden volverse accesibles en el siguiente turno. El objetivo es calcular el total histórico de rollos que las carretillas logran retirar, hasta que la fábrica se queda atascada y no se pueden sacar más.
 
+---
+
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 4](../../../../../../../diagrams/day04a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 4](../../../../../../../diagrams/day04b.png)
+
+
 ## Lógica Estructural
 * **`Coordinate`**: Representa un punto en el espacio 2D y encapsula la lógica geométrica para generar un flujo (`Stream`) de sus propias coordenadas adyacentes.
 * **`PaperRollDiagram(a)`**: Representación inmutable del mapa. Su única responsabilidad es procesar un array de `Strings` para filtrar y contar estados matemáticos sin alterar los datos originales.

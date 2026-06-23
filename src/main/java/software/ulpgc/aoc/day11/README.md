@@ -11,6 +11,13 @@ Los datos revelan que la ruta problemática atraviesa obligatoriamente dos cuell
 
 ---
 
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 11](../../../../../../../diagrams/day11a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 11](../../../../../../../diagrams/day11b.png)
+
+
 ## Lógica Estructural
 * **`DeviceNetwork`**: Modelo de datos atómico (`record`). Representa el grafo inmutable de conexiones.
 * **`DeviceReader`**: Deserializa el archivo de texto en bruto, transformando las líneas en el diccionario (`Map<String, List<String>>`) que da vida a la red.

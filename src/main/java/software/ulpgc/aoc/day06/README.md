@@ -7,6 +7,15 @@ Procesar y resolver una hoja de cálculo donde los números y operadores están 
 ### Parte B
 Interpretar la misma hoja de cálculo aplicando el sistema de lectura nativo de los cefalópodos: el texto se lee verticalmente. Las columnas, leídas de derecha a izquierda dentro de cada bloque, forman los números reales. El objetivo es recalcular el "Grand Total" bajo este nuevo paradigma espacial.
 
+---
+
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 6](../../../../../../../diagrams/day06a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 6](../../../../../../../diagrams/day06b.png)
+
+
 ## Lógica Estructural
 * **`CephalopodWorksheet`**: Interfaz genérica. Define el contrato fluido que cualquier paradigma de lectura (horizontal o vertical) debe cumplir para ser procesado (`unroll` y `calculateGrandTotal`).
 * **`Operator`**: Motor matemático basado en un `enum`. Asocia los símbolos de texto (`+`, `*`) con sus funciones matemáticas reales y sus elementos "identity" para ser aplicadas sobre colecciones de números.

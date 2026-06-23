@@ -7,6 +7,13 @@ Las escaleras mecánicas del vestíbulo están sin energía. Para encenderlas, d
 ### Parte B
 Las escaleras requieren aún más voltaje para superar la fricción estática, para ello debemos encender exactamente **12 baterías** de cada banco para formar un número de 12 dígitos. El objetivo vuelve a ser calcular la suma total final.
 
+---
+
+## Diagramas
+*Diagrama de clases parte 1 y 2:*
+![Diagrama de Clases del Día 3](../../../../../../../diagrams/day03ab.png)
+
+
 ## Lógica Estructural
 * **`BatteryBank`**: Encapsula la secuencia inmutable de texto de un banco individual. Su única responsabilidad es resolver su propio máximo matemático.
 * **`EmergencyPowerSystem`**: Lee el archivo de texto en bruto, lo limpia, instancia los bancos de baterías y actua como agregador para calcular la suma final.

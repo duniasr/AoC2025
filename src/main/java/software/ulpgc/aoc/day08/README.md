@@ -9,6 +9,13 @@ Continuar conectando los grupos aislados hasta lograr que todas las cajas formen
 
 ---
 
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 8](../../../../../../../diagrams/day08a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 8](../../../../../../../diagrams/day08b.png)
+
+
 ## Lógica Estructural
 * **`Playground`**: Toma las decisiones de conexión basándose en las longitudes de los cables y dirige el flujo de ejecución.
 * **`ElectricalGrid`**: Interfaz matemática abstracta. Define el contrato estricto para fusionar circuitos y obtener sus tamaños.

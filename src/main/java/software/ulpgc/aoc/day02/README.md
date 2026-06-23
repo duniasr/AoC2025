@@ -7,6 +7,15 @@ Los elfos de la tienda de regalos necesitan limpiar su base de datos. Recibimos 
 ### Parte B
 Ahora, un ID se considera inválido si está formado por cualquier patrón repetido, sin importar si se repite 2, 3 o más veces (por ejemplo, `123123` o `1111`). El objetivo vuelve a ser calcular la suma total final de los IDs inválidos bajo esta nueva premisa procesando los mismos rangos.
 
+---
+
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 2](../../../../../../../diagrams/day02a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 2](../../../../../../../diagrams/day02b.png)
+
+
 ## Lógica Estructural
 * **`Range`**: Modelo de dominio de datos implementado como un `record`. Encapsula el intervalo inicial y final, y su única responsabilidad es saber construirse a sí mismo desde un texto y generar los números que lo componen.
 * **`GiftShopDatabase`**: Coordina el flujo de datos desde el parseo inicial, aplica los filtros de validación basados en las reglas elfas y agrega los resultados finales.

@@ -7,6 +7,15 @@ Los elfos han implementado un nuevo sistema de inventario en la cafetería. La b
 ### Parte B
 La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el objetivo es calcular la capacidad matemática total del inventario: cuántos IDs únicos en total abarcan los rangos de frescura. Dado que los rangos pueden solaparse espacialmente o ser continuos, se fusionan antes de calcular el recuento total para evitar duplicidades.
 
+---
+
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 5](../../../../../../../diagrams/day05a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 5](../../../../../../../diagrams/day05b.png)
+
+
 ## Lógica Estructural
 * **`InventoryDatabase`**: Centraliza el parseo del texto y expone dos vías de resolución independientes para responder a las dos preguntas de negocio sin duplicar el estado en memoria.
 * **`FreshIdRange`**: Entidad inmutable del dominio (`record`). No es un simple contenedor de datos, sino que posee la inteligencia espacial para calcular su propio tamaño (`size()`), detectar colisiones limítrofes (`canMergeWith()`) y generar nuevas instancias fusionadas (`mergeWith()`).

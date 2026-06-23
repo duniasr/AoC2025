@@ -9,6 +9,13 @@ Las reglas físicas de las máquinas cambian: los botones ya no alternan luces, 
 
 ---
 
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 10](../../../../../../../diagrams/day10a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 10](../../../../../../../diagrams/day10b.png)
+
+
 ## Lógica Estructural
 * **`Machine`**: Modelo atómico inmutable (`record`). Representa físicamente la máquina con sus luces y esquemas de cableado.
 * **`MachineManual`**: Descompone la sintaxis del texto en bruto y lo transforma en entidades `Machine` puras.

@@ -7,6 +7,10 @@ Encajar piezas irregulares (regalos) en cuadrículas bidimensionales (el espacio
 
 ---
 
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 12](../../../../../../../diagrams/day12a.png)
+
 ## Lógica Estructural
 * **`PuzzleReader`**: Descompone el archivo en crudo para extraer las plantillas de los regalos y los requisitos de área, transformando cadenas de texto en objetos inmutables.
 * **`Point`**: Encapsula las reglas del universo 2D: sabe cómo rotar 90º (`-y, x`) y cómo voltearse en modo espejo (`-x, y`).

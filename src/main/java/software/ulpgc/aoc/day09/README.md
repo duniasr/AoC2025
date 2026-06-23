@@ -9,6 +9,13 @@ Una valla de baldosas verdes conecta todas las baldosas rojas formando un políg
 
 ---
 
+## Diagramas
+*Diagrama de clases parte 1:*
+![Diagrama de Clases del Día 9](../../../../../../../diagrams/day09a.png)
+*Diagrama de clases parte 2:*
+![Diagrama de Clases del Día 9](../../../../../../../diagrams/day09b.png)
+
+
 ## Lógica Estructural
 * **`RedTile`**: Entidad matemática atómica (`record`). Representa un vértice y centraliza la lógica trigonométrica bidimensional (cálculo de área mediante valor absoluto).
 * **`GreenTileLine`**: Entidad física (`record`). Modela un segmento (pared) del perímetro. Define la física de colisión informando si atraviesa o "raja" un área rectangular imaginaria.
