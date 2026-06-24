@@ -15,10 +15,10 @@ public class EmergencyPowerSystem {
         return new EmergencyPowerSystem(parseBanks(rawNotes));
     }
 
-    private static List<BatteryBank> parseBanks(String notes) {
-        return Arrays.stream(notes.split("\\R"))
+    private static List<BatteryBank> parseBanks(String input) {
+        return Arrays.stream(input.split("\\R"))
                 .map(String::trim)
-                .filter(s -> !s.isEmpty()).map(BatteryBank::new)
+                .filter(s -> !s.isEmpty()).map(BatteryBank::from)
                 .toList();
     }
 
