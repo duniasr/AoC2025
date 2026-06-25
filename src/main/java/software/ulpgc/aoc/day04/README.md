@@ -56,7 +56,7 @@ Simular un proceso de limpieza en cadena. Al retirar los rollos accesibles, los 
 ---
 
 ## Verificación y Tests
-Las soluciones se validan de forma automática mediante pruebas unitarias escritas con **JUnit 5** y **AssertJ**, estructuradas semánticamente siguiendo el patrón **Given-When-Then** (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque **BDD** *(Behavior-Driven Development)*, orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
+Las soluciones se validan de forma automática mediante pruebas unitarias escritas con JUnit 5 y AssertJ, estructuradas semánticamente siguiendo el patrón Given-When-Then (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque BDD (Behavior-Driven Development), orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
 
 * **Parte A:** [aTest.java](../../../../../../test/java/test/day04/aTest.java) - Valida que se cuenten correctamente los rollos accesibles iniciales en el mapa de prueba (resultado esperado = `5`).
 * **Parte B:** [bTest.java](../../../../../../test/java/test/day04/bTest.java) - Simula la extracción recursiva en cascada y valida que el total histórico de rollos retirados coincida con la especificación (resultado esperado = `12`).

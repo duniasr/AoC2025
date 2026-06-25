@@ -1,4 +1,4 @@
-﻿# Día 1: Secret Entrance
+# Día 1: Secret Entrance
 
 ## El Reto
 ### Parte A
@@ -74,7 +74,7 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
 ---
 
 ## Verificación y Tests
-Las soluciones se validan de forma automática mediante pruebas unitarias escritas con **JUnit 5** y **AssertJ**, estructuradas semánticamente siguiendo el patrón **Given-When-Then** (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque **BDD** *(Behavior-Driven Development)*, orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
+Las soluciones se validan de forma automática mediante pruebas unitarias escritas con JUnit 5 y AssertJ, estructuradas semánticamente siguiendo el patrón Given-When-Then (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque BDD (Behavior-Driven Development), orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
 
 * **Parte A:** [aTest.java](../../../../../../../../test/java/test/day01/aTest.java) - Verifica la decodificación correcta de la secuencia del dial de la caja fuerte siguiendo las reglas tradicionales de detenerse en el 0 (resultado esperado = `3`).
 * **Parte B:** [bTest.java](../../../../../../../../test/java/test/day01/bTest.java) - Verifica la lógica del método `0x434C49434B` contando las intersecciones en tránsito de cada giro (resultado esperado = `1003`).
