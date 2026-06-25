@@ -40,20 +40,16 @@ class VerticalWorksheetProcessor {
     }
 
     private static MathProblem parseVerticalProblem(List<String> block) {
-        String operatorRow = block.getLast();
-        char operatorSymbol = operatorRow.replace(" ", "").charAt(0);
-        Operator operator = Operator.from(operatorSymbol);
-
-        int blockWidth = block.getFirst().length();
-
-        List<Long> numbers = IntStream.range(0, blockWidth)
-                .map(i -> blockWidth - 1 - i) // Inverts the stream to go right-to-left
-                .mapToObj(col -> extractNumberFromColumn(block, col))
-                .filter(str -> !str.isEmpty())
-                .map(Long::parseLong)
-                .toList();
-
-        return new MathProblem(numbers, operator);
+        int width = block.getFirst().length();
+        return new MathProblem(
+                IntStream.range(0, width)
+                        .map(i -> width - 1 - i) // Inverts the stream to go right-to-left
+                        .mapToObj(col -> extractNumberFromColumn(block, col))
+                        .filter(str -> !str.isEmpty())
+                        .map(Long::parseLong)
+                        .toList(),
+                Operator.from(block.getLast().replace(" ", "").charAt(0))
+        );
     }
 
     private static String extractNumberFromColumn(List<String> block, int col) {
