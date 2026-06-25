@@ -38,7 +38,7 @@ public class PaperRollDiagram {
     }
 
     private boolean isAccessibleByForklift(Coordinate target) {
-        return target.streamAdjacent()
+        return target.streamAdjacentCoordinates()
                 .filter(this::isWithinBounds)
                 .filter(this::isRoll)
                 .count() < 4;

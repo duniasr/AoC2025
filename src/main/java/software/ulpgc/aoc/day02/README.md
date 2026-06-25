@@ -1,4 +1,4 @@
-﻿# Día 2: Gift Shop
+# Día 2: Gift Shop
 
 ## El Reto
 ### Parte A
@@ -39,6 +39,7 @@ Ahora, un ID se considera inválido si está formado por cualquier patrón repet
     * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: El sistema es flexible. Las reglas de validación se alteran o extienden en la parte B sin alterar en absoluto la estructura inmutable del objeto [Range](./Range.java).
 
 * **Don't Repeat Yourself (DRY)** *(Evitar la duplicación de lógica)*: La estructura de intervalos [Range](./Range.java) y su factoría se comparten en su totalidad entre ambas implementaciones.
+* **Law of Demeter (LoD) / Tell, Don't Ask** *(Evitar acoplamiento ordenando acciones en lugar de consultar estado interno)*: `GiftShopDatabase` no le pide a `Range` sus límites internos (`start`, `end`) para iterar manualmente sobre ellos, sino que le "ordena" expandirse (`expandToSequence()`), respetando su encapsulamiento al máximo.
 * **Keep It Simple, Stupid (KISS)** *(Mantener el diseño lo más simple y directo posible)*: El parseo se realiza mediante operaciones sencillas de cadenas (`split`) sin requerir motores complejos o librerías adicionales de análisis sintáctico.
 
 ### Técnicas
