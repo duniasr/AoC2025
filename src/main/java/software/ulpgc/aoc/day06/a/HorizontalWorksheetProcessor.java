@@ -40,12 +40,10 @@ class HorizontalWorksheetProcessor {
     }
 
     private static MathProblem parseProblem(List<String> block) {
-        List<Long> numbers = block.subList(0, block.size() - 1).stream()
-                .map(Long::parseLong)
-                .toList();
-
-        Operator operator = Operator.from(block.getLast().charAt(0));
-        return new MathProblem(numbers, operator);
+        return new MathProblem(
+                block.subList(0, block.size() - 1).stream().map(Long::parseLong).toList(),
+                Operator.from(block.getLast().charAt(0))
+        );
     }
 
     private static int getStart(List<Integer> delimiters, int index) {
