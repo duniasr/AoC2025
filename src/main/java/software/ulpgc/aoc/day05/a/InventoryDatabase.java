@@ -21,8 +21,7 @@ public class InventoryDatabase {
         List<FreshIdRange> freshRanges = parseRanges(sections[0]);
 
         return Arrays.stream(sections[1].split("\\R"))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
+                .map(String::trim).filter(s -> !s.isEmpty())
                 .mapToLong(Long::parseLong)
                 .filter(id -> freshRanges.stream().anyMatch(range -> range.covers(id)))
                 .count();
