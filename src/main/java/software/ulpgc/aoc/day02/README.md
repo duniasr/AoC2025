@@ -15,21 +15,48 @@ Ahora, un ID se considera inválido si está formado por cualquier patrón repet
 *Diagrama de clases parte 2:*
 ![Diagrama de Clases del Día 2](../../../../../../../diagrams/day02b.png)
 
-
 ## Lógica Estructural
-* **`Range`**: Modelo de dominio de datos implementado como un `record`. Encapsula el intervalo inicial y final, y su única responsabilidad es saber construirse a sí mismo desde un texto y generar los números que lo componen.
-* **`GiftShopDatabase`**: Coordina el flujo de datos desde el parseo inicial, aplica los filtros de validación basados en las reglas elfas y agrega los resultados finales.
+* **`Range`**: [Range.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java) - Modelo de dominio de datos implementado como un `record`. Encapsula el intervalo inicial y final, y su única responsabilidad es saber construirse a sí mismo desde un texto y generar los números que lo componen.
+* **`GiftShopDatabase`**: (Parte A: [GiftShopDatabase.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/a/GiftShopDatabase.java) / Parte B: [GiftShopDatabase.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/b/GiftShopDatabase.java)) - Coordina el flujo de datos desde el parseo inicial, aplica los filtros de validación basados en las reglas elfas y agrega los resultados finales.
 
 ## Algoritmos
-* **Filtrado por Patrones Regulares (Regex):** Se utiliza el motor de expresiones regulares para identificar secuencias repetitivas en los IDs. Para la Parte B, el patrón `^(.+)\1+$` detecta dinámicamente cualquier subcadena que se repita, independientemente de su longitud o cantidad de repeticiones.
+* **Filtrado por Patrones Regulares (Regex):** Se utiliza el motor de expresiones regulares para identificar secuencias repetitivas en los IDs. Para la Parte B, el patrón `^(.+)\1+$` detecta dinámicamente cualquier subcadena que se repita, independientemente de su longitud o cantidad de repeticiones (Ver [GiftShopDatabase.java (B)](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/b/GiftShopDatabase.java#L25-L27)).
 
-## Técnicas de Implementación
-* **Inmutabilidad del Modelo:** Al modelar `Range` como un `record`, se garantiza que los límites del intervalo sean inmutables, eliminando errores de estado compartido durante la generación de secuencias.
+---
 
-## Patrones de Diseño
-* **Patrón Factory Method (Creacional):** La lógica de parseo de los rangos (gestión de comas y guiones) se oculta tras el método estático `Range.from(String text)`. Esto protege al sistema frente a la creación de intervalos malformados.
+## Evaluación de Principios, Técnicas y Patrones de Diseño
 
-## Principios de Diseño
-### SOLID
-* **Principio de Responsabilidad Única (SRP):** Separación estricta entre la lectura de archivos, la representación estructural del dato (`Range`) y la aplicación de las reglas de negocio elfas (`GiftShopDatabase`).
-* **Principio de Abierto/Cerrado (OCP):** La lógica de validación es fácilmente extensible. Si las reglas de "invalidez" de los IDs cambian en el futuro, solo es necesario modificar el predicado de filtrado sin alterar la infraestructura de procesamiento de rangos.
+### Fundamentos
+* **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La clase [Range](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java) abstrae la generación de números secuenciales mediante el método `expandToSequence()`, evitando que los clientes tengan que programar bucles manuales entre los límites.
+* **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se aísla el concepto de intervalo ([Range](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java)) del concepto del agregador de la base de datos ([GiftShopDatabase](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/a/GiftShopDatabase.java)).
+* **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `Range` solo define los límites matemáticos del intervalo y `GiftShopDatabase` asume la única responsabilidad de orquestar la identificación y suma de los códigos de regalo inválidos. El acoplamiento es bajo porque el orquestador (`GiftShopDatabase`) opera ciegamente sobre el `expandToSequence()` sin recalcular ni manipular los límites del rango manualmente.
+* **Código Expresivo** *(Código autoexplicativo, limpio y fácil de leer)*: El uso de Streams permite leer el código casi como lenguaje natural. En `sumInvalidIds`, la línea `ranges.stream().flatMapToLong(Range::expandToSequence).filter(GiftShopDatabase::isTwiceRepeatedPattern).sum();` se lee textualmente como: "Toma los rangos, expándelos a una secuencia continua de IDs, quédate solo con aquellos que cumplan el patrón repetido, y súmalos todos".
+
+### Principios de Diseño
+* **SOLID**
+    * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: [Range](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java) maneja exclusivamente límites del intervalo, mientras que [GiftShopDatabase](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/a/GiftShopDatabase.java) implementa las reglas de detección de IDs inválidos.
+        
+    * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: El sistema es flexible. Las reglas de validación se alteran o extienden en la parte B sin alterar en absoluto la estructura inmutable del objeto [Range](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java).
+
+* **Don't Repeat Yourself (DRY)** *(Evitar la duplicación de lógica)*: La estructura de intervalos [Range](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java) y su factoría se comparten en su totalidad entre ambas implementaciones.
+* **Keep It Simple, Stupid (KISS)** *(Mantener el diseño lo más simple y directo posible)*: El parseo se realiza mediante operaciones sencillas de cadenas (`split`) sin requerir motores complejos o librerías adicionales de análisis sintáctico.
+
+### Técnicas
+* **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: [Range](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java) está implementado como un `record`, impidiendo mutaciones en los límites una vez instanciado.
+* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El parseo de los extremos en `Range.from` ([Range.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day02/Range.java#L7-L10)) se delega en funciones estándar de Java como `split` y `trim`.
+* **Good Naming** *(Nombres descriptivos y precisos)*: Uso de nombres claros del negocio elfo como `sumInvalidIds` e `isTwiceRepeatedPattern`.
+
+### Patrones de Diseño
+* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Tanto `Range.from` como `GiftShopDatabase.from` encapsulan la lógica de instanciación a partir de textos planos. Esto aísla al resto del sistema de la estructura del fichero y evita exponer los constructores de las clases directamente a los clientes.
+
+### Paradigmas
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Se modela el dominio del problema aislando la responsabilidad algorítmica de los intervalos numéricos en el objeto puro inmutable `Range`.
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Se sustenta en dos grandes pilares funcionales: el uso intensivo de datos inmutables (el record `Range` nunca muta sus límites) y el diseño declarativo mediante Streams (`flatMapToLong`, `filter`, `sum`) en `GiftShopDatabase` para procesar los conjuntos de IDs sin bucles `for` tradicionales.
+
+---
+
+## Verificación y Tests
+Las soluciones se validan de forma automática mediante pruebas unitarias escritas con **JUnit 5** y **AssertJ**, estructuradas semánticamente siguiendo el patrón **Given-When-Then** (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque **BDD** *(Behavior-Driven Development)*, orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
+
+* **Parte A:** [aTest.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/test/java/test/day02/aTest.java) - Valida el sumatorio correcto de IDs con el criterio de patrón dos veces simétrico en los rangos de prueba (resultado esperado = `55`).
+* **Parte B:** [bTest.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/test/java/test/day02/bTest.java) - Valida el sumatorio utilizando el motor Regex para cualquier patrón repetitivo (resultado esperado = `1222`).

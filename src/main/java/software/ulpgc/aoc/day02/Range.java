@@ -9,7 +9,7 @@ public record Range(long start, long end) {
         return new Range(Long.parseLong(parts[0].trim()), Long.parseLong(parts[1].trim()));
     }
 
-    public LongStream stream() {
+    public LongStream expandToSequence() {
         return LongStream.rangeClosed(start, end);
     }
 }

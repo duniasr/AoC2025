@@ -16,19 +16,65 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
 ![Diagrama de Clases del Día 1](../../../../../../../diagrams/day01b.png)
 
 ## Lógica Estructural
-* **`Rotation`**: Modelo de datos común (inmutable). Recibe la cadena de texto cruda y la traduce a una instrucción estructurada con dirección (`char`) y distancia (`int`).
-* **`Dial`**: Representa el estado inmutable de la rueda de la caja fuerte (posición actual y puntuación acumulada). Contiene la lógica matemática para transicionar a un nuevo estado tras aplicar una rotación.
-* **`SafeDecoder`**: Se encarga de procesar el flujo completo del documento, aplicando las rotaciones al dial de forma secuencial.
+* **`Rotation`**: [Rotation.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/Rotation.java) - Modelo de datos común (inmutable). Recibe la cadena de texto cruda y la traduce a una instrucción estructurada con dirección (`char`) y distancia (`int`).
+* **`Dial`**: (Parte A: [Dial.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java) / Parte B: [Dial.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/b/Dial.java)) - Representa el estado inmutable de la rueda de la caja fuerte (posición actual y puntuación acumulada). Contiene la lógica matemática para transicionar a un nuevo estado tras aplicar una rotación.
+* **`SafeDecoder`**: (Parte A: [SafeDecoder.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/SafeDecoder.java) / Parte B: [SafeDecoder.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/b/SafeDecoder.java)) - Se encarga de procesar el flujo completo del documento, aplicando las rotaciones al dial de forma secuencial.
 
 ## Algoritmos
-* **Aritmética Modular Circular:** Para calcular las posiciones en un espacio cerrado (0-99), se utiliza el operador módulo (`%`). Se aplica la fórmula de compensación `((pos - steps) % 100 + 100) % 100` para rotaciones a la izquierda, garantizando que el dial se comporte correctamente en un plano circular y evitando errores de desbordamiento en índices negativos.
 
-## Técnicas de Implementación
-* **Inmutabilidad del Modelo:** Todo el sistema se fundamenta en la generación de nuevos estados (`Dial`) en lugar de la mutación de variables. Esto garantiza la integridad del sistema al no existir variables temporales de bloque ni estados globales.
+* **Aritmética Modular Circular:** Para calcular las posiciones en un espacio cerrado (0-99), se utiliza el operador módulo (`%`). Se aplica la fórmula de compensación `((pos - steps) % 100 + 100) % 100` para rotaciones a la izquierda, garantizando que el dial se comporte correctamente en un plano circular y evitando errores de desbordamiento en índices negativos. (Ver cálculo en [Dial.java (A)](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java#L22-L26)).
 
-## Patrones de Diseño
-* **Patrón Factory Method (Creacional):** Se sustituyen los constructores tradicionales por métodos de factoría semánticos (`Rotation.from(line)`, `Dial.initial()`). Esto oculta la lógica de inicialización (como el estado base 50,0) y evita el uso de números mágicos en el código cliente.
+---
+
+## Fundamentos
+
+* **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: `SafeDecoder` interactúa exclusivamente con el contrato público de [Dial](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java) (su método `rotate`), abstrayéndose por completo de los detalles matemáticos e internos de cómo se realiza el giro.
+
+* **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se dividen responsabilidades en el parser [Rotation](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/Rotation.java), el modelo matemático [Dial](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java) y el orquestador [SafeDecoder](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/SafeDecoder.java).
+
+* **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque cada clase tiene un único propósito muy focalizado (`Dial` gestiona la matemática, `Rotation` parsea texto, y `SafeDecoder` exclusivamente orquesta el flujo). A su vez, el acoplamiento es bajo porque `SafeDecoder` enlaza a los modelos mediante Streams sin que estos se conozcan directamente entre sí.
+
+* **Código Expresivo** *(Código autoexplicativo, limpio y fácil de leer)*: El método `rotate` en [Dial](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java#L11-L13) se lee casi como lenguaje natural (`return buildNextDial(calculateNextPosition(rotation));`), aislando el "qué hace" (girar hacia la nueva posición) del "cómo lo hace" (las complejas fórmulas del módulo).
 
 ## Principios de Diseño
-### SOLID
-* **Principio de Responsabilidad Única (SRP):** Existe separación entre las clases: el procesador (`SafeDecoder`) no conoce las reglas matemáticas del giro, y el dial (`Dial`) no conoce el origen ni el formato de los datos de entrada.
+* **SOLID:**
+    * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: [Rotation](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/Rotation.java) únicamente se encarga de analizar strings, [Dial](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java) gestiona el estado matemático del dial, y `SafeDecoder` actúa exclusivamente como orquestador del flujo.
+    * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: `SafeDecoder` está abierto a procesar datos de cualquier fuente (archivos, memoria, red) sin modificar su código interno, ya que el origen de los datos se le inyecta desde el exterior.
+    * **Dependency Inversion Principle (DIP)** *(Depender de abstracciones, no de clases concretas)*: `SafeDecoder` depende de la interfaz genérica `Stream<String>` nativa de Java, en lugar de acoplarse a clases concretas de lectura de ficheros (como `Scanner` o `BufferedReader`).
+
+* **Don't Repeat Yourself (DRY)** *(Evitar la duplicación de lógica)*: La lógica del modelo [Rotation](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/Rotation.java) se comparte tanto en la Parte A como en la Parte B del reto.
+
+* **Law of Demeter (LoD)** *(Una unidad debe tener un conocimiento limitado de otras unidades)*: [SafeDecoder](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/SafeDecoder.java#L8-L10) le ordena al dial rotar a través de `Dial::rotate` en vez de extraer sus componentes y recalcular externamente.
+
+* **Keep It Simple, Stupid (KISS) & YAGNI** *(Simplicidad y no añadir código innecesario)*: El modelado se limita exclusivamente a resolver el reto mediante `records` simples de Java sin sobrediseñar abstracciones de base de datos o interfaces innecesarias.
+
+## Técnicas
+* **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: Tanto [Rotation](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/Rotation.java) como [Dial](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java) se definen como `record`, asegurando la inmutabilidad del sistema.
+
+* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El método principal `rotate` en [Dial (A)](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java#L11-L13) delega el cálculo de posición en `calculateNextPosition` y la generación del nuevo objeto en `buildNextDial`.
+
+* **Inyección de Dependencias (por método)** *(Pasar colaboradores/datos desde el exterior en lugar de instanciarlos internamente)*: En lugar de que `SafeDecoder` cree su propio lector de archivos y se acople al disco duro, la fuente de datos (`Stream<String>`) se le "inyecta" por parámetro. Esto permite aislarlo y testearlo fácilmente en memoria.
+
+* **Inversión del Control (IoC)** *(Delegar el control del flujo o dependencias al exterior)*: Al inyectar el `Stream<String>` en `SafeDecoder`, es el código cliente quien controla de dónde vienen los datos. Además, al usar la API de Streams, se delega el control de los bucles (iteración interna) a Java en lugar de escribir un `for` manual.
+
+* **Good Naming** *(Nombres descriptivos y precisos)*: Uso de términos claros y alineados al dominio como `currentPosition`, `passwordScore` y `decodePassword`.
+
+* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [Dial (B)](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/b/Dial.java#L23-L27) se utiliza una tubería funcional encadenada (`IntStream.rangeClosed(...).map(...).filter(...).count()`) que permite leer el algoritmo secuencialmente: *"Genera el rango de pasos, mapea cada paso a su posición, filtra solo los que pasen por el cero, y cuéntalos"*.
+
+## Patrones de Diseño
+
+* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: `Rotation.from(instruction)` ([Rotation.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/Rotation.java#L5)) y `Dial.initial()` ([Dial.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/main/java/software/ulpgc/aoc/day01/a/Dial.java#L7)) actúan como factorías para aislar la instanciación de objetos válidos del cliente.
+
+## Paradigmas
+
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Se modela el dominio del dial con responsabilidades claras encapsuladas dentro del objeto `Dial`.
+
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Se sustenta en dos grandes pilares funcionales: el uso intensivo de datos inmutables (al rotar el `Dial` siempre se genera y devuelve una instancia nueva en lugar de mutar variables) y el diseño declarativo de `SafeDecoder` mediante Streams.
+
+---
+
+## Verificación y Tests
+Las soluciones se validan de forma automática mediante pruebas unitarias escritas con **JUnit 5** y **AssertJ**, estructuradas semánticamente siguiendo el patrón **Given-When-Then** (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque **BDD** *(Behavior-Driven Development)*, orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
+
+* **Parte A:** [aTest.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/test/java/test/day01/aTest.java) - Verifica la decodificación correcta de la secuencia del dial de la caja fuerte siguiendo las reglas tradicionales de detenerse en el 0 (resultado esperado = `3`).
+* **Parte B:** [bTest.java](file:///c:/Users/dunis/Desktop/4CURSO_EII/IS2/AdventOfCode2025/src/test/java/test/day01/bTest.java) - Verifica la lógica del método `0x434C49434B` contando las intersecciones en tránsito de cada giro (resultado esperado = `1003`).

@@ -13,7 +13,7 @@ public class GiftShopDatabase {
 
     public static long sumInvalidIds(List<Range> ranges) {
         return ranges.stream()
-                .flatMapToLong(Range::stream)
+                .flatMapToLong(Range::expandToSequence)
                 .filter(GiftShopDatabase::isTwiceRepeatedPattern)
                 .sum();
     }
