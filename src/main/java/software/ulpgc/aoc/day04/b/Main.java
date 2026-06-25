@@ -9,9 +9,11 @@ public class Main {
         try {
             String content = Files.readString(Paths.get("src/main/java/software/ulpgc/resources/day04/input_4.txt"));
 
-            long result = PaperRollDiagram.from(content).removeAllAccessibleRolls();
+            PaperRollDiagram diagram = PaperRollDiagram.from(content);
+            Forklift forklift = new Forklift();
+            long totalRemoved = forklift.removeAllAccessibleRolls(diagram);
 
-            System.out.println("Total removed accessible rolls: " + result);
+            System.out.println("Total removed rolls: " + totalRemoved);
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
