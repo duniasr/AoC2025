@@ -1,8 +1,7 @@
 package software.ulpgc.aoc.day04.b;
 
-import software.ulpgc.aoc.day04.Coordinate; // Importamos el common
+import software.ulpgc.aoc.day04.Coordinate;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
