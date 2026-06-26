@@ -16,33 +16,33 @@ Ahora, un ID se considera inválido si está formado por cualquier patrón repet
 ![Diagrama de Clases del Día 2](../../../../../../../diagrams/day02b.png)
 
 ## Lógica Estructural
-* **`Range`**: [Range.java](./Range.java) - Modelo de dominio de datos implementado como un `record`. Encapsula el intervalo inicial y final, y su única responsabilidad es saber construirse a sí mismo desde un texto y generar los números que lo componen.
-* **`GiftShopDatabase`**: (Parte A: [GiftShopDatabase.java](./a/GiftShopDatabase.java) / Parte B: [GiftShopDatabase.java](./b/GiftShopDatabase.java)) - Coordina el flujo de datos desde el parseo inicial, aplica los filtros de validación basados en las reglas elfas y agrega los resultados finales.
+* **`Range`**: [Range.java](Range.java) - Modelo de dominio de datos implementado como un `record`. Encapsula el intervalo inicial y final, y su única responsabilidad es saber construirse a sí mismo desde un texto y generar los números que lo componen.
+* **`GiftShopDatabase`**: (Parte A: [GiftShopDatabase.java](a/GiftShopDatabase.java) / Parte B: [GiftShopDatabase.java](b/GiftShopDatabase.java)) - Coordina el flujo de datos desde el parseo inicial, aplica los filtros de validación basados en las reglas elfas y agrega los resultados finales.
 
 ## Algoritmos
-* **Filtrado por Patrones Regulares (Regex):** Se utiliza el motor de expresiones regulares para identificar secuencias repetitivas en los IDs. Para la Parte B, el patrón `^(.+)\1+$` detecta dinámicamente cualquier subcadena que se repita, independientemente de su longitud o cantidad de repeticiones (Ver [GiftShopDatabase.java (B)](./b/GiftShopDatabase.java#L25-L27)).
+* **Filtrado por Patrones Regulares (Regex):** Se utiliza el motor de expresiones regulares para identificar secuencias repetitivas en los IDs. Para la Parte B, el patrón `^(.+)\1+$` detecta dinámicamente cualquier subcadena que se repita, independientemente de su longitud o cantidad de repeticiones (Ver [GiftShopDatabase.java (B)](b/GiftShopDatabase.java)).
 
 ---
 
 ## Fundamentos
-* **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La clase [Range](./Range.java) abstrae la generación de números secuenciales mediante el método `expandToSequence()`, evitando que los clientes tengan que programar bucles manuales entre los límites.
-* **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se aísla el concepto de intervalo ([Range](./Range.java)) del concepto del agregador de la base de datos ([GiftShopDatabase](./a/GiftShopDatabase.java)).
+* **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La clase [Range](Range.java) abstrae la generación de números secuenciales mediante el método `expandToSequence()`, evitando que los clientes tengan que programar bucles manuales entre los límites.
+* **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se aísla el concepto de intervalo ([Range](Range.java)) del concepto del agregador de la base de datos ([GiftShopDatabase](a/GiftShopDatabase.java)).
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `Range` solo define los límites matemáticos del intervalo y `GiftShopDatabase` asume la única responsabilidad de orquestar la identificación y suma de los códigos de regalo inválidos. El acoplamiento es bajo porque el orquestador (`GiftShopDatabase`) opera ciegamente sobre el `expandToSequence()` sin recalcular ni manipular los límites del rango manualmente.
 * **Código Expresivo** *(Código autoexplicativo, limpio y fácil de leer)*: El uso de Streams permite leer el código casi como lenguaje natural. En `sumInvalidIds`, la línea `ranges.stream().flatMapToLong(Range::expandToSequence).filter(GiftShopDatabase::isTwiceRepeatedPattern).sum();` se lee textualmente como: "Toma los rangos, expándelos a una secuencia continua de IDs, quédate solo con aquellos que cumplan el patrón repetido, y súmalos todos".
 
 ## Principios de Diseño
 * **SOLID**
-    * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: [Range](./Range.java) maneja exclusivamente límites del intervalo, mientras que [GiftShopDatabase](./a/GiftShopDatabase.java) implementa las reglas de detección de IDs inválidos.
+    * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: [Range](Range.java) maneja exclusivamente límites del intervalo, mientras que [GiftShopDatabase](a/GiftShopDatabase.java) implementa las reglas de detección de IDs inválidos.
         
-    * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: El sistema es flexible. Las reglas de validación se alteran o extienden en la parte B sin alterar en absoluto la estructura inmutable del objeto [Range](./Range.java).
+    * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: El sistema es flexible. Las reglas de validación se alteran o extienden en la parte B sin alterar en absoluto la estructura inmutable del objeto [Range](Range.java).
 
-* **Don't Repeat Yourself (DRY)** *(Evitar la duplicación de lógica)*: La estructura de intervalos [Range](./Range.java) y su factoría se comparten en su totalidad entre ambas implementaciones.
+* **Don't Repeat Yourself (DRY)** *(Evitar la duplicación de lógica)*: La estructura de intervalos [Range](Range.java) y su factoría se comparten en su totalidad entre ambas implementaciones.
 * **Law of Demeter (LoD) / Tell, Don't Ask** *(Evitar acoplamiento ordenando acciones en lugar de consultar estado interno)*: `GiftShopDatabase` no le pide a `Range` sus límites internos (`start`, `end`) para iterar manualmente sobre ellos, sino que le "ordena" expandirse (`expandToSequence()`), respetando su encapsulamiento al máximo.
 * **Keep It Simple, Stupid (KISS)** *(Mantener el diseño lo más simple y directo posible)*: El parseo se realiza mediante operaciones sencillas de cadenas (`split`) sin requerir motores complejos o librerías adicionales de análisis sintáctico.
 
 ## Técnicas
-* **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: [Range](./Range.java) está implementado como un `record`, impidiendo mutaciones en los límites una vez instanciado.
-* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El parseo de los extremos en `Range.from` ([Range.java](./Range.java#L7-L10)) se delega en funciones estándar de Java como `split` y `trim`.
+* **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: [Range](Range.java) está implementado como un `record`, impidiendo mutaciones en los límites una vez instanciado.
+* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El parseo de los extremos en `Range.from` ([Range.java](Range.java)) se delega en funciones estándar de Java como `split` y `trim`.
 * **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: La lista de rangos (`List<Range>`) se inyecta directamente al instanciar la `GiftShopDatabase`, desacoplándola de la lectura del fichero.
 * **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor interno de Java Streams toma el control del bucle en `ranges.stream().flatMapToLong(...)`, liberando al programador de gestionar el estado iterativo.
 * **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [GiftShopDatabase (B)](b/GiftShopDatabase.java) se utiliza una tubería funcional encadenada (`ranges.stream().flatMapToLong(Range::expandToSequence).filter(GiftShopDatabase::isTwiceRepeatedPattern).sum()`) que permite leer el algoritmo secuencialmente: *"Toma los rangos, expándelos a secuencias de números, filtra solo aquellos que cumplan el patrón repetitivo, y suma sus valores"*.
@@ -60,6 +60,6 @@ Ahora, un ID se considera inválido si está formado por cualquier patrón repet
 ## Verificación y Tests
 Las soluciones se validan de forma automática mediante pruebas unitarias escritas con JUnit 5 y AssertJ, estructuradas semánticamente siguiendo el patrón Given-When-Then (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque BDD (Behavior-Driven Development), orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
 
-* **Parte A:** [aTest.java](../../../../../../../../test/java/test/day02/aTest.java) - Valida el sumatorio correcto de IDs con el criterio de patrón dos veces simétrico en los rangos de prueba (resultado esperado = `55`).
-* **Parte B:** [bTest.java](../../../../../../../../test/java/test/day02/bTest.java) - Valida el sumatorio utilizando el motor Regex para cualquier patrón repetitivo (resultado esperado = `1222`).
+* **Parte A:** [aTest.java](../../../../../../test/java/test/day02/aTest.java) - Valida el sumatorio correcto de IDs con el criterio de patrón dos veces simétrico en los rangos de prueba (resultado esperado = `55`).
+* **Parte B:** [bTest.java](../../../../../../test/java/test/day02/bTest.java) - Valida el sumatorio utilizando el motor Regex para cualquier patrón repetitivo (resultado esperado = `1222`).
 

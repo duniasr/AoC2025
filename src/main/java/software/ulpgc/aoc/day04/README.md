@@ -17,19 +17,19 @@ Simular un proceso de limpieza en cadena. Al retirar los rollos accesibles, los 
 
 ## Lógica Estructural
 * **`Coordinate`**: [Coordinate.java](Coordinate.java) - Representa un punto en el espacio 2D y encapsula la lógica geométrica para generar un flujo (`Stream`) de sus propias coordenadas adyacentes.
-* **`PaperRollDiagram (A)`**: [PaperRollDiagram.java](./a/PaperRollDiagram.java) - Representación inmutable del mapa. Actúa exclusivamente como entorno de datos de solo lectura, procesando el array de texto y exponiendo métodos de consulta.
-* **`PaperRollDiagram (B)`**: [PaperRollDiagram.java](./b/PaperRollDiagram.java) - Representación mutable del mapa. Actúa como el entorno, utilizando una matriz interna de caracteres para permitir consultas y la alteración del estado local (`removeRoll`).
-* **`Forklift (A y B)`**: [Forklift.java (A)](./a/Forklift.java) y [Forklift.java (B)](./b/Forklift.java) - Contienen la lógica de negocio y las reglas de extracción. Reciben un mapa y evalúan su densidad espacial.
+* **`PaperRollDiagram (A)`**: [PaperRollDiagram.java](a/PaperRollDiagram.java) - Representación inmutable del mapa. Actúa exclusivamente como entorno de datos de solo lectura, procesando el array de texto y exponiendo métodos de consulta.
+* **`PaperRollDiagram (B)`**: [PaperRollDiagram.java](b/PaperRollDiagram.java) - Representación mutable del mapa. Actúa como el entorno, utilizando una matriz interna de caracteres para permitir consultas y la alteración del estado local (`removeRoll`).
+* **`Forklift (A y B)`**: [Forklift.java (A)](a/Forklift.java) y [Forklift.java (B)](b/Forklift.java) - Contienen la lógica de negocio y las reglas de extracción. Reciben un mapa y evalúan su densidad espacial.
 
 ## Algoritmos
-* **Recursividad:** El proceso de limpieza se ejecuta mediante una función recursiva en el montacargas (`recursiveRemove`). En cada ciclo, el algoritmo identifica los rollos disponibles consultando al diagrama, los elimina invocando `diagram.removeRoll()`, y se invoca a sí mismo con el nuevo estado acumulado hasta alcanzar el caso base (sin rollos accesibles). (Ver [Forklift.java (B)](./b/Forklift.java)).
-* **Escaneo de Vecindad (Moore Neighborhood):** Algoritmo de detección espacial que calcula la densidad de rollos en las 8 direcciones adyacentes, aplicando restricciones de límites para evitar excepciones de acceso a memoria fuera de rango ([Coordinate.java](./Coordinate.java)).
+* **Recursividad:** El proceso de limpieza se ejecuta mediante una función recursiva en el montacargas (`recursiveRemove`). En cada ciclo, el algoritmo identifica los rollos disponibles consultando al diagrama, los elimina invocando `diagram.removeRoll()`, y se invoca a sí mismo con el nuevo estado acumulado hasta alcanzar el caso base (sin rollos accesibles). (Ver [Forklift.java (B)](b/Forklift.java)).
+* **Escaneo de Vecindad (Moore Neighborhood):** Algoritmo de detección espacial que calcula la densidad de rollos en las 8 direcciones adyacentes, aplicando restricciones de límites para evitar excepciones de acceso a memoria fuera de rango ([Coordinate.java](Coordinate.java)).
 
 ---
 
 ## Fundamentos
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La clase [Coordinate](Coordinate.java) abstrae la complejidad de la geometría en 2D, exponiendo contratos limpios para acceder a adyacencias sin revelar sus cálculos internos a los clientes.
-* **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se aísla por completo la geometría espacial ([Coordinate](Coordinate.java)), el modelo de datos del entorno ([PaperRollDiagram](./a/PaperRollDiagram.java)) y las reglas de negocio y actuación ([Forklift](./a/Forklift.java)).
+* **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se aísla por completo la geometría espacial ([Coordinate](Coordinate.java)), el modelo de datos del entorno ([PaperRollDiagram](a/PaperRollDiagram.java)) y las reglas de negocio y actuación ([Forklift](a/Forklift.java)).
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión gracias a una estricta separación de responsabilidades: `Coordinate` solo maneja cálculos geométricos, `PaperRollDiagram` gestiona exclusivamente el almacenamiento y límites del terreno, y `Forklift` evalúa las reglas del montacargas. El acoplamiento es bajo porque el mapa y la geometría ignoran por completo qué actores operan sobre ellos (ej: no saben qué es un "Forklift").
 * **Código Expresivo** *(Código autoexplicativo, limpio y fácil de leer)*: El pipeline funcional en el método `canAccess` de la clase Forklift (`streamAdjacentCoordinates().filter(diagram::isWithinBounds).filter(diagram::isRoll).count() < 4`) se lee casi como lenguaje natural: *"Genera un flujo de mis coordenadas adyacentes, quédate solo con las que estén dentro de los límites del mapa, luego filtra solo las que contengan un rollo de papel, cuéntalas y devuélveme 'verdadero' si hay menos de 4"*.
 
@@ -43,14 +43,14 @@ Simular un proceso de limpieza en cadena. Al retirar los rollos accesibles, los 
 
 ## Técnicas
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: [Coordinate](Coordinate.java) es un `record` de Java, impidiendo mutar sus coordenadas una vez instanciado.
-* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El conteo de rollos accesibles en [Forklift (A)](./a/Forklift.java) delega inteligentemente sus filtros a los predicados expuestos por el entorno (`diagram::isRoll`).
+* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El conteo de rollos accesibles en [Forklift (A)](a/Forklift.java) delega inteligentemente sus filtros a los predicados expuestos por el entorno (`diagram::isRoll`).
 * **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: El actor `Forklift` recibe inyectado en su constructor el `PaperRollDiagram` sobre el que debe operar, desacoplándolo de la creación algorítmica del mapa.
 * **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: Al utilizar `streamAllCoordinates().flatMap(...)`, el flujo de iteración bidimensional se delega internamente a la API de Streams.
 * **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [Forklift (A)](a/Forklift.java) se utiliza una tubería encadenada (`diagram.streamAllCoordinates().filter(diagram::isRoll).filter(coord -> this.canAccess(coord, diagram)).count()`) que se lee de forma natural como: *"Genera todas las coordenadas, filtra las que son un rollo de papel, filtra las que son accesibles por el montacargas, y cuéntalas"*.
 * **Good Naming** *(Nombres descriptivos y precisos)*: Nombres claros como `streamAdjacentCoordinates`, `isAccessibleByForklift` e `isWithinBounds`.
 
 ## Patrones de Diseño
-* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Las clases `PaperRollDiagram` utilizan el método estático `from(String rawDiagram)` para aislar el parseo del texto y la conversión a arreglos de caracteres. (Ver [PaperRollDiagram.java (A)](./a/PaperRollDiagram.java#L15-L17)).
+* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Las clases `PaperRollDiagram` utilizan el método estático `from(String rawDiagram)` para aislar el parseo del texto y la conversión a arreglos de caracteres. (Ver [PaperRollDiagram.java (A)](a/PaperRollDiagram.java)).
 
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento** y **Abstracción**, donde cada concepto del problema tiene su propia representación: la geometría (`Coordinate`), el entorno espacial (`PaperRollDiagram`) y los actores operacionales (`Forklift`), aislando su propio estado y comportamiento.
