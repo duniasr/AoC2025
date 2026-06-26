@@ -1,7 +1,7 @@
 package software.ulpgc.aoc.day11.a;
 
-import software.ulpgc.aoc.day11.DeviceNetwork;
-import software.ulpgc.aoc.day11.DeviceReader;
+import software.ulpgc.aoc.day11.Reactor;
+import software.ulpgc.aoc.day11.ReactorReader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 public class Main {
     public static void main(String[] args) throws Exception {
         try {
-            DeviceNetwork network = DeviceReader.readFrom(
+            Reactor network = ReactorReader.readFrom(
                     Files.readAllLines(Paths.get("src/main/java/software/ulpgc/resources/day11/input.txt"))
             );
 

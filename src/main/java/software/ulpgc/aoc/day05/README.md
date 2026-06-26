@@ -16,8 +16,8 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 ![Diagrama de Clases del Día 5](../../../../../../../diagrams/day05b.png)
 
 ## Lógica Estructural
-* **`InventoryDatabase`**: (Parte A: [InventoryDatabase.java](a/InventoryDatabase.java) / Parte B: [InventoryDatabase.java](b/InventoryDatabase.java)) - Centraliza el parseo del texto y expone dos vías de resolución independientes para responder a las dos preguntas de negocio sin duplicar el estado en memoria.
-* **`FreshIdRange`**: (Parte A: [FreshIdRange.java](a/FreshIdRange.java) / Parte B: [FreshIdRange.java](b/FreshIdRange.java)) - Entidad inmutable del dominio (`record`). No es un simple contenedor de datos, sino que posee la inteligencia espacial para calcular su propio tamaño (`size()`), detectar colisiones limítrofes (`canMergeWith()`) y generar nuevas instancias fusionadas (`mergeWith()`).
+* **`InventoryDatabase`**: (Parte A: [`InventoryDatabase`](a/InventoryDatabase.java) / Parte B: [`InventoryDatabase`](b/InventoryDatabase.java)) - Centraliza el parseo del texto y expone dos vías de resolución independientes para responder a las dos preguntas de negocio sin duplicar el estado en memoria.
+* **`FreshIdRange`**: (Parte A: [`FreshIdRange`](a/FreshIdRange.java) / Parte B: [`FreshIdRange`](b/FreshIdRange.java)) - Entidad inmutable del dominio (`record`). No es un simple contenedor de datos, sino que posee la inteligencia espacial para calcular su propio tamaño (`size()`), detectar colisiones limítrofes (`canMergeWith()`) y generar nuevas instancias fusionadas (`mergeWith()`).
 
 ---
 
@@ -35,11 +35,11 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 * **Don't Repeat Yourself (DRY)** *(Evitar la duplicación de lógica)*: El parseo numérico de rangos a partir de strings planos se centraliza en el método `from` de la clase `FreshIdRange`.
 
 ## Técnicas
-* **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: `FreshIdRange` es un `record`. Su fusión no modifica sus límites internos, sino que devuelve una nueva instancia inmutable `FreshIdRange`. (Ver [FreshIdRange.java (B)](b/FreshIdRange.java)).
-* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: `calculateTotalFreshCapacity` en [InventoryDatabase (B)](b/InventoryDatabase.java) delega el proceso de fusión en la función estática `accumulateRange`.
-* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor de reducción de Java se hace cargo del flujo de acumulación de los rangos al llamar a `collect(...)` de la API de Streams. (Ver [InventoryDatabase.java (B)](b/InventoryDatabase.java)).
+* **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: `FreshIdRange` es un `record`. Su fusión no modifica sus límites internos, sino que devuelve una nueva instancia inmutable `FreshIdRange`. (Ver [`FreshIdRange.java (B)`](b/FreshIdRange.java)).
+* **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: `calculateTotalFreshCapacity` en [`InventoryDatabase (B)`](b/InventoryDatabase.java) delega el proceso de fusión en la función estática `accumulateRange`.
+* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor de reducción de Java se hace cargo del flujo de acumulación de los rangos al llamar a `collect(...)` de la API de Streams. (Ver [`InventoryDatabase.java (B)`](b/InventoryDatabase.java)).
 * **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: La lista de rangos (`List<FreshIdRange>`) se inyecta directamente al constructor de `InventoryDatabase`.
-* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [InventoryDatabase (B)](b/InventoryDatabase.java) se utiliza una tubería funcional encadenada (`mergedRanges.stream().mapToLong(FreshIdRange::size).sum()`) que se lee como: *"Toma los rangos fusionados, extrae el tamaño matemático de cada uno, y súmalos todos"*.
+* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [`InventoryDatabase (B)`](b/InventoryDatabase.java) se utiliza una tubería funcional encadenada (`mergedRanges.stream().mapToLong(FreshIdRange::size).sum()`) que se lee como: *"Toma los rangos fusionados, extrae el tamaño matemático de cada uno, y súmalos todos"*.
 * **Good Naming** *(Nombres descriptivos y precisos)*: Términos matemáticos claros como `covers`, `size` y `accumulateRange`.
 
 ## Patrones de Diseño
@@ -54,6 +54,6 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 ## Verificación y Tests
 Las soluciones se validan de forma automática mediante pruebas unitarias escritas con JUnit 5 y AssertJ, estructuradas semánticamente siguiendo el patrón Given-When-Then (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque BDD (Behavior-Driven Development), orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
 
-* **Parte A:** [aTest.java](../../../../../../test/java/test/day05/aTest.java) - Verifica que se cuenten correctamente los ingredientes disponibles que están contenidos dentro de los rangos de frescura (resultado esperado = `4`).
-* **Parte B:** [bTest.java](../../../../../../test/java/test/day05/bTest.java) - Verifica la capacidad total del inventario tras la fusión de los rangos solapados y contiguos (resultado esperado = `14`).
+* **Parte A:** [`aTest`](../../../../../../test/java/test/day05/aTest.java) - Verifica que se cuenten correctamente los ingredientes disponibles que están contenidos dentro de los rangos de frescura (resultado esperado = `4`).
+* **Parte B:** [`bTest`](../../../../../../test/java/test/day05/bTest.java) - Verifica la capacidad total del inventario tras la fusión de los rangos solapados y contiguos (resultado esperado = `14`).
 

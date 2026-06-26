@@ -1,7 +1,7 @@
 package test.day11;
 
-import software.ulpgc.aoc.day11.DeviceNetwork;
-import software.ulpgc.aoc.day11.DeviceReader;
+import software.ulpgc.aoc.day11.Reactor;
+import software.ulpgc.aoc.day11.ReactorReader;
 import org.junit.jupiter.api.Test;
 import software.ulpgc.aoc.day11.a.PathCounting;
 
@@ -25,7 +25,7 @@ class aTest {
             hhh: ccc fff iii
             iii: out
             """;
-        DeviceNetwork network = DeviceReader.readFrom(List.of(input.split("\n")));
+        Reactor network = ReactorReader.readFrom(List.of(input.split("\n")));
         PathCounting service = new PathCounting(network);
         // When
         long totalPaths = service.countPathsBetween("you", "out");
