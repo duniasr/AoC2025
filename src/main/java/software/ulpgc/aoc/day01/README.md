@@ -67,9 +67,9 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
 
 ## Paradigmas
 
-* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Se modela el dominio del dial con responsabilidades claras encapsuladas dentro del objeto `Dial`.
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, modelando el dominio y la algoritmia de la caja fuerte con responsabilidades claras y aisladas dentro del objeto `Dial`.
 
-* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Se sustenta en dos grandes pilares funcionales: el uso intensivo de datos inmutables (al rotar el `Dial` siempre se genera y devuelve una instancia nueva en lugar de mutar variables) y el diseño declarativo de `SafeDecoder` mediante Streams.
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la absoluta **Inmutabilidad** (al rotar el `Dial` siempre se devuelve una instancia inmutable nueva en lugar de mutar variables de estado) y el **Estilo Declarativo** de los *pipelines* (Streams) empleados en el `SafeDecoder`.
 
 ---
 

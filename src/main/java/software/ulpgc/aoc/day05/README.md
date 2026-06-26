@@ -26,6 +26,7 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: `FreshIdRange` expone métodos públicos claros (`covers`, `mergeWith`) que esconden a los clientes los complejos detalles algebraicos de la unión de intervalos.
 * **Modularidad** *(División del programa en módulos bien definidos e independientes)*: División clara entre el procesador agregador del inventario (`InventoryDatabase`) y la entidad matemática de rangos (`FreshIdRange`).
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `FreshIdRange` solo contiene la lógica matemática de intervalos e `InventoryDatabase` orquesta su procesamiento. El acoplamiento es bajo porque el modelo numérico ignora cómo se almacenan o extraen del fichero de inventario.
+* **Código Expresivo (Clean Code)** *(Código autodocumentado que se lee como lenguaje natural)*: Uso de nombres expresivos como `canMergeWith` o `calculateTotalFreshCapacity` que se leen como una oración natural, eliminando la necesidad de escribir comentarios explicando el código.
 
 ## Principios de Diseño
 * **SOLID**
@@ -37,14 +38,16 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: `FreshIdRange` es un `record`. Su fusión no modifica sus límites internos, sino que devuelve una nueva instancia inmutable `FreshIdRange`. (Ver [FreshIdRange.java (B)](b/FreshIdRange.java)).
 * **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: `calculateTotalFreshCapacity` en [InventoryDatabase (B)](b/InventoryDatabase.java) delega el proceso de fusión en la función estática `accumulateRange`.
 * **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor de reducción de Java se hace cargo del flujo de acumulación de los rangos al llamar a `collect(...)` de la API de Streams. (Ver [InventoryDatabase.java (B)](b/InventoryDatabase.java)).
-* **Good Naming** *(Nombres descriptivos y precisos)*: Nombres de negocio expresivos como `canMergeWith` o `calculateTotalFreshCapacity`.
+* **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: La lista de rangos (`List<FreshIdRange>`) se inyecta directamente al constructor de `InventoryDatabase`.
+* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [InventoryDatabase (B)](b/InventoryDatabase.java) se utiliza una tubería funcional encadenada (`mergedRanges.stream().mapToLong(FreshIdRange::size).sum()`) que se lee como: *"Toma los rangos fusionados, extrae el tamaño matemático de cada uno, y súmalos todos"*.
+* **Good Naming** *(Nombres descriptivos y precisos)*: Términos matemáticos claros como `covers`, `size` y `accumulateRange`.
 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Las factorías estáticas `FreshIdRange.from(...)` e `InventoryDatabase.from(...)` encapsulan de forma segura la creación de objetos validados a partir de entradas de texto crudo.
 
 ## Paradigmas
-* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Se encapsula el comportamiento matemático del intervalo en el objeto rico `FreshIdRange` en lugar de tratarlo como una tupla inerte de enteros.
-* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Se sustenta en dos grandes pilares funcionales: el uso de entidades inmutables (el `record` `FreshIdRange` nunca muta al fusionarse, sino que devuelve una copia nueva) y el diseño declarativo mediante Streams (`sorted`, `mapToLong`, `sum`) para calcular la capacidad sin usar variables de estado acumulativas.
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso del **Encapsulamiento** y la **Abstracción** matemática, envolviendo el comportamiento lógico del intervalo y sus fusiones dentro de un objeto de dominio (`FreshIdRange`) en lugar de tratarlo como una simple tupla de enteros.
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (el `record` `FreshIdRange` nunca muta al fusionarse, sino que devuelve instancias nuevas) y el **Estilo Declarativo** mediante Streams (`sorted`, `mapToLong`, `sum`) para calcular sumatorios sin usar variables de estado acumulativas.
 
 ---
 

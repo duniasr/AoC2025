@@ -29,6 +29,7 @@ Aplicar la interpretación de los "muchos mundos" a una sola partícula cuántic
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La interfaz [TachyonPhysics](./TachyonPhysics.java) expone contratos limpios para la evolución de partículas, abstrayendo a los clientes de las leyes y cálculos físicos internos de cada dimensión.
 * **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Clara separación estructural del sistema: por un lado el contenedor espacial que gestiona el mapa (`TachyonManifold`), y por otro lado los motores que calculan las leyes físicas (`ClassicalTachyonPhysics` y `QuantumTachyonPhysics`).
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `TachyonPhysics` implementa las leyes de propagación y `TachyonManifold` dirige el recorrido del mapa. El acoplamiento es bajo porque este contenedor delega los cálculos en una interfaz genérica sin conocer la física interna concreta.
+* **Código Expresivo (Clean Code)** *(Código autodocumentado que se lee como lenguaje natural)*: Uso de nombres de dominio claros como `TachyonManifold`, `propagateThrough` y `timelines` que explican la física cuántica de la simulación sin requerir comentarios.
 
 ## Principios de Diseño
 * **SOLID**
@@ -46,14 +47,16 @@ Aplicar la interpretación de los "muchos mundos" a una sola partícula cuántic
 * **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: La física se inyecta directamente como parámetro al método `simulate` en `TachyonManifold`. (Ver [TachyonManifold.java](./TachyonManifold.java)).
 * **Genéricos (Polimorfismo Paramétrico)** *(Parametrizar tipos para reutilización y seguridad)*: Se utiliza parametrización mediante `<T>` en la interfaz `TachyonPhysics<T>` para permitir que cada física determine libremente su tipo de estado (`Set` vs `Map`) conservando seguridad de tipos estática.
 * **Clases Internas (Static Inner Records)** *(Encapsulación de estructuras de soporte locales)*: Uso de registros estáticos internos `State` dentro de `ClassicalTachyonPhysics` y `QuantumTachyonPhysics` para mantener el estado de la simulación agrupado conceptualmente a su física asociada.
-* **Good Naming** *(Nombres descriptivos y precisos)*: Nombres de dominio claros como `TachyonManifold`, `propagateThrough` y `timelines`.
+* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor de simulación espacial delega el bucle iterativo de filas a la API de Streams mediante la llamada `diagram.stream().reduce(...)`.
+* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [Main.java (A)](a/Main.java) se diseña la arquitectura del dominio para ser encadenada de forma fluida y natural (`TachyonManifold.fromDiagram(diagram).simulate(new ClassicalTachyonPhysics()).totalSplits()`), leyéndose textualmente como: *"Construye el colector desde el diagrama de texto, simúlalo inyectándole la física clásica, y extrae el total de divisiones"*.
+* **Good Naming** *(Nombres descriptivos y precisos)*: Nombres de métodos como `fromDiagram`, `simulate` y `initialize`.
 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: `TachyonManifold.fromDiagram(List<String>)` actúa como factoría estática para inicializar el plano.
 
 ## Paradigmas
-* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso del polimorfismo mediante la interfaz `TachyonPhysics`. Esta interfaz actúa como un molde común que permite esconder las complejas fórmulas matemáticas dentro de sus respectivas clases (`ClassicalTachyonPhysics` y `QuantumTachyonPhysics`).
-* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca por el uso de la inmutabilidad en los estados (`records` que se descartan y regeneran) y por la eliminación de los bucles de estado. El núcleo de toda la simulación espacial se basa en un flujo de operaciones con `Streams`: `.reduce(initialState, physics::propagateThrough, (a, b) -> a)`.
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de la **Abstracción** y el **Polimorfismo** mediante la interfaz `TachyonPhysics`, la cual actúa como un contrato común que permite aislar y esconder las complejas fórmulas matemáticas (el **Encapsulamiento**) dentro de sus respectivas implementaciones.
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (mediante `records` que se descartan y regeneran en cada estado paralelo) y el **Estilo Declarativo**, eliminando los bucles iterativos en favor de flujos puros de estado.
 
 ---
 

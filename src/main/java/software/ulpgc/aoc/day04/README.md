@@ -44,14 +44,17 @@ Simular un proceso de limpieza en cadena. Al retirar los rollos accesibles, los 
 ## Técnicas
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: [Coordinate](Coordinate.java) es un `record` de Java, impidiendo mutar sus coordenadas una vez instanciado.
 * **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El conteo de rollos accesibles en [Forklift (A)](./a/Forklift.java) delega inteligentemente sus filtros a los predicados expuestos por el entorno (`diagram::isRoll`).
+* **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: El actor `Forklift` recibe inyectado en su constructor el `PaperRollDiagram` sobre el que debe operar, desacoplándolo de la creación algorítmica del mapa.
+* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: Al utilizar `streamAllCoordinates().flatMap(...)`, el flujo de iteración bidimensional se delega internamente a la API de Streams.
+* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [Forklift (A)](a/Forklift.java) se utiliza una tubería encadenada (`diagram.streamAllCoordinates().filter(diagram::isRoll).filter(coord -> this.canAccess(coord, diagram)).count()`) que se lee de forma natural como: *"Genera todas las coordenadas, filtra las que son un rollo de papel, filtra las que son accesibles por el montacargas, y cuéntalas"*.
 * **Good Naming** *(Nombres descriptivos y precisos)*: Nombres claros como `streamAdjacentCoordinates`, `isAccessibleByForklift` e `isWithinBounds`.
 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Las clases `PaperRollDiagram` utilizan el método estático `from(String rawDiagram)` para aislar el parseo del texto y la conversión a arreglos de caracteres. (Ver [PaperRollDiagram.java (A)](./a/PaperRollDiagram.java#L15-L17)).
 
 ## Paradigmas
-* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Modelado del dominio donde cada concepto del problema tiene su propia representación: la geometría (`Coordinate`), el entorno espacial (`PaperRollDiagram`) y los actores operacionales (`Forklift`), encapsulando su propio estado y comportamiento.
-* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Se sustenta en dos grandes pilares funcionales: el uso intensivo de datos inmutables (el `record` geométrico `Coordinate` nunca muta su posición) y el diseño declarativo mediante Streams (`filter`, `count`) en `Forklift` para procesar las celdas adyacentes sin bucles `for` tradicionales.
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento** y **Abstracción**, donde cada concepto del problema tiene su propia representación: la geometría (`Coordinate`), el entorno espacial (`PaperRollDiagram`) y los actores operacionales (`Forklift`), aislando su propio estado y comportamiento.
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** de los datos (el `record` geométrico `Coordinate` nunca muta su posición) y el **Estilo Declarativo** mediante Streams (`filter`, `count`) en `Forklift` para procesar las celdas de forma matemática pura.
 
 ---
 

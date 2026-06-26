@@ -1,4 +1,4 @@
-﻿# Día 3: Lobby
+# Día 3: Lobby
 
 ## El Reto
 ### Parte A
@@ -39,14 +39,17 @@ Las escaleras requieren aún más voltaje para superar la fricción estática, p
 ## Técnicas
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: El banco de baterías es inmutable. Su secuencia (`private final String sequence`) es inalterable tras su construcción, garantizando consistencia.
 * **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: El método `recursiveExtract` ([BatteryBank.java](./BatteryBank.java#L22)) delega en `continueExtraction`, que a su vez delega el cálculo de índices a `findMaxDigitIndex`.
+* **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: El sistema `EmergencyPowerSystem` recibe su colección de bancos de baterías inyectada en el constructor.
+* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El control de la evaluación y filtrado de los bancos de energía se delega al motor de Streams mediante `.filter(...)`.
+* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [EmergencyPowerSystem.java](EmergencyPowerSystem.java) se utiliza una tubería encadenada (`banks.stream().mapToLong(bank -> bank.calculateMaxJoltage(targetBatteries)).sum()`) que se lee secuencialmente como: *"Toma todos los bancos, calcula el voltaje máximo de cada uno, y suma todos los voltajes"*.
 * **Good Naming** *(Nombres descriptivos y precisos)*: Uso de nombres con alto valor conceptual de negocio como `calculateTotalOutputJoltage` e `findMaxDigitIndex`.
 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Tanto `BatteryBank.from(...)` ([BatteryBank.java](./BatteryBank.java#L13)) como `EmergencyPowerSystem.from(...)` ([EmergencyPowerSystem.java](./EmergencyPowerSystem.java#L14)) encapsulan la lógica de construcción de las entidades.
 
 ## Paradigmas
-* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Se modela el dominio del problema aislando la responsabilidad del cálculo de voltaje voraz en el objeto inmutable `BatteryBank`.
-* **Programación Funcional / Recursiva** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Se sustenta en el uso intensivo de datos inmutables (el banco de baterías nunca muta su secuencia original) y en un diseño recursivo puro para la búsqueda del dígito óptimo, evitando bucles iterativos con variables de estado mutables.
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, aislando toda la responsabilidad del cálculo de voltaje dentro del objeto `BatteryBank`.
+* **Programación Funcional / Recursiva** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (la secuencia original del banco de baterías nunca se altera) y el uso intensivo de **Funciones Puras** de forma recursiva para la búsqueda del dígito óptimo, evitando variables de estado mutables.
 
 ---
 

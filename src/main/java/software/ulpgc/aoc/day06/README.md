@@ -29,6 +29,7 @@ Interpretar la misma hoja de cálculo aplicando el sistema de lectura nativo de 
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La interfaz [CephalopodWorksheet](CephalopodWorksheet.java) expone métodos abstractos para el desenrollado, escondiendo internamente los complejos detalles de escaneo bidimensional de texto a los clientes.
 * **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Separación entre el dominio matemático ([MathProblem](MathProblem.java), [Operator](Operator.java)) y los algoritmos de escaneo espacial.
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `Operator`/`MathProblem` resuelven la matemática pura y los procesadores (`HorizontalWorksheetProcessor`) orquestan el escaneo espacial. El acoplamiento es bajo por dos motivos: el motor matemático desconoce la estructura de texto de la que provienen los datos, y el código cliente consume una interfaz abstracta (`CephalopodWorksheet`), ignorando por completo si el archivo se escaneó horizontal o verticalmente.
+* **Código Expresivo (Clean Code)** *(Código autodocumentado que se lee como lenguaje natural)*: Nombres altamente descriptivos como `unroll` y `calculateGrandTotal` que explican de un vistazo la operación que se realiza sobre la hoja de cálculo.
 
 ## Principios de Diseño
 * **SOLID**
@@ -45,15 +46,17 @@ Interpretar la misma hoja de cálculo aplicando el sistema de lectura nativo de 
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: `MathProblem` es un `record` inmutable de Java.
 * **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: `MathProblem.solve` ([MathProblem.java](MathProblem.java)) delega la resolución a la función del operador: `operator.apply(...)`.
 * **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: `apply` en `Operator` recibe el `Stream<Long>` de números para operar. (Ver [Operator.java](Operator.java)).
-* **Good Naming** *(Nombres descriptivos y precisos)*: Nombres altamente descriptivos y del negocio como `unroll` y `calculateGrandTotal`.
+* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El flujo principal de escaneo de columnas espaciales y la sumatoria delegada a `Operator` ocurre dentro de `.filter(...).mapToLong(...).sum()`.
+* **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [VerticalWorksheetProcessor.java](b/VerticalWorksheetProcessor.java) se utiliza un encadenamiento fluido (`lines.stream().mapToInt(String::length).max().orElse(0)`) que se traduce a lenguaje natural como: *"Toma todas las líneas de texto, extrae la longitud de cada una, y devuelve la máxima (o 0 si no hay)"*.
+* **Good Naming** *(Nombres descriptivos y precisos)*: Nombres precisos como `solve`, `apply` y `parseBlock`.
 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Métodos estáticos como `HorizontalCephalopodWorksheet.from(...)` y `Operator.from(char symbol)` aíslan y normalizan la creación.
 * **Strategy (Comportacional)** *(Encapsular algoritmos intercambiables)*: El enum [Operator](Operator.java) encapsula la estrategia matemática correspondiente (`ADD`, `MULTIPLY`) mediante lambdas funcionales de tipo `LongBinaryOperator`.
 
 ## Paradigmas
-* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Además del polimorfismo en interfaces (`CephalopodWorksheet`), el mejor ejemplo es la entidad `MathProblem`: encapsula internamente sus datos (números y operador) y expone un único comportamiento público (`solve()`).
-* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca por el uso de lambdas de primera clase (`LongBinaryOperator`) para inyectar comportamiento matemático puro en tiempo de ejecución y por el diseño de *pipelines* funcionales (`map`, `filter`, `reduce`) que procesan y extraen todos los datos sin usar bucles ni mutar variables temporales.
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso del **Polimorfismo** mediante la interfaz `CephalopodWorksheet`, y un **Encapsulamiento** y **Abstracción** en la entidad `MathProblem`, la cual aísla internamente sus datos (números y operador) y expone un único comportamiento público (`solve()`), abstrayendo al cliente de la complejidad del cálculo interno.
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: las **Funciones de 1ª Clase** (usando lambdas `LongBinaryOperator` para inyectar comportamiento puramente matemático) y el **Estilo Declarativo** de sus *pipelines* (`map`, `filter`, `reduce`) que procesan los datos sin alterar variables de estado.
 
 ---
 
