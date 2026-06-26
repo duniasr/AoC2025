@@ -51,6 +51,7 @@ Ahora, un ID se considera inválido si está formado por cualquier patrón repet
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Tanto `Range.from` como `GiftShopDatabase.from` encapsulan la lógica de instanciación a partir de textos planos. Esto aísla al resto del sistema de la estructura del fichero y evita exponer los constructores de las clases directamente a los clientes.
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, aislando la responsabilidad algorítmica y el estado de los intervalos numéricos dentro del objeto `Range`.
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (el `record` `Range` nunca muta sus límites) y el **Estilo Declarativo** mediante Streams (`flatMapToLong`, `filter`, `sum`) para procesar los conjuntos de identificadores sin bucles tradicionales.

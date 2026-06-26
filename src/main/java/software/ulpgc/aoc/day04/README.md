@@ -52,6 +52,8 @@ Simular un proceso de limpieza en cadena. Al retirar los rollos accesibles, los 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Las clases `PaperRollDiagram` utilizan el método estático `from(String rawDiagram)` para aislar el parseo del texto y la conversión a arreglos de caracteres. (Ver [`PaperRollDiagram.java (A)`](a/PaperRollDiagram.java)).
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
+* **Mónada (Funcional)** *(Encapsulación de valores con contexto)*: El uso de `flatMap` compone y aplasta secuencias de datos anidados, comportándose como una mónada que encadena operaciones funcionales de forma plana.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento** y **Abstracción**, donde cada concepto del problema tiene su propia representación: la geometría (`Coordinate`), el entorno espacial (`PaperRollDiagram`) y los actores operacionales (`Forklift`), aislando su propio estado y comportamiento.
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** de los datos (el `record` geométrico `Coordinate` nunca muta su posición) y el **Estilo Declarativo** mediante Streams (`filter`, `count`) en `Forklift` para procesar las celdas de forma matemática pura.

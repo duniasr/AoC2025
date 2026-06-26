@@ -44,9 +44,12 @@ Una valla de baldosas verdes conecta todas las baldosas rojas formando un políg
 * **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [`Main.java (A)`](a/Main.java) se diseña la interacción para ser encadenada y legible (`MovieTheater.from(lines).findLargestRectangleArea()`), leyéndose orgánicamente como: *"Instancia el cine desde las líneas de texto y busca el área del rectángulo más grande"*.
 * **Good Naming** *(Nombres descriptivos y precisos)*: Nombres matemáticos precisos como `enclosesRectangleBetween` y `findLargestRectangleArea`.
 
+* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor de Streams de Java asume el control absoluto de la iteración de datos, eliminando la necesidad de bucles iterativos manuales.
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: El método `MovieTheater.from(...)` ([`MovieTheater.java (A)`](a/MovieTheater.java)) encapsula de forma segura la lectura e instanciación del cine.
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
+* **Mónada (Funcional)** *(Encapsulación de valores con contexto)*: El uso de `flatMap` compone y aplasta secuencias de datos anidados, comportándose como una mónada que encadena operaciones funcionales de forma plana.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, aislando la complejidad trigonométrica y de colisión dentro de entidades puras de dominio como `RedTile` y `GreenTileLine`.
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de: la **Inmutabilidad** (mediante el uso de `records` para representar la geometría estática) y el **Estilo Declarativo** utilizando Streams para aplanar productos cartesianos y evaluar áreas sin mutar variables temporales.

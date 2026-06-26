@@ -49,10 +49,12 @@ Las reglas físicas de las máquinas cambian: los botones ya no alternan luces, 
 * **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [`Main`](a/Main.java) se simplifica el punto de entrada mediante el encadenamiento de flujos (`Files.lines(...).map(MachineManual::readMachineFrom).mapToLong(command::execute).sum()`), que se lee textualmente como: *"Toma las líneas, transfórmalas en máquinas, dáselas al comando para que las ejecute, y suma el total"*.
 * **Good Naming** *(Nombres descriptivos y precisos)*: Nombres matemáticos correctos y alineados como `minimumPresses` e `isConfigurationFeasible`.
 
+* **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor de Streams de Java asume el control absoluto de la iteración de datos, eliminando la necesidad de bucles iterativos manuales.
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: El parseador `MachineManual` proporciona la factoría estática `readMachineFrom` para aislar el tratamiento de corchetes e inicializar la máquina unificada.
 * **Command (Comportacional)** *(Encapsular una petición como un objeto)*: La interfaz `MachineCommand` encapsula las invocaciones matemáticas de las partes A y B, estandarizando la ejecución algorítmica sin acoplarse al cliente de lectura `Main.java`.
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de **Polimorfismo** mediante la interfaz `MachineCommand`, aislando las especificaciones de la máquina en el dominio `FactoryMachine` unificado y ocultando las complejas resoluciones matriciales dentro de sus respectivos comandos configuradores.
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de la **Inmutabilidad** de las configuraciones y el **Estilo Declarativo** (uso de Streams y **Funciones de 1ª Clase** como lambdas puras).

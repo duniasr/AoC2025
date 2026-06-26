@@ -45,6 +45,7 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Las factorías estáticas `FreshIdRange.from(...)` e `InventoryDatabase.from(...)` encapsulan de forma segura la creación de objetos validados a partir de entradas de texto crudo.
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso del **Encapsulamiento** y la **Abstracción** matemática, envolviendo el comportamiento lógico del intervalo y sus fusiones dentro de un objeto de dominio (`FreshIdRange`) en lugar de tratarlo como una simple tupla de enteros.
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (el `record` `FreshIdRange` nunca muta al fusionarse, sino que devuelve instancias nuevas) y el **Estilo Declarativo** mediante Streams (`sorted`, `mapToLong`, `sum`) para calcular sumatorios sin usar variables de estado acumulativas.

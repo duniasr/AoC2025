@@ -65,6 +65,7 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
 
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: `Rotation.from(instruction)` ([`Rotation`](Rotation.java)) y `Dial.initial()` ([`Dial`](a/Dial.java)) actúan como factorías para aislar la instanciación de objetos válidos del cliente.
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, modelando el dominio y la algoritmia de la caja fuerte con responsabilidades claras y aisladas dentro del objeto `Dial`.

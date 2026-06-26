@@ -54,6 +54,7 @@ Aplicar la interpretación de los "muchos mundos" a una sola partícula cuántic
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: `TachyonManifold.fromDiagram(List<String>)` actúa como factoría estática para inicializar el plano.
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de la **Abstracción** y el **Polimorfismo** mediante la interfaz `TachyonPhysics`, la cual actúa como un contrato común que permite aislar y esconder las complejas fórmulas matemáticas (el **Encapsulamiento**) dentro de sus respectivas implementaciones.
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (mediante `records` que se descartan y regeneran en cada estado paralelo) y el **Estilo Declarativo**, eliminando los bucles iterativos en favor de flujos puros de estado.

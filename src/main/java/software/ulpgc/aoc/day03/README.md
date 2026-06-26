@@ -47,6 +47,7 @@ Las escaleras requieren aún más voltaje para superar la fricción estática, p
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Tanto `BatteryBank.from(...)` ([`BatteryBank`](BatteryBank.java)) como `EmergencyPowerSystem.from(...)` ([`EmergencyPowerSystem`](EmergencyPowerSystem.java)) encapsulan la lógica de construcción de las entidades.
 
+* **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, aislando toda la responsabilidad del cálculo de voltaje dentro del objeto `BatteryBank`.
 * **Programación Funcional / Recursiva** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (la secuencia original del banco de baterías nunca se altera) y el uso intensivo de **Funciones Puras** de forma recursiva para la búsqueda del dígito óptimo, evitando variables de estado mutables.
