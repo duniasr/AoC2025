@@ -1,7 +1,5 @@
 package software.ulpgc.aoc.day08.b;
 
-import software.ulpgc.aoc.day08.b.Playground;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
