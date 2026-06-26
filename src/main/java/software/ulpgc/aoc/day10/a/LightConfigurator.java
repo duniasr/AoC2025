@@ -1,14 +1,18 @@
 package software.ulpgc.aoc.day10.a;
 
+import software.ulpgc.aoc.day10.FactoryMachine;
+import software.ulpgc.aoc.day10.MachineCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class LightConfigurator {
+public class LightConfigurator implements MachineCommand {
 
-    public static int minimumPressesFor(List<Integer> indicatorLights, List<List<Integer>> wiringSchematics) {
-        return reduceAndSolve(buildSystemMatrix(indicatorLights, wiringSchematics), 0, 0);
+    @Override
+    public long execute(FactoryMachine machine) {
+        return reduceAndSolve(buildSystemMatrix(machine.indicatorLights(), machine.schematics()), 0, 0);
     }
 
     // Eliminates variables from the matrix using XOR-based row operations.

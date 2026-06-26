@@ -1,12 +1,17 @@
-package software.ulpgc.aoc.day10.b;
+package software.ulpgc.aoc.day10;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class MachineManual {
     public static FactoryMachine readMachineFrom(String line) {
-        return new FactoryMachine(extractJoltageTargets(line), extractWiringSchematics(line));
+        return new FactoryMachine(extractIndicatorLights(line), extractJoltageTargets(line), extractWiringSchematics(line));
+    }
+
+    private static List<Integer> extractIndicatorLights(String line) {
+        return line.substring(line.indexOf("[") + 1, line.indexOf("]"))
+                .chars().map(c -> c == '#' ? 1 : 0)
+                .boxed().toList();
     }
 
     private static List<Integer> extractJoltageTargets(String line) {

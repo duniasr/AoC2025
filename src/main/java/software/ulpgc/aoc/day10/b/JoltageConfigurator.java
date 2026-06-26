@@ -1,14 +1,18 @@
 package software.ulpgc.aoc.day10.b;
 
+import software.ulpgc.aoc.day10.FactoryMachine;
+import software.ulpgc.aoc.day10.MachineCommand;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class JoltageConfigurator {
+public class JoltageConfigurator implements MachineCommand {
 
-    public static long minimumPressesToAchieve(List<Integer> targets, List<List<Integer>> schematics) {
-        return findMinimumPresses(targets, schematics, new HashMap<>());
+    @Override
+    public long execute(FactoryMachine machine) {
+        return findMinimumPresses(machine.joltageTargets(), machine.schematics(), new HashMap<>());
     }
 
     private static long findMinimumPresses(List<Integer> targets, List<List<Integer>> schematics, Map<List<Integer>, Long> memo) {
