@@ -15,26 +15,51 @@ Aplicar la interpretación de los "muchos mundos" a una sola partícula cuántic
 *Diagrama de clases parte 2:*
 ![Diagrama de Clases del Día 7](../../../../../../../diagrams/day07b.png)
 
-
 ## Lógica Estructural
-* **`TachyonManifold`**: Almacena el diagrama de texto original de forma inmutable, lo recorre fila por fila de arriba a abajo y delega los cálculos a la física inyectada.
-* **`TachyonPhysics<SimulationState>`**: Interfaz genérica. Define el contrato estricto que cualquier ley física del universo debe cumplir (`initialize` y `propagateThrough`).
-* **`ClassicalTachyonPhysics`**: Implementación de las reglas de la Parte A. Gestiona divisiones simples y coordenadas únicas.
-* **`ClassicalTachyonPhysics.State`**: Entidad inmutable (`record`) que encapsula el estado clásico: las posiciones actuales del rayo (`Set<Integer>`) y el contador global de choques.
-* **`QuantumTachyonPhysics`**: Implementación de las reglas de la Parte B. Gestiona la bifurcación exponencial de las líneas temporales.
-* **`QuantumTachyonPhysics.State`**: Entidad inmutable (`record`) que encapsula el estado cuántico: un diccionario (`Map<Integer, Long>`) que relaciona cada coordenada con la cantidad de universos paralelos que la atraviesan.
+* **`TachyonManifold`**: [TachyonManifold.java](./TachyonManifold.java) - Almacena el diagrama de texto original de forma inmutable, lo recorre fila por fila de arriba a abajo y delega los cálculos a la física inyectada.
+* **`TachyonPhysics<SimulationState>`**: [TachyonPhysics.java](./TachyonPhysics.java) - Interfaz genérica. Define el contrato estricto que cualquier ley física del universo debe cumplir (`initialize` y `propagateThrough`).
+* **`ClassicalTachyonPhysics`**: [ClassicalTachyonPhysics.java](./a/ClassicalTachyonPhysics.java) - Implementación de las reglas de la Parte A. Gestiona divisiones simples y coordenadas únicas.
+* **`ClassicalTachyonPhysics.State`**: (Ver definición en [ClassicalTachyonPhysics.java](./a/ClassicalTachyonPhysics.java)) - Entidad inmutable (`record`) que encapsula el estado clásico: las posiciones actuales del rayo (`Set<Integer>`) y el contador global de choques.
+* **`QuantumTachyonPhysics`**: [QuantumTachyonPhysics.java](./b/QuantumTachyonPhysics.java) - Implementación de las reglas de la Parte B. Gestiona la bifurcación de las líneas temporales.
+* **`QuantumTachyonPhysics.State`**: (Ver definición en [QuantumTachyonPhysics.java](./b/QuantumTachyonPhysics.java)) - Entidad inmutable (`record`) que encapsula el estado cuántico: un diccionario (`Map<Integer, Long>`) que relaciona cada coordenada con la cantidad de universos paralelos que la atraviesan.
 
-## Algoritmos
-* **Programación Dinámica:** En lugar de simular millones de rayos individuales (fuerza bruta exponencial), se utiliza un `Map<Integer, Long>` para agrupar líneas temporales que convergen en la misma coordenada. Esto transforma una complejidad exponencial en un cálculo lineal mediante sumatorias acumulativas.
+---
 
-## Técnicas de Implementación
-* **Polimorfismo Paramétrico (Genéricos):** Uso de `<T>` en la interfaz de física para permitir que el estado de la simulación sea flexible (`Set` vs `Map`), garantizando seguridad de tipos sin recurrir a casteos manuales.
-* **Inmutabilidad del Modelo:** En cada paso de la simulación, no se modifica la matriz existente; se genera un objeto `State` totalmente nuevo. Esto garantiza hilos de ejecución limpios.
-
-## Patrones de Diseño
-* **Patrón Factory Method (Creacional):** La lógica de instanciación de `TachyonManifold` queda oculta tras el método estático `fromDiagram()`. Esto garantiza que la entidad siempre se construya con una lista inmutable, protegiendo al sistema de modificaciones externas.
+## Fundamentos
+* **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La interfaz [TachyonPhysics](./TachyonPhysics.java) expone contratos limpios para la evolución de partículas, abstrayendo a los clientes de las leyes y cálculos físicos internos de cada dimensión.
+* **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Clara separación estructural del sistema: por un lado el contenedor espacial que gestiona el mapa (`TachyonManifold`), y por otro lado los motores que calculan las leyes físicas (`ClassicalTachyonPhysics` y `QuantumTachyonPhysics`).
+* **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `TachyonPhysics` implementa las leyes de propagación y `TachyonManifold` dirige el recorrido del mapa. El acoplamiento es bajo porque este contenedor delega los cálculos en una interfaz genérica sin conocer la física interna concreta.
 
 ## Principios de Diseño
-### SOLID
-* **Principio de Abierto/Cerrado (OCP):** El motor de simulación está diseñado para ser extendido. Si en el futuro surgiera una "Física Cuántica Avanzada", basta con crear una nueva implementación de `TachyonPhysics`.
-* **Principio de Responsabilidad Única (SRP):** Existe una separación estricta entre la física del dominio (`TachyonPhysics`), la lógica de recorrido del mapa (`TachyonManifold`) y la gestión de la entrada de datos (`Main`).
+* **SOLID**
+    * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: Cada clase gestiona un concepto aislado. `TachyonManifold` tiene la responsabilidad de iterar la cuadrícula espacial. Por su parte, `ClassicalTachyonPhysics` se encarga de calcular la dispersión básica de un rayo, mientras que `QuantumTachyonPhysics` asume únicamente la responsabilidad de contabilizar la bifurcación matemática de los universos paralelos.
+    * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: El motor de simulación está cerrado a modificaciones. Si se define una nueva física cuántica o clásica avanzada, basta con crear una clase que implemente `TachyonPhysics` sin tocar `TachyonManifold`.
+    * **Liskov Substitution Principle (LSP)** *(Los subtipos deben ser sustituibles por sus tipos base)*: `ClassicalTachyonPhysics` y `QuantumTachyonPhysics` pueden pasarse indistintamente al método `simulate` de `TachyonManifold`, y el programa funcionará perfectamente sin alteraciones.
+    * **Interface Segregation Principle (ISP)** *(Ningún cliente debe ser forzado a depender de métodos que no usa)*: La interfaz `TachyonPhysics` es minimalista, exponiendo únicamente `initialize` y `propagateThrough`, ocultando todos los cálculos privados complejos al `TachyonManifold`.
+    * **Dependency Inversion Principle (DIP)** *(Depender de abstracciones, no de clases concretas)*: `TachyonManifold` depende de la abstracción `TachyonPhysics<T>` y no de sus implementaciones concretas.
+* **Composition Over Inheritance (COI)** *(Composición sobre herencia)*: En lugar de crear un `ClassicalManifold` que herede de `TachyonManifold` para cambiar su comportamiento, simplemente le pasamos el tipo de física que queremos usar como parámetro al método `simulate`.
+* **Law of Demeter (LoD)** *(Evitar acoplamiento ordenando acciones en lugar de consultar estado interno)*: `TachyonManifold` simplemente ordena `physics.propagateThrough(...)` en cada paso. No extrae los datos del estado cuántico, ni los modifica él mismo para luego guardarlos.
+* **Keep It Simple, Stupid (KISS) & You Aren't Gonna Need It (YAGNI)** *(Simplicidad y no añadir código innecesario)*: En la Parte B se pueden llegar a generar miles de millones de rayos. En lugar de intentar simular cada rayo uno por uno (lo que colapsaría el ordenador), usamos un simple `Map<Integer, Long>` que cuenta cuántos rayos hay apilados en cada posición.
+
+## Técnicas
+* **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: El colector y los registros internos `State` son inmutables. En cada fila se genera un nuevo `State` descartando el anterior.
+* **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: La física se inyecta directamente como parámetro al método `simulate` en `TachyonManifold`. (Ver [TachyonManifold.java](./TachyonManifold.java)).
+* **Genéricos (Polimorfismo Paramétrico)** *(Parametrizar tipos para reutilización y seguridad)*: Se utiliza parametrización mediante `<T>` en la interfaz `TachyonPhysics<T>` para permitir que cada física determine libremente su tipo de estado (`Set` vs `Map`) conservando seguridad de tipos estática.
+* **Clases Internas (Static Inner Records)** *(Encapsulación de estructuras de soporte locales)*: Uso de registros estáticos internos `State` dentro de `ClassicalTachyonPhysics` y `QuantumTachyonPhysics` para mantener el estado de la simulación agrupado conceptualmente a su física asociada.
+* **Good Naming** *(Nombres descriptivos y precisos)*: Nombres de dominio claros como `TachyonManifold`, `propagateThrough` y `timelines`.
+
+## Patrones de Diseño
+* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: `TachyonManifold.fromDiagram(List<String>)` actúa como factoría estática para inicializar el plano.
+
+## Paradigmas
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso del polimorfismo mediante la interfaz `TachyonPhysics`. Esta interfaz actúa como un molde común que permite esconder las complejas fórmulas matemáticas dentro de sus respectivas clases (`ClassicalTachyonPhysics` y `QuantumTachyonPhysics`).
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca por el uso de la inmutabilidad en los estados (`records` que se descartan y regeneran) y por la eliminación de los bucles de estado. El núcleo de toda la simulación espacial se basa en un flujo de operaciones con `Streams`: `.reduce(initialState, physics::propagateThrough, (a, b) -> a)`.
+
+---
+
+## Verificación y Tests
+Las soluciones se validan de forma automática mediante pruebas unitarias escritas con JUnit 5 y AssertJ, estructuradas semánticamente siguiendo el patrón Given-When-Then (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). Esta estructura, heredada del enfoque BDD (Behavior-Driven Development), orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad.
+
+* **Parte A:** [aTest.java](../../../../../../../../test/java/test/day07/aTest.java) - Simula la física de taquiones clásica y verifica el número de divisiones del rayo (resultado esperado = `16`).
+* **Parte B:** [bTest.java](../../../../../../../../test/java/test/day07/bTest.java) - Simula el comportamiento cuántico sumando universos y líneas temporales paralelas (resultado esperado = `1048576`).
+
