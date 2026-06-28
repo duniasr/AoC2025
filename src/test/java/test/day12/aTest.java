@@ -1,6 +1,7 @@
 package test.day12;
 
 import org.junit.jupiter.api.Test;
+import software.ulpgc.aoc.day12.PresentsFit;
 import software.ulpgc.aoc.day12.PuzzleReader;
 import software.ulpgc.aoc.day12.TreeRegion;
 
@@ -49,10 +50,9 @@ public class aTest {
     public void given_presents_and_trees_should_count_fitting_trees() {
         // Given
         List<TreeRegion> regions = PuzzleReader.readFrom(christmasTree);
+        PresentsFit presents = PresentsFit.fitLogic();
         // When
-        long fittingTrees = regions.stream()
-                .filter(TreeRegion::canFitAll)
-                .count();
+        long fittingTrees = regions.stream().filter(presents::fitUnderRegion).count();
         // Then
         assertThat(fittingTrees).isEqualTo(2);
     }
