@@ -31,6 +31,16 @@ El código de todos los retos está diseñado respetando la siguiente jerarquía
 * **Métodos Delegados:** Ruptura de algoritmos complejos en métodos más pequeños y descriptivos que delegan la responsabilidad paso a paso, eliminando la necesidad de bloques lógicos masivos.
 * **Inyección de Dependencias:** Envío de estructuras de estado a través de los parámetros de las funciones en lugar de mantener variables globales mutables en las clases.
 * **Refactorización Continua:** El código es el resultado de un ciclo constante de purificación, eliminando variables temporales de bloque en favor del inlining y la inyección.
+* **Inversión del Control (IoC):** Delegación del flujo algorítmico e iteraciones internas a motores externos (como la API de Streams de Java), liberando al código de la gestión manual de estado.
 
 ### Patrones de Diseño
 * **Factory Method (Creacional):** La inicialización de objetos complejos se delega a métodos estáticos semánticos en lugar de constructores públicos. Esta técnica encapsula la lógica de validación y normalización, garantizando que el sistema trabaje exclusivamente con entidades inmutables ya validadas, evitando estados inconsistentes desde su creación.
+* **Closure (Funcional):** Uso de lambdas en flujos funcionales que capturan limpiamente variables locales del entorno léxico, permitiendo operar con ellas sin requerir mutación del estado global.
+
+---
+
+## Verificación y Tests
+
+Las soluciones de todos los días se validan de forma automática mediante pruebas unitarias escritas con **JUnit 5 y AssertJ**, estructuradas semánticamente siguiendo el patrón **Given-When-Then** (Dado un contexto, Cuando ocurre una acción, Entonces se espera un resultado). 
+
+Esta estructura, heredada del enfoque **BDD (Behavior-Driven Development)**, orienta los tests a comprobar el comportamiento del sistema maximizando su legibilidad y sirviendo como documentación ejecutable de los requerimientos de cada reto.
