@@ -16,7 +16,7 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 ![Diagrama de Clases del Día 5](../../../../../../../diagrams/day05b.png)
 
 ## Lógica Estructural
-* **`InventoryDatabase`**: (Parte A: [`InventoryDatabase`](a/InventoryDatabase.java) / Parte B: [`InventoryDatabase`](b/InventoryDatabase.java)) - Centraliza el parseo del texto y expone dos vías de resolución independientes para responder a las dos preguntas de negocio sin duplicar el estado en memoria.
+* **`InventoryDatabase`**: (Parte A: [`InventoryDatabase`](a/InventoryDatabase.java) / Parte B: [`InventoryDatabase`](b/InventoryDatabase.java)) - Orquesta el flujo de negocio principal, procesando los datos crudos y devolviendo el cálculo final requerido (ya sea el conteo de ingredientes o la capacidad fresca).
 * **`FreshIdRange`**: (Parte A: [`FreshIdRange`](a/FreshIdRange.java) / Parte B: [`FreshIdRange`](b/FreshIdRange.java)) - Entidad inmutable del dominio (`record`). No es un simple contenedor de datos, sino que posee la inteligencia espacial para calcular su propio tamaño (`size()`), detectar colisiones limítrofes (`canMergeWith()`) y generar nuevas instancias fusionadas (`mergeWith()`).
 
 ---
@@ -24,6 +24,7 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 
 ## Fundamentos
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: `FreshIdRange` expone métodos públicos claros (`covers`, `mergeWith`) que esconden a los clientes los complejos detalles algebraicos de la unión de intervalos.
+* **Encapsulamiento** *(Ocultación del estado interno y protección de los datos)*: El objeto de dominio `FreshIdRange` blinda en su interior los límites matemáticos del intervalo (inicio y fin). Ninguna clase externa tiene acceso a modificarlos ni a manipularlos.
 * **Modularidad** *(División del programa en módulos bien definidos e independientes)*: División clara entre el procesador agregador del inventario (`InventoryDatabase`) y la entidad matemática de rangos (`FreshIdRange`).
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `FreshIdRange` solo contiene la lógica matemática de intervalos e `InventoryDatabase` orquesta su procesamiento. El acoplamiento es bajo porque el modelo numérico ignora cómo se almacenan o extraen del fichero de inventario.
 * **Código Expresivo (Clean Code)** *(Código autodocumentado que se lee como lenguaje natural)*: Uso de nombres expresivos como `canMergeWith` o `calculateTotalFreshCapacity` que se leen como una oración natural, eliminando la necesidad de escribir comentarios explicando el código.
@@ -38,7 +39,6 @@ La lista de ingredientes disponibles se descarta por ser irrelevante. Ahora, el 
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: `FreshIdRange` es un `record`. Su fusión no modifica sus límites internos, sino que devuelve una nueva instancia inmutable `FreshIdRange`. (Ver [`FreshIdRange.java (B)`](b/FreshIdRange.java)).
 * **Métodos Delegados** *(Dividir tareas complejas y delegar sub-operaciones)*: `calculateTotalFreshCapacity` en [`InventoryDatabase (B)`](b/InventoryDatabase.java) delega el proceso de fusión en la función estática `accumulateRange`.
 * **Inversión del Control (IoC)** *(Delegar el control del flujo a un motor o framework externo)*: El motor de reducción de Java se hace cargo del flujo de acumulación de los rangos al llamar a `collect(...)` de la API de Streams. (Ver [`InventoryDatabase.java (B)`](b/InventoryDatabase.java)).
-* **Inyección de Dependencias** *(Pasar colaboradores/datos en los parámetros de los métodos/constructores)*: La lista de rangos (`List<FreshIdRange>`) se inyecta directamente al constructor de `InventoryDatabase`.
 * **Fluent API** *(Encadenamiento de métodos para crear un flujo de lectura fluido)*: En [`InventoryDatabase (B)`](b/InventoryDatabase.java) se utiliza una tubería funcional encadenada (`mergedRanges.stream().mapToLong(FreshIdRange::size).sum()`) que se lee como: *"Toma los rangos fusionados, extrae el tamaño matemático de cada uno, y súmalos todos"*.
 * **Good Naming** *(Nombres descriptivos y precisos)*: Términos matemáticos claros como `covers`, `size` y `accumulateRange`.
 
