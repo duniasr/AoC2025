@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GiftShopDatabase {
+
+    private GiftShopDatabase() {}
+
     public static List<Range> from(String rawRanges) {
         return Arrays.stream(rawRanges.split(","))
                 .map(Range::from)

@@ -30,6 +30,8 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
 
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: `SafeDecoder` interactúa exclusivamente con el contrato público de [`Dial`](a/Dial.java) (su método `rotate`), abstrayéndose por completo de los detalles matemáticos e internos de cómo se realiza el giro.
 
+* **Encapsulamiento** *(Ocultación del estado interno y protección de los datos)*: Toda la matemática compleja de las rotaciones circulares y el cálculo de la puntuación están ocultos dentro de la clase `Dial`. El exterior no tiene acceso a sus variables ni a sus fórmulas, solo le pide que gire a través del método público `rotate()`.
+
 * **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se dividen responsabilidades en el parser [`Rotation`](Rotation.java), el modelo matemático [`Dial`](a/Dial.java) y el orquestador [`SafeDecoder`](a/SafeDecoder.java).
 
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque cada clase tiene un único propósito muy focalizado (`Dial` gestiona la matemática, `Rotation` parsea texto, y `SafeDecoder` exclusivamente orquesta el flujo). A su vez, el acoplamiento es bajo porque `SafeDecoder` enlaza a los modelos mediante Streams sin que estos se conozcan directamente entre sí.
@@ -41,6 +43,8 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
     * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: [`Rotation`](Rotation.java) únicamente se encarga de analizar strings, [`Dial`](a/Dial.java) gestiona el estado matemático del dial, y `SafeDecoder` actúa exclusivamente como orquestador del flujo.
     * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: `SafeDecoder` está abierto a procesar datos de cualquier fuente (archivos, memoria, red) sin modificar su código interno, ya que el origen de los datos se le inyecta desde el exterior.
     * **Dependency Inversion Principle (DIP)** *(Depender de abstracciones, no de clases concretas)*: `SafeDecoder` depende de la interfaz genérica `Stream<String>` nativa de Java, en lugar de acoplarse a clases concretas de lectura de ficheros (como `Scanner` o `BufferedReader`).
+
+* **Composition Over Inheritance (COI)** *(Preferir componer sobre heredar)*: En lugar de crear una jerarquía de herencia con subclases (como `LeftRotation extends Rotation` y `RightRotation extends Rotation`), hemos compuesto la clase genérica `Rotation` con un simple atributo `char direction`, simplificando el diseño.
 
 * **Don't Repeat Yourself (DRY)** *(Evitar la duplicación de lógica)*: La lógica del modelo [`Rotation`](Rotation.java) se comparte tanto en la Parte A como en la Parte B del reto.
 
@@ -68,7 +72,7 @@ Descubrimos un nuevo protocolo de seguridad llamado método `0x434C49434B`. Las 
 * **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 
-* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, modelando el dominio y la algoritmia de la caja fuerte con responsabilidades claras y aisladas dentro del objeto `Dial`.
+* **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: En lugar de tener variables enteras sueltas y funciones matemáticas flotando por el programa, hemos creado un objeto del mundo real (`Dial`). El `Dial` es el dueño absoluto de su propia puntuación y posición, y solo es él mismo quien decide cómo actualizarse cuando recibe la orden de rotar.
 
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la absoluta **Inmutabilidad** (al rotar el `Dial` siempre se devuelve una instancia inmutable nueva en lugar de mutar variables de estado) y el **Estilo Declarativo** de los *pipelines* (Streams) empleados en el `SafeDecoder`.
 

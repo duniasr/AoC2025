@@ -26,6 +26,7 @@ Ahora, un ID se considera inválido si está formado por cualquier patrón repet
 
 ## Fundamentos
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La clase [`Range`](Range.java) abstrae la generación de números secuenciales mediante el método `expandToSequence()`, evitando que los clientes tengan que programar bucles manuales entre los límites.
+* **Encapsulamiento** *(Ocultación del estado interno y protección de los datos)*: Los límites numéricos (inicio y fin) de cada rango están blindados dentro de `Range`. Nadie desde fuera puede alterarlos ni acceder a ellos para recalcular nada, todo se hace a través de la interfaz pública proporcionada por el objeto (el método `public`).
 * **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se aísla el concepto de intervalo ([`Range`](Range.java)) del concepto del agregador de la base de datos ([`GiftShopDatabase`](a/GiftShopDatabase.java)).
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `Range` solo define los límites matemáticos del intervalo y `GiftShopDatabase` asume la única responsabilidad de orquestar la identificación y suma de los códigos de regalo inválidos. El acoplamiento es bajo porque el orquestador (`GiftShopDatabase`) opera ciegamente sobre el `expandToSequence()` sin recalcular ni manipular los límites del rango manualmente.
 * **Código Expresivo** *(Código autoexplicativo, limpio y fácil de leer)*: El uso de Streams permite leer el código casi como lenguaje natural. En `sumInvalidIds`, la línea `ranges.stream().flatMapToLong(Range::expandToSequence).filter(GiftShopDatabase::isTwiceRepeatedPattern).sum();` se lee textualmente como: "Toma los rangos, expándelos a una secuencia continua de IDs, quédate solo con aquellos que cumplan el patrón repetido, y súmalos todos".
@@ -49,7 +50,7 @@ Ahora, un ID se considera inválido si está formado por cualquier patrón repet
 * **Good Naming** *(Nombres descriptivos y precisos)*: Uso de nombres claros del negocio elfo como `sumInvalidIds` e `isTwiceRepeatedPattern`.
 
 ## Patrones de Diseño
-* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Tanto `Range.from` como `GiftShopDatabase.from` encapsulan la lógica de instanciación a partir de textos planos. Esto aísla al resto del sistema de la estructura del fichero y evita exponer los constructores de las clases directamente a los clientes.
+* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Tanto `Range.from` como `GiftShopDatabase.from` encapsulan la lógica de instanciación a partir de textos planos. Esto aísla al resto del sistema de la estructura del fichero.
 
 * **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas

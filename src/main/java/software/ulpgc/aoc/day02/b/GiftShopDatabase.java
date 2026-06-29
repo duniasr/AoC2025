@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 
 public class GiftShopDatabase {
 
+    private GiftShopDatabase() {}
+
     private static final Pattern SILLY_PATTERN = Pattern.compile("^(.+)\\1+$");
 
     public static List<Range> from(String rawRanges) {
