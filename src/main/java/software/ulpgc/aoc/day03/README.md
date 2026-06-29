@@ -25,6 +25,7 @@ Las escaleras requieren aún más voltaje para superar la fricción estática, p
 
 ## Fundamentos
 * **Abstracción** *(Simplificación de detalles complejos mediante interfaces o contratos claros)*: La clase [`BatteryBank`](BatteryBank.java) expone el contrato público `calculateMaxJoltage`, abstrayendo por completo el complejo algoritmo voraz recursivo a sus clientes.
+* **Encapsulamiento** *(Ocultación del estado interno y protección de los datos)*: La secuencia de energía (`String sequence`) y la lógica recursiva están fuertemente blindadas dentro de `BatteryBank`. El exterior no tiene acceso a sus variables ni puede manipular la secuencia original, solo interactúa a través de su interfaz pública.
 * **Modularidad** *(División del programa en módulos bien definidos e independientes)*: Se dividen con claridad las responsabilidades de parseo del fichero ([`EmergencyPowerSystem`](EmergencyPowerSystem.java)) y de resolución matemática del banco ([`BatteryBank`](BatteryBank.java)).
 * **Alta Cohesión y Bajo Acoplamiento** *(Los módulos hacen una sola cosa y dependen mínimamente entre sí)*: Existe alta cohesión porque `BatteryBank` resuelve la matemática voraz y `EmergencyPowerSystem` orquesta el parseo y suma global. El acoplamiento es bajo porque el orquestador no interfiere ni conoce las variables temporales del proceso de selección de dígitos.
 * **Código Expresivo** *(Código autoexplicativo, limpio y fácil de leer)*: Uso de flujos declarativos en `calculateTotalOutputJoltage` ([`EmergencyPowerSystem`](EmergencyPowerSystem.java)) para realizar sumatorias limpias sobre los bancos de baterías.
@@ -33,8 +34,9 @@ Las escaleras requieren aún más voltaje para superar la fricción estática, p
 * **SOLID**
     * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: `EmergencyPowerSystem` tiene la única responsabilidad de gestionar el agregado del sistema de energía, y `BatteryBank` se limita al algoritmo de un banco.
     * **Open/Closed Principle (OCP)** *(Abierto a la extensión, cerrado a la modificación)*: El diseño permite calibrar la cantidad de baterías que se desea extraer sin modificar el código interno del cálculo de selección en `BatteryBank`.
-* **Law of Demeter (LoD) / Tell, Don't Ask** *(Evitar acoplamiento ordenando acciones en lugar de consultar estado interno)*: En [`EmergencyPowerSystem`](EmergencyPowerSystem.java) se invoca directamente al banco: `bank.calculateMaxJoltage(targetBatteries)` en lugar de recuperar su string y manipularlo externamente.
-* **Keep It Simple, Stupid (KISS) & YAGNI** *(Simplicidad y no añadir código innecesario)*: Se resuelve mediante lógica recursiva pura e inmutable y sin requerir estructuras de almacenamiento complejas.
+* **Law of Demeter (LoD)** *(Evitar acoplamiento ordenando acciones en lugar de consultar estado interno)*: En [`EmergencyPowerSystem`](EmergencyPowerSystem.java) se invoca directamente al banco: `bank.calculateMaxJoltage(targetBatteries)` en lugar de recuperar su string y manipularlo externamente.
+* **Composition Over Inheritance (COI)** *(Preferir componer sobre heredar)*: El sistema `EmergencyPowerSystem` está compuesto por un atributo privado `List<BatteryBank> banks`.
+* **Keep It Simple, Stupid (KISS) & YAGNI** *(Simplicidad y no añadir código innecesario)*: Se resuelve mediante lógica recursiva pura e inmutable y sin requerir estructuras de almacenamiento complejas (como matrices multidimensionales, tablas de caché/memoización o pilas manuales).
 
 ## Técnicas
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: El banco de baterías es inmutable. Su secuencia (`private final String sequence`) es inalterable tras su construcción, garantizando consistencia.
@@ -50,7 +52,7 @@ Las escaleras requieren aún más voltaje para superar la fricción estática, p
 * **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de un fuerte **Encapsulamiento**, aislando toda la responsabilidad del cálculo de voltaje dentro del objeto `BatteryBank`.
-* **Programación Funcional / Recursiva** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (la secuencia original del banco de baterías nunca se altera) y el uso intensivo de **Funciones Puras** de forma recursiva para la búsqueda del dígito óptimo, evitando variables de estado mutables.
+* **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la **Inmutabilidad** (la secuencia original del banco de baterías nunca se altera) y el uso de **Funciones Puras** como en el método `keepMaxIndex(int best, int current)` que recibe dos valores y siempre devuelve el mismo resultado matemático, haciendo un `return` directo sin modificar ninguna variable exterior.
 
 ---
 
