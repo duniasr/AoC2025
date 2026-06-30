@@ -54,7 +54,6 @@ Interpretar la misma hoja de cálculo aplicando el sistema de lectura nativo de 
 
 ## Patrones de Diseño
 * **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Métodos estáticos como `HorizontalCephalopodWorksheet.from(...)` y `Operator.from(char symbol)` aíslan y normalizan la creación.
-* **Strategy (Comportacional)** *(Encapsular algoritmos intercambiables)*: El enum [`Operator`](Operator.java) encapsula la estrategia matemática correspondiente (`ADD`, `MULTIPLY`) mediante lambdas funcionales de tipo `LongBinaryOperator`.
 
 * **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
 

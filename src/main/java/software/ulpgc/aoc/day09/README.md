@@ -36,7 +36,7 @@ Una valla de baldosas verdes conecta todas las baldosas rojas formando un políg
 * **Composition Over Inheritance (COI)** *(Preferir componer clases con otras en lugar de heredarlas)*: La clase [`GreenTileLine`](b/GreenTileLine.java) se compone de dos instancias de `RedTile` (`start` y `end`) en lugar de heredar de un vector espacial, logrando mayor flexibilidad y reutilización directa del modelo inmutable de vértices.
 * **SOLID**
     * **Single Responsibility Principle (SRP)** *(Una clase debe tener un único motivo para cambiar)*: `RedTile` calcula áreas de forma local, `GreenTileLine` analiza cortes lineales, `GreenTileLoop` valida el interior de la valla y `MovieTheater` coordina la búsqueda del área máxima.
-* **Keep It Simple, Stupid (KISS)** *(Mantener el diseño lo más simple y directo posible)*: El trazado de rayos PIP se simplifica evaluando la coordenada media de los subsegmentos contra las líneas verticales del contorno, evitando complejas integraciones de áreas continuas. (Ver [`GreenTileLoop`](b/GreenTileLoop.java)).
+* **Keep It Simple, Stupid (KISS)** *(Mantener el diseño lo más simple y directo posible)*: En lugar de usar clases pesadas de Java (como `java.awt.Polygon`) para representar el cine en memoria y calcular sus áreas, hemos programado una solución matemática (Ray Casting) que solo requiere coordenadas simples, evitando la sobreingeniería.
 
 ## Técnicas
 * **Inmutabilidad del Modelo** *(Uso de estados que no cambian una vez creados)*: `RedTile` y `GreenTileLine` se definen como `record` de Java, asegurando que las coordenadas no varíen por accidente durante las múltiples iteraciones espaciales.
