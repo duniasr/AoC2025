@@ -7,6 +7,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import software.ulpgc.aoc.day08.JunctionBox;
+import software.ulpgc.aoc.day08.UnionFindElectricalGrid;
+import java.util.stream.IntStream;
+
 public class bTest {
     // Given
     private final List<String> Input = List.of(
@@ -18,9 +22,11 @@ public class bTest {
     );
 
     @Test
-    public void should_return_25272_as_product_of_X_coordinates_for_the_final_circuit_connection() {
+    public void should_return_14136_as_product_of_coordinates_of_the_last_installed_string() {
         // When
-        long result = Playground.fromLines(Input)
+        List<JunctionBox> boxes = IntStream.range(0, Input.size())
+                .mapToObj(i -> JunctionBox.parse(i, Input.get(i))).toList();
+        long result = new Playground(boxes, new UnionFindElectricalGrid(boxes.size()))
                 .connectUntilSingleCircuit();
         // Then
         assertThat(result).isEqualTo(25272L);

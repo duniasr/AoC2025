@@ -3,7 +3,6 @@ package software.ulpgc.aoc.day08.b;
 import software.ulpgc.aoc.day08.ElectricalGrid;
 import software.ulpgc.aoc.day08.JunctionBox;
 import software.ulpgc.aoc.day08.StringOfLights;
-import software.ulpgc.aoc.day08.UnionFindElectricalGrid;
 
 import java.util.Comparator;
 import java.util.List;
@@ -14,19 +13,14 @@ public class Playground {
     private final List<JunctionBox> boxes;
     private final ElectricalGrid grid;
 
-    private Playground(List<JunctionBox> boxes) {
+    public Playground(List<JunctionBox> boxes, ElectricalGrid grid) {
         this.boxes = boxes;
-        this.grid = new UnionFindElectricalGrid(boxes.size());
-    }
-
-    public static Playground fromLines(List<String> input) {
-        return new Playground(IntStream.range(0, input.size())
-                .mapToObj(i -> JunctionBox.parse(i, input.get(i))).toList());
+        this.grid = grid;
     }
 
     private Stream<StringOfLights> allStrings() {
-        return IntStream.range(0, boxes.size()).boxed().flatMap(i ->
-                IntStream.range(i + 1, boxes.size()).mapToObj(j -> StringOfLights.between(boxes.get(i), boxes.get(j))));
+        return IntStream.range(0, boxes.size()).boxed().flatMap(i -> IntStream.range(i + 1, boxes.size())
+                .mapToObj(j -> StringOfLights.between(boxes.get(i), boxes.get(j))));
     }
 
     // MATH RULE (MST): Connecting N nodes requires exactly N-1 valid edges.

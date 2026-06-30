@@ -7,6 +7,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import software.ulpgc.aoc.day08.JunctionBox;
+import software.ulpgc.aoc.day08.UnionFindElectricalGrid;
+import java.util.stream.IntStream;
+
 public class aTest {
     // Given
     private final List<String> Input = List.of(
@@ -20,7 +24,9 @@ public class aTest {
     @Test
     public void should_return_40_as_product_of_top_three_circuits_after_10_shortest_connections() {
         // When
-        long result = Playground.fromLines(Input)
+        List<JunctionBox> boxes = IntStream.range(0, Input.size())
+                .mapToObj(i -> JunctionBox.parse(i, Input.get(i))).toList();
+        long result = new Playground(boxes, new UnionFindElectricalGrid(boxes.size()))
                 .connectShortestStrings(10)
                 .productOfLargestCircuits(3);
         // Then
