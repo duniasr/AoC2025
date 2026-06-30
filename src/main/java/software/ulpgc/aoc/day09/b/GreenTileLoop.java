@@ -53,7 +53,7 @@ public class GreenTileLoop {
     }
 
     private boolean isValidVerticalSubSegment(int x, int y1, int y2) {
-        if (y2 - y1 <= 1) return true; // No hay hueco real que comprobar
+        if (y2 - y1 <= 1) return true;
         double midY = y1 + 0.5;
         boolean liesOnBoundary = lines.stream().anyMatch(line ->
                 line.isVertical() && line.start().x() == x && line.minY() <= midY && midY <= line.maxY());
@@ -80,7 +80,7 @@ public class GreenTileLoop {
     }
 
     private boolean isValidHorizontalSubSegment(int y, int x1, int x2) {
-        if (x2 - x1 <= 1) return true; // No hay hueco real que comprobar
+        if (x2 - x1 <= 1) return true; // No real gap to check
         double midX = x1 + 0.5;
         boolean liesOnBoundary = lines.stream().anyMatch(line ->
                 line.isHorizontal() && line.start().y() == y && line.minX() <= midX && midX <= line.maxX());

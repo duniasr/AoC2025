@@ -44,7 +44,7 @@ public class LightConfigurator implements MachineCommand {
     }
 
     private static void swap(List<List<Integer>> matrix, int r1, int r2) {
-        matrix.set(r1, matrix.set(r2, matrix.get(r1))); // Intercambio perfecto sin variable temporal
+        matrix.set(r1, matrix.set(r2, matrix.get(r1)));
     }
 
     private static void applyXor(List<List<Integer>> matrix, int targetRow, int sourceRow) {
