@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 public class PuzzleReader {
 
+    private PuzzleReader() {}
+
     public static List<TreeRegion> readFrom(String text) {
         return parse(text.split("\n\n"));
     }

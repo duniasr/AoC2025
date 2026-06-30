@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReactorReader {
+
+    private ReactorReader() {} // Constructor privado para ocultar el público implícito
+
     // Builds the DAG map
     public static Reactor readFrom(List<String> lines) {
         return new Reactor(lines.stream().filter(l -> !l.isBlank())
