@@ -51,10 +51,9 @@ Continuar conectando los grupos aislados hasta lograr que todas las cajas formen
 * **Good Naming** *(Nombres descriptivos y precisos)*: Términos claros como `tryConnecting`, `getCircuitSizes` y `distanceTo`.
 
 ## Patrones de Diseño
-* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Factorías semánticas estáticas como `JunctionBox.parse(...)`, `StringOfLights.between(...)` y `Playground.fromLines(...)` encapsulan de forma segura la creación de objetos.
+* **Factory Method (Creacional)** *(Encapsulación de la creación de objetos en métodos estáticos dedicados)*: Factorías semánticas estáticas como `JunctionBox.parse(...)` y `StringOfLights.between(...)` encapsulan de forma segura la creación de objetos.
 
 * **Closure (Funcional)** *(Expresiones que capturan el estado léxico de su entorno)*: Las lambdas del motor de Streams capturan limpiamente variables locales de su contexto envolvente para operarlas sin requerir mutación global.
-* **Mónada (Funcional)** *(Encapsulación de valores con contexto)*: El uso de `flatMap` compone y aplasta secuencias de datos anidados, comportándose como una mónada que encadena operaciones funcionales de forma plana.
 ## Paradigmas
 * **Orientación a Objetos** *(Organización del software en objetos que encapsulan estado y comportamiento)*: Destaca el uso de tres de los cuatro pilares fundamentales: la **Abstracción** y el **Polimorfismo** a través de la interfaz `ElectricalGrid` (permitiendo que `Playground` opere contra un contrato genérico y no contra una clase), y un fuerte **Encapsulamiento** (aislando el estado de los arrays matemáticos internamente dentro de `UnionFindElectricalGrid`).
 * **Programación Funcional** *(Estilo declarativo basado en funciones puras y datos inmutables)*: Destaca el uso de sus pilares fundamentales: la absoluta **Inmutabilidad** de las estructuras mediante `records` de Java (`JunctionBox`, `StringOfLights`), y el **Estilo Declarativo** utilizando **Funciones Puras** en pipelines funcionales (Streams) para ordenar e iterar elementos sin mutar variables temporales.
